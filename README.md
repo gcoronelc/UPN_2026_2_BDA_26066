@@ -7,7 +7,7 @@
 - Nombre: BASE DE DATOS AVANZADAS Y BIG DATA
 - Lugar: Universidad Privada del Norte
 - Horario: Domingos de 07:30 a 12:20 Horas
-- Inicio: 23.MAR.2026
+- Inicio: 17.AGO.2026
 - Duración: 16 Semanas
 
 
