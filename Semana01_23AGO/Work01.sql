@@ -1,6 +1,9 @@
 use EDUCA2;
 go
 
+select @@VERSION
+go
+
 select * from dbo.CURSO;
 go
 
@@ -35,6 +38,8 @@ END;
 GO
 
 
+-- Crea la funcion fn_suma
+
 CREATE FUNCTION dbo.fn_suma ( @num1 int, @num2 int )
 RETURNS int
 AS
@@ -48,89 +53,48 @@ GO
 SELECT dbo.fn_suma( 24, 56 ) as suma;
 GO
 
+-- Tarea de los estudiantes
 
 -- Antonela
 
 CREATE FUNCTION DBO.mayor_de_tres_num
-
-(
-
-  @a INT,
-
-  @b INT,
-
-  @c INT
-
-)
-
+( @a INT, @b INT, @c INT )
 RETURNS INT
-
 AS
-
 BEGIN
-
   DECLARE @mayor INT;
-
-
-
   IF @a >= @b AND @a >= @c
-
     SET @mayor = @a;
-
   ELSE IF @b >= @a AND @b >= @c
-
     SET @mayor = @b;
-
   ELSE
-
     SET @mayor = @c;
-
-
-
   RETURN @mayor;
-
 END;
-
 GO
-
-
-
-
 
 SELECT DBO.mayor_de_tres_num(8, 21, 10);
-
 GO
+
 
 -- Tocas Solis
 
 CREATE FUNCTION dbo.fn_mayor (@num1 int, @num2 int, @num3 int)
-
 RETURNS int
-
 AS
-
 BEGIN
-
   DECLARE @NUMEROMAYOR int;
-
   SET @NUMEROMAYOR = CASE
-
     WHEN @num1 >= @num2 AND @num1 >= @num3 THEN @num1
-
     WHEN @num2 >= @num1 AND @num2 >= @num3 THEN @num2
-
     ELSE @num3
-
   END;
-
   RETURN @NUMEROMAYOR;
-
 END;
 
 GO
 
 SELECT dbo.fn_mayor(20, 18, 5);
-
 GO
 
 
