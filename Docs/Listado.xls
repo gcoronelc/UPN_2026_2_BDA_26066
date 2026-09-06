@@ -1,0 +1,51 @@
+<div>
+	<table cellspacing="0" rules="all" border="1" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">C&#243;digo</th><th scope="col">Nombres</th><th scope="col">Carrera</th><th scope="col">Ciclo</th><th scope="col">N&#250;mero Vez</th><th scope="col">Nro Faltas</th><th scope="col">Estado</th><th scope="col">Fecha Inhabilitaci&#243;n</th><th scope="col">Fecha Retiro</th>
+		</tr><tr>
+			<td>N00431202</td><td>ALVITES SERPA, MANUEL IGNACIO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00424583</td><td>ANCCORI QUINCHO, ANGEL SEBASTIAN</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00439218</td><td>ARANGO CORRALES, DIOGO JEAN PIERO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>2</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00447047</td><td>AYLLON INFANTES, IMANOL ALEXANDER</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00439240</td><td>BLAS CONDOR, JUSTIN VALENTINO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>2</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00374131</td><td>CANALES VILLALOBOS, WALTER SEBASTIAN</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>3</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00367892</td><td>CHUNGA RAZURI, YADHIRA ELIZABETH</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>2</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00339347</td><td>COLLANTES MENDOZA, NILBER ANTONIO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>3</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00386053</td><td>DELGADO ALEJOS, ANTONELLA BRIGHITTE</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00377635</td><td>GARAY PEVE, KEVIN TOTTI</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00421228</td><td>LEON MONDRAGON, DENZEL JOSE</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00439216</td><td>MELGAR GALVEZ, MISAEL DUVAL</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00432800</td><td>ORTIZ GARCIA, PATRICK ANTONI</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00425821</td><td>PACHECO TORIBIO, GABRIEL OMAR</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00427206</td><td>PFOCCO PANTIA, ITALO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00422011</td><td>QUISPE ALEJOS, SANTIAGO CRISTHIAN</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00394782</td><td>ROBLES REVILLA, SANTIAGO FABRIZIO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>1</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00331490</td><td>SOTA BRICE&#209;O, HANS FERNANDO</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00413481</td><td>TOCAS SOLIS, DAVIS BECKHAM</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00282178</td><td>TORRES PALACIOS, DIEGO JESUS</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>2</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00285103</td><td>VELARDE BLAS, RENZO JAIR</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr><tr>
+			<td>N00430596</td><td>VERA CAMPOS, FRAN FRANCIS ELIAS</td><td>Ing. de Sist. Computacionales</td><td>6</td><td>1</td><td>0</td><td>&#160;</td><td>&#160;</td><td>&#160;</td>
+		</tr>
+	</table>
+</div>
