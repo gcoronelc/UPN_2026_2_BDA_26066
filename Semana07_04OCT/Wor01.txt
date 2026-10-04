@@ -1,0 +1,76 @@
+
+db.estudiantes.insertOne({
+   nombre: 'Ana',
+   apellido: 'Torres',
+   edad: 20,
+   carrera: 'Ingeniería de Sistemas',
+   ciclo: 4
+})
+
+
+db.estudiantes.insertMany([
+{ nombre: 'Luis', apellido: 'Ramos', edad: 22, carrera: 'Ingeniería Industrial', ciclo: 6 },
+{ nombre: 'María', apellido:'López', edad: 19, carrera: 'Ingeniería de Sistemas', ciclo: 3 },
+{ nombre: 'Carlos', apellido: 'Pérez', edad: 23, carrera: 'Ingeniería de Sistemas', ciclo: 7 },
+{ nombre: 'Gustavo', apellido: 'Coronel', edad: 60, carrera: 'Ingeniería de Sistemas', ciclo: 9 }
+])
+
+
+db.estudiantes.insertOne({
+   nombre: 'Ana',
+   apellido: 'Contreras',
+   edad: 22,
+   carrera: 'Ingeniería de Sistemas',
+   ciclo: 5
+})
+
+db.estudiantes.findOne({ nombre: 'Ana' })
+
+db.estudiantes.find({ nombre: 'Ana' })
+
+db.estudiantes.find({ edad: { $gt: 25 } })
+
+
+db.estudiantes.find(
+	{},
+	{ _id: 0, nombre: 1, apellido: 1, carrera: 1 }
+)
+
+
+== Esto es un error
+db.estudiantes.find(
+	{},
+	{ _id: 0, nombre: 1, apellido: 1, carrera: 0 }
+)
+
+
+db.estudiantes.find(
+	{ nombre: 'Ana' },
+	{ _id: 0, nombre: 0, apellido: 0, carrera: 0 }
+)
+
+
+
+
+db.estudiantes.find(
+	{ nombre: 'Ana' },
+	{ _id: 0, nombre: 1, apellido: 1, carrera: 1 }
+)
+
+
+db.estudiantes.find({ nombre: 'Ana', ciclo:6 })
+
+
+db.estudiantes.find({ nombre:{ $not: 'Ana' }, ciclo:6 })
+
+
+db.estudiantes.updateOne( { nombre: 'Ana' }, { $set: { ciclo:7 } } )
+
+
+db.estudiantes.deleteOne({ nombre: 'Ana' })
+
+
+
+
+
+
