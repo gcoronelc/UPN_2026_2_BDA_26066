@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de un proceso ETL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7ECEF; --panel:#F9FAFB; --ink:#14212B; --muted:#586873; --line:#CBD5DB;
+  --e:#2A67B0; --e-bg:#E1ECF8;
+  --t:#A86A0A; --t-bg:#F8EBD3;
+  --l:#2B7A58; --l-bg:#DCEEE5;
+  --bad:#B03A2E; --bad-bg:#F6DEDA;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1360px;margin:0 auto;padding:32px 24px 48px}
+h1{font:600 clamp(28px,4vw,44px)/1.1 "Newsreader",Georgia,serif;letter-spacing:-.01em;margin:0 0 12px}
+.lead{max-width:72ch;color:var(--muted);margin:0 0 24px}
+
+/* Controles */
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px}
+button,select{font:inherit}
+.btn{min-height:44px;padding:9px 20px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font-weight:600;cursor:pointer}
+.btn:hover{background:#D9E1E6}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#27394A}
+.btn:focus-visible,select:focus-visible{outline:3px solid var(--e);outline-offset:2px}
+.speed{display:flex;align-items:center;gap:8px;margin-left:auto;color:var(--muted)}
+select{min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+.tag{padding:4px 10px;border-radius:12px;background:var(--t-bg);color:var(--t);font-weight:600;font-size:14px}
+
+.status{min-height:54px;margin-bottom:16px;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:6px}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 20px;padding:0;list-style:none}
+.metrics li{padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.metrics b{display:block;font:600 30px/1.1 "Newsreader",Georgia,serif;font-variant-numeric:tabular-nums}
+.metrics span{color:var(--muted);font-size:14px}
+.metrics .m-e b{color:var(--e)} .metrics .m-t b{color:var(--t)} .metrics .m-l b{color:var(--l)} .metrics .m-r b{color:var(--bad)}
+
+/* Etapas */
+.pipeline{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:start}
+.stage{padding:18px;background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;transition:box-shadow .25s}
+.stage.is-active{box-shadow:0 0 0 2px var(--c)}
+.stage.e{--c:var(--e)} .stage.t{--c:var(--t)} .stage.l{--c:var(--l)}
+.stage header{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.glyph{font:600 54px/1 "Newsreader",Georgia,serif;color:var(--c)}
+.stage h2{margin:0;font-size:19px;line-height:1.2}
+.stage header p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.stage h3{margin:0 0 6px;font-size:16px}
+.note{margin:0 0 10px;color:var(--muted);font-size:13.5px}
+
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font:13px/1.4 "IBM Plex Mono",ui-monospace,Consolas,monospace}
+th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;color:var(--muted);font:600 12.5px "Public Sans",system-ui,sans-serif}
+td{padding:7px 8px;border-bottom:1px solid #E3E9ED;white-space:pre}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+#srcBody tr.active td{background:var(--e-bg)}
+#srcBody tr.done td{color:#8A98A2}
+tr.new td{animation:rowin 1.2s ease-out}
+@keyframes rowin{from{background:#B9E0CB}to{background:transparent}}
+
+/* Tarjeta de transformación */
+.card{min-height:200px;margin-bottom:18px;padding:14px;background:var(--t-bg);border:1px dashed var(--t);border-radius:6px}
+.card.idle{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);background:transparent;border-color:var(--line)}
+.card.ok{background:var(--l-bg);border:1px solid var(--l)}
+.card.bad{background:var(--bad-bg);border:1px solid var(--bad)}
+.cardhead{margin-bottom:6px;font-weight:600}
+dl{margin:0}
+.f{display:grid;grid-template-columns:70px 1fr;gap:8px;padding:6px 0;border-top:1px solid rgba(20,33,43,.1)}
+.f dt{color:var(--muted);font-size:14px}
+.f dd{margin:0;font:13px/1.5 "IBM Plex Mono",ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.f dd s{margin-right:6px;color:var(--muted)}
+.f dd .arrow{margin-right:6px;color:var(--t)}
+.f dd b{font-weight:500}
+.f.flash dd b{animation:flash 1s ease-out}
+@keyframes flash{from{background:#F0C26E}to{background:transparent}}
+.verdict{margin:10px 0 0;font-size:14px;font-weight:600}
+.verdict.ok{color:var(--l)} .verdict.bad{color:var(--bad)}
+
+.rules{margin:0;padding:0;list-style:none}
+.rules li{display:grid;grid-template-columns:1fr auto;gap:0 10px;padding:9px 10px;border:1px solid transparent;border-radius:6px}
+.rules li.active{background:var(--t-bg);border-color:var(--t)}
+.rules .nm{font-weight:600;font-size:15px}
+.rules .ds{grid-column:1;color:var(--muted);font-size:13.5px}
+.rules .ct{grid-column:2;grid-row:1 / span 2;align-self:center;min-width:30px;padding:2px 8px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+
+/* Destino */
+.empty{margin:10px 0;color:var(--muted);font-size:14px}
+.rejected{margin-top:20px}
+.rejlist{margin:0;padding:0;list-style:none}
+.rejlist li{margin-bottom:6px;padding:8px 10px;background:var(--bad-bg);border-left:4px solid var(--bad);border-radius:0 6px 6px 0;font-size:14px}
+
+/* Bitácora */
+.logbox{margin-top:20px;padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.logbox h2{margin:0 0 8px;font-size:17px}
+.log{max-height:220px;margin:0;padding:0;overflow-y:auto;list-style:none;font:13px/1.6 "IBM Plex Mono",ui-monospace,Consolas,monospace}
+.log li{padding:2px 0 2px 10px;border-left:3px solid var(--line)}
+.log li.e{border-color:var(--e)} .log li.t{border-color:var(--t)} .log li.l{border-color:var(--l)} .log li.bad{border-color:var(--bad)}
+.foot{margin:20px 0 0;color:var(--muted);font-size:13.5px}
+
+/* Registro en movimiento */
+.token{position:fixed;z-index:50;width:190px;height:34px;padding:0 14px;overflow:hidden;border-radius:17px;color:#fff;font:500 13px/34px "Public Sans",system-ui,sans-serif;white-space:nowrap;text-overflow:ellipsis;pointer-events:none;box-shadow:0 4px 14px rgba(20,33,43,.25)}
+.token.e{background:var(--e)} .token.l{background:var(--l)} .token.bad{background:var(--bad)}
+
+@media (max-width:1020px){
+  .pipeline{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .speed{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Simulador de un proceso ETL</h1>
+  <p class="lead">Diez registros de ventas llegan sin depurar desde un archivo CSV. Observe cómo se extraen, se limpian con cinco reglas y se cargan en una tabla de destino. Los registros que no superan las validaciones se rechazan y se indica el motivo.</p>
+
+  <div class="controls">
+    <button class="btn primary" id="btnStart" type="button">Iniciar</button>
+    <button class="btn" id="btnStep" type="button">Avanzar un paso</button>
+    <button class="btn" id="btnReset" type="button">Reiniciar</button>
+    <span class="tag" id="pauseTag" hidden>En pausa</span>
+    <label class="speed">Velocidad
+      <select id="speed">
+        <option value="0.5">0,5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="status" id="status" role="status" aria-live="polite">Listo para iniciar.</div>
+
+  <ul class="metrics" aria-label="Métricas del proceso">
+    <li class="m-e"><b id="mExt">0</b><span>Extraídos</span></li>
+    <li class="m-t"><b id="mTra">0</b><span>Transformados</span></li>
+    <li class="m-l"><b id="mCar">0</b><span>Cargados</span></li>
+    <li class="m-r"><b id="mRec">0</b><span>Rechazados</span></li>
+  </ul>
+
+  <main class="pipeline">
+    <section class="stage e" id="stageE" aria-labelledby="hE">
+      <header>
+        <span class="glyph" aria-hidden="true">E</span>
+        <div><h2 id="hE">Extracción</h2><p>Origen: ventas_crudas.csv</p></div>
+      </header>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>id</th><th>cliente</th><th>pais</th><th>monto</th><th>fecha</th></tr></thead>
+          <tbody id="srcBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="stage t" id="stageT" aria-labelledby="hT">
+      <header>
+        <span class="glyph" aria-hidden="true">T</span>
+        <div><h2 id="hT">Transformación</h2><p>Limpieza y validación</p></div>
+      </header>
+      <div class="card idle" id="card">Presione «Iniciar» para que el primer registro llegue aquí.</div>
+      <h3>Reglas de limpieza</h3>
+      <p class="note">El contador indica en cuántos registros se aplicó cada regla.</p>
+      <ol class="rules" id="rules"></ol>
+    </section>
+
+    <section class="stage l" id="stageL" aria-labelledby="hL">
+      <header>
+        <span class="glyph" aria-hidden="true">L</span>
+        <div><h2 id="hL">Carga</h2><p>Destino: tabla ventas_limpias</p></div>
+      </header>
+      <div class="tablewrap" id="dstWrap">
+        <table>
+          <thead><tr><th>id</th><th>cliente</th><th>pais</th><th>monto</th><th>fecha</th></tr></thead>
+          <tbody id="dstBody"></tbody>
+        </table>
+        <p class="empty" id="dstEmpty">Aún no se ha cargado ningún registro.</p>
+      </div>
+      <div class="rejected">
+        <h3>Registros rechazados</h3>
+        <div id="rejWrap">
+          <ul class="rejlist" id="rejList"></ul>
+          <p class="empty" id="rejEmpty">Ningún registro rechazado por ahora.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="logbox" aria-labelledby="hLog">
+    <h2 id="hLog">Bitácora del proceso</h2>
+    <ol class="log" id="log"></ol>
+  </section>
+
+  <p class="foot">Simulación didáctica con datos ficticios.</p>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Datos de origen (ficticios, con defectos intencionales) ---------- */
+  const RAW = [
+    {id:'1001', cliente:'  maría lópez ', pais:'peru',      monto:'1.250,50', fecha:'03/02/2026'},
+    {id:'1002', cliente:'JUAN PÉREZ',     pais:'PE',        monto:'890,00',   fecha:'15/02/2026'},
+    {id:'1003', cliente:'ana torres',     pais:'Chile',     monto:'',         fecha:'20/02/2026'},
+    {id:'1004', cliente:'Luis  Gómez',    pais:'MX',        monto:'2.300,00', fecha:'28/02/2026'},
+    {id:'1002', cliente:'Juan Pérez',     pais:'Perú',      monto:'890,00',   fecha:'15/02/2026'},
+    {id:'1005', cliente:'carla ríos',     pais:'colombia',  monto:'450,75',   fecha:'02/03/2026'},
+    {id:'1006', cliente:'pedro  salas',   pais:'Argentina', monto:'1.100,00', fecha:'31/02/2026'},
+    {id:'1007', cliente:'SOFÍA VEGA',     pais:'es',        monto:'3.480,20', fecha:'09/03/2026'},
+    {id:'1008', cliente:'Diego Mora',     pais:'PE',        monto:'-50,00',   fecha:'11/03/2026'},
+    {id:'1009', cliente:' elena quispe',  pais:'Perú',      monto:'760,00',   fecha:'14/03/2026'}
+  ];
+
+  const COUNTRY = {
+    'peru':'PE','perú':'PE','pe':'PE','chile':'CL','cl':'CL','mx':'MX','méxico':'MX','mexico':'MX',
+    'colombia':'CO','co':'CO','argentina':'AR','ar':'AR','es':'ES','españa':'ES'
+  };
+
+  const FIELDS = [['cliente','Cliente'],['pais','País'],['monto','Monto'],['fecha','Fecha']];
+
+  /* ---------- Reglas de transformación ---------- */
+  function mapFields(w, keys, fn){
+    const changed = [];
+    keys.forEach(k => {
+      const before = w[k];
+      const after = fn(before);
+      if (after !== before){ w[k] = after; changed.push(k); }
+    });
+    return changed;
+  }
+  function parseAmount(v){
+    const n = parseFloat(v.replace(/\./g,'').replace(',','.'));
+    return Number.isNaN(n) ? v : n;
+  }
+  function toISO(v){
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v);
+    if (!m) return v;
+    const [, d, mo, y] = m;
+    const dt = new Date(Date.UTC(+y, +mo - 1, +d));
+    const ok = dt.getUTCFullYear() === +y && dt.getUTCMonth() === +mo - 1 && dt.getUTCDate() === +d;
+    return ok ? `${y}-${mo}-${d}` : v;
+  }
+
+  const RULES = [
+    {name:'Limpiar espacios',      desc:'Quita espacios al inicio, al final y repetidos.',
+     apply:w => mapFields(w,['cliente','pais'], v => v.replace(/\s+/g,' ').trim())},
+    {name:'Normalizar nombres',    desc:'Convierte el cliente al formato Nombre Apellido.',
+     apply:w => mapFields(w,['cliente'], v => v.toLowerCase().replace(/(^|\s)(\S)/g,(m,a,b) => a + b.toUpperCase()))},
+    {name:'Estandarizar país',     desc:'Reemplaza el país por su código ISO de dos letras.',
+     apply:w => mapFields(w,['pais'], v => COUNTRY[v.toLowerCase()] || v)},
+    {name:'Convertir monto',       desc:'Pasa el texto "1.250,50" al número 1250.50.',
+     apply:w => mapFields(w,['monto'], v => (typeof v === 'string' && v.trim() !== '') ? parseAmount(v) : v)},
+    {name:'Fecha en formato ISO',  desc:'Cambia dd/mm/aaaa por aaaa-mm-dd y comprueba que la fecha exista.',
+     apply:w => mapFields(w,['fecha'], toISO)}
+  ];
+
+  function validate(w, orig, loaded){
+    if (typeof w.monto !== 'number') return 'el monto está vacío o no es numérico';
+    if (w.monto <= 0) return 'el monto debe ser mayor que cero';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(w.fecha)) return `la fecha ${orig.fecha} no existe en el calendario`;
+    if (loaded.has(w.id)) return `el identificador ${w.id} ya fue cargado (duplicado)`;
+    return null;
+  }
+
+  /* ---------- Utilidades de interfaz ---------- */
+  const $ = s => document.querySelector(s);
+  const els = {
+    src:$('#srcBody'), card:$('#card'), rules:$('#rules'), dst:$('#dstBody'), dstWrap:$('#dstWrap'),
+    dstEmpty:$('#dstEmpty'), rej:$('#rejList'), rejWrap:$('#rejWrap'), rejEmpty:$('#rejEmpty'),
+    log:$('#log'), status:$('#status'), pauseTag:$('#pauseTag'),
+    start:$('#btnStart'), step:$('#btnStep'), reset:$('#btnReset'), speed:$('#speed'),
+    m:{ext:$('#mExt'), tra:$('#mTra'), car:$('#mCar'), rec:$('#mRec')},
+    stages:{e:$('#stageE'), t:$('#stageT'), l:$('#stageL')}
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const show = v => (v === null || v === undefined) ? '—' : (typeof v === 'string' ? `"${v}"` : v.toFixed(2));
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let srcRows = [], ruleItems = [], counts = [], st = {ext:0, tra:0, car:0, rec:0};
+  let orig = null, work = null;
+
+  function setStatus(t){ els.status.textContent = t; }
+  function setActive(k){ Object.entries(els.stages).forEach(([key, el]) => el.classList.toggle('is-active', key === k)); }
+  function setActiveRule(i){ ruleItems.forEach((li, idx) => li.classList.toggle('active', idx === i)); }
+  function updateMetrics(){ els.m.ext.textContent = st.ext; els.m.tra.textContent = st.tra; els.m.car.textContent = st.car; els.m.rec.textContent = st.rec; }
+  function log(msg, stage){
+    const li = document.createElement('li');
+    li.className = stage; li.textContent = msg;
+    els.log.appendChild(li);
+    els.log.scrollTop = els.log.scrollHeight;
+  }
+
+  function buildSource(){
+    els.src.innerHTML = '';
+    srcRows = RAW.map(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${esc(r.id)}</td><td>${esc(show(r.cliente))}</td><td>${esc(show(r.pais))}</td><td>${esc(show(r.monto))}</td><td>${esc(show(r.fecha))}</td>`;
+      els.src.appendChild(tr);
+      return tr;
+    });
+  }
+  function buildRules(){
+    els.rules.innerHTML = '';
+    counts = RULES.map(() => 0);
+    ruleItems = RULES.map(r => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="nm">${esc(r.name)}</span><span class="ct">0</span><span class="ds">${esc(r.desc)}</span>`;
+      els.rules.appendChild(li);
+      return li;
+    });
+  }
+  function renderCard(flash = [], verdict = null){
+    const rows = FIELDS.map(([k, label]) => {
+      const was = orig[k], now = work[k], diff = was !== now;
+      return `<div class="f${flash.includes(k) ? ' flash' : ''}"><dt>${label}</dt><dd>${diff ? `<s>${esc(show(was))}</s><span class="arrow" aria-hidden="true">→</span>` : ''}<b>${esc(show(now))}</b></dd></div>`;
+    }).join('');
+    const v = verdict ? `<p class="verdict ${verdict.ok ? 'ok' : 'bad'}">${esc(verdict.text)}</p>` : '';
+    els.card.className = 'card' + (verdict ? (verdict.ok ? ' ok' : ' bad') : '');
+    els.card.innerHTML = `<div class="cardhead">Registro #${esc(work.id)}</div><dl>${rows}</dl>${v}`;
+  }
+
+  /* ---------- Control de ejecución (pausa, paso a paso, reinicio) ---------- */
+  class Abort extends Error {}
+  let runId = 0, running = false, paused = false, finished = false, stepReq = 0, waiter = null, speed = 1;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function tick(id, ms){
+    while (paused && stepReq === 0){
+      await new Promise(r => { waiter = r; });
+      if (id !== runId) throw new Abort();
+    }
+    const stepping = paused;
+    if (paused && stepReq > 0) stepReq--;
+    await sleep((stepping ? Math.min(ms, 250) : ms) / speed);
+    if (id !== runId) throw new Abort();
+  }
+
+  async function fly(id, from, to, label, cls){
+    if (REDUCED) return;
+    const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    const W = 190, H = 34;
+    const sx = Math.max(4, Math.min(a.left + 10, innerWidth - W - 4));
+    const sy = a.top + a.height / 2 - H / 2;
+    const ex = b.left + b.width / 2 - W / 2;
+    const ey = b.top + Math.min(b.height / 2, 60) - H / 2;
+    const el = document.createElement('div');
+    el.className = 'token ' + cls;
+    el.textContent = label;
+    el.style.left = sx + 'px'; el.style.top = sy + 'px';
+    document.body.appendChild(el);
+    const anim = el.animate(
+      [{transform:'translate(0,0)'}, {transform:`translate(${ex - sx}px, ${ey - sy}px)`}],
+      {duration: 800 / speed, easing:'cubic-bezier(.6,.05,.25,1)', fill:'forwards'}
+    );
+    try { await anim.finished; } finally { el.remove(); }
+    if (id !== runId) throw new Abort();
+  }
+
+  /* ---------- Proceso ETL ---------- */
+  async function processRecord(id, i, loaded){
+    const raw = RAW[i], row = srcRows[i];
+
+    // E: Extracción
+    setActive('e');
+    setStatus(`Extracción: se lee el registro ${i + 1} de ${RAW.length} del archivo de origen.`);
+    row.classList.add('active');
+    await tick(id, 450);
+    await fly(id, row, els.card, `#${raw.id} ${raw.cliente.trim()}`, 'e');
+    row.classList.remove('active'); row.classList.add('done');
+    st.ext++; updateMetrics();
+    orig = {...raw}; work = {...raw};
+    renderCard();
+    log(`#${raw.id} · Extraído del CSV (fila ${i + 1})`, 'e');
+    await tick(id, 450);
+
+    // T: Transformación
+    setActive('t');
+    for (let r = 0; r < RULES.length; r++){
+      const rule = RULES[r];
+      setActiveRule(r);
+      setStatus(`Transformación: ${rule.name} (regla ${r + 1} de ${RULES.length}).`);
+      const before = {...work};
+      const changed = rule.apply(work);
+      renderCard(changed);
+      if (changed.length){
+        counts[r]++;
+        ruleItems[r].querySelector('.ct').textContent = counts[r];
+        changed.forEach(f => {
+          const label = FIELDS.find(x => x[0] === f)[1];
+          log(`#${raw.id} · ${rule.name} · ${label}: ${show(before[f])} → ${show(work[f])}`, 't');
+        });
+      }
+      await tick(id, changed.length ? 750 : 350);
+    }
+    setActiveRule(-1);
+    st.tra++; updateMetrics();
+
+    // Validación
+    setStatus(`Validación: se comprueban las condiciones del registro #${raw.id}.`);
+    const problem = validate(work, orig, loaded);
+    renderCard([], problem ? {ok:false, text:`Rechazado: ${problem}.`} : {ok:true, text:'Válido: pasa a la carga.'});
+    await tick(id, 800);
+
+    if (problem){
+      setStatus(`El registro #${raw.id} se descarta y se envía a la lista de rechazados.`);
+      await fly(id, els.card, els.rejWrap, `#${raw.id} rechazado`, 'bad');
+      const li = document.createElement('li');
+      li.innerHTML = `<b>#${esc(raw.id)}</b> (fila ${i + 1}): ${esc(problem)}.`;
+      els.rej.appendChild(li);
+      els.rejEmpty.hidden = true;
+      st.rec++; updateMetrics();
+      log(`#${raw.id} · Rechazado: ${problem}`, 'bad');
+    } else {
+      setActive('l');
+      setStatus(`Carga: el registro #${raw.id} se inserta en la tabla de destino.`);
+      await fly(id, els.card, els.dstWrap, `#${raw.id} ${work.cliente}`, 'l');
+      const tr = document.createElement('tr');
+      tr.className = 'new';
+      tr.innerHTML = `<td>${esc(work.id)}</td><td>${esc(work.cliente)}</td><td>${esc(work.pais)}</td><td class="num">${work.monto.toFixed(2)}</td><td>${esc(work.fecha)}</td>`;
+      els.dst.appendChild(tr);
+      els.dstEmpty.hidden = true;
+      loaded.add(work.id);
+      st.car++; updateMetrics();
+      log(`#${raw.id} · Cargado en ventas_limpias`, 'l');
+    }
+    await tick(id, 400);
+  }
+
+  async function run(id){
+    running = true; finished = false;
+    const loaded = new Set();
+    try {
+      for (let i = 0; i < RAW.length; i++) await processRecord(id, i, loaded);
+      running = false; finished = true; paused = false;
+      setActive(null);
+      els.card.className = 'card idle';
+      els.card.textContent = 'No quedan registros por procesar.';
+      setStatus(`Proceso finalizado: ${st.car} registros cargados y ${st.rec} rechazados de ${st.ext} extraídos.`);
+      log(`Fin del proceso · cargados: ${st.car} · rechazados: ${st.rec}`, 'l');
+      updateButtons();
+    } catch (e) {
+      if (!(e instanceof Abort)) throw e;
+    }
+  }
+
+  function resetAll(){
+    runId++;
+    running = false; paused = false; finished = false; stepReq = 0;
+    if (waiter) waiter();
+    document.querySelectorAll('.token').forEach(t => t.remove());
+    st = {ext:0, tra:0, car:0, rec:0}; updateMetrics();
+    orig = work = null;
+    buildSource(); buildRules();
+    els.card.className = 'card idle';
+    els.card.textContent = 'Presione «Iniciar» para que el primer registro llegue aquí.';
+    els.dst.innerHTML = ''; els.dstEmpty.hidden = false;
+    els.rej.innerHTML = ''; els.rejEmpty.hidden = false;
+    els.log.innerHTML = '';
+    setActive(null);
+    setStatus('Listo para iniciar.');
+    updateButtons();
+  }
+
+  function updateButtons(){
+    els.start.textContent = finished ? 'Ejecutar de nuevo' : (!running ? 'Iniciar' : (paused ? 'Continuar' : 'Pausar'));
+    els.pauseTag.hidden = !(running && paused);
+  }
+
+  els.start.addEventListener('click', () => {
+    if (finished) resetAll();
+    if (!running){ paused = false; stepReq = 0; runId++; run(runId); }
+    else if (paused){ paused = false; if (waiter) waiter(); }
+    else { paused = true; }
+    updateButtons();
+  });
+  els.step.addEventListener('click', () => {
+    if (finished) resetAll();
+    if (!running){ paused = true; stepReq = 1; runId++; run(runId); }
+    else { paused = true; stepReq++; if (waiter) waiter(); }
+    updateButtons();
+  });
+  els.reset.addEventListener('click', resetAll);
+  els.speed.addEventListener('change', () => { speed = parseFloat(els.speed.value); });
+
+  resetAll();
+})();
+</script>
+</body>
+</html>

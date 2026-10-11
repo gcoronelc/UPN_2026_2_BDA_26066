@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de un pipeline con fuentes heterogéneas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E7ECEF; --panel:#F9FAFB; --ink:#14212B; --muted:#586873; --line:#CBD5DB;
+  --csv:#2A67B0; --api:#6B4FA3; --sql:#12808F; --xml:#7A6248;
+  --t:#A86A0A; --t-bg:#F8EBD3;
+  --l:#2E7D3B; --l-bg:#DDEFDF;
+  --bad:#B03A2E; --bad-bg:#F6DEDA;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1400px;margin:0 auto;padding:32px 24px 48px}
+h1{font:600 clamp(28px,4vw,44px)/1.1 "Newsreader",Georgia,serif;letter-spacing:-.01em;margin:0 0 12px}
+.lead{max-width:76ch;color:var(--muted);margin:0 0 24px}
+
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px}
+button,select{font:inherit}
+.btn{min-height:44px;padding:9px 20px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font-weight:600;cursor:pointer}
+.btn:hover{background:#D9E1E6}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#27394A}
+.btn:focus-visible,select:focus-visible{outline:3px solid var(--csv);outline-offset:2px}
+.opt{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.opt.right{margin-left:auto}
+select{min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+.tag{padding:4px 10px;border-radius:12px;background:var(--t-bg);color:var(--t);font-weight:600;font-size:14px}
+
+.status{min-height:54px;margin-bottom:16px;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:6px}
+
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 20px;padding:0;list-style:none}
+.metrics li{padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.metrics b{display:block;font:600 30px/1.1 "Newsreader",Georgia,serif;font-variant-numeric:tabular-nums}
+.metrics span{color:var(--muted);font-size:14px}
+.metrics .m-e b{color:var(--csv)} .metrics .m-t b{color:var(--t)} .metrics .m-l b{color:var(--l)} .metrics .m-r b{color:var(--bad)}
+
+.pipeline{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:start}
+.stage{padding:18px;background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:6px;transition:box-shadow .25s}
+.stage.is-active{box-shadow:0 0 0 2px var(--c)}
+.stage.e{--c:var(--ink)} .stage.t{--c:var(--t)} .stage.l{--c:var(--l)}
+.stage header{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.glyph{font:600 54px/1 "Newsreader",Georgia,serif;color:var(--c)}
+.stage h2{margin:0;font-size:19px;line-height:1.2}
+.stage header p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.stage h3.sub{margin:0 0 6px;font-size:16px}
+.note{margin:0 0 10px;color:var(--muted);font-size:13.5px}
+
+/* Fuentes */
+.src{margin-bottom:12px;padding:12px;background:#fff;border:1px solid var(--line);border-left:5px solid var(--sc);border-radius:6px;transition:box-shadow .2s}
+.src.is-active{box-shadow:0 0 0 2px var(--sc)}
+.src h3{display:flex;justify-content:space-between;gap:8px;margin:0;font-size:15.5px}
+.src .cnt{color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.src .conn{margin:2px 0 0;color:var(--sc);font:12.5px "IBM Plex Mono",ui-monospace,Consolas,monospace;word-break:break-all}
+.src .how{margin:2px 0 8px;color:var(--muted);font-size:13px}
+.cols{margin:0 0 2px;color:var(--muted);font:11.5px/1.4 "IBM Plex Mono",ui-monospace,Consolas,monospace}
+.rec{margin-top:4px;padding:5px 8px;background:#F1F5F7;border-radius:4px;font:12px/1.45 "IBM Plex Mono",ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.rec.active{background:#fff;outline:2px solid var(--sc)}
+.rec.done{opacity:.45}
+
+/* Transformación */
+.card{min-height:230px;margin-bottom:18px;padding:14px;background:var(--t-bg);border:1px dashed var(--t);border-radius:6px}
+.card.idle{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);background:transparent;border-color:var(--line)}
+.card.ok{background:var(--l-bg);border:1px solid var(--l)}
+.card.bad{background:var(--bad-bg);border:1px solid var(--bad)}
+.cardhead{margin-bottom:6px;font-weight:600}
+.native{margin:0 0 8px;padding:6px 8px;background:#fff;border-left:4px solid var(--sc);border-radius:0 4px 4px 0;font:12px/1.45 "IBM Plex Mono",ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+dl{margin:0}
+.f{display:grid;grid-template-columns:70px 1fr;gap:8px;padding:5px 0;border-top:1px solid rgba(20,33,43,.1)}
+.f dt{color:var(--muted);font-size:14px}
+.f dd{margin:0;font:13px/1.5 "IBM Plex Mono",ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.f dd s{margin-right:6px;color:var(--muted)}
+.f dd .arrow{margin-right:6px;color:var(--t)}
+.f dd b{font-weight:500}
+.f.flash dd b{animation:flash 1s ease-out}
+@keyframes flash{from{background:#F0C26E}to{background:transparent}}
+.verdict{margin:10px 0 0;font-size:14px;font-weight:600}
+.verdict.ok{color:var(--l)} .verdict.bad{color:var(--bad)}
+
+.rules{margin:0;padding:0;list-style:none}
+.rules li{display:grid;grid-template-columns:1fr auto;gap:0 10px;padding:9px 10px;border:1px solid transparent;border-radius:6px}
+.rules li.active{background:var(--t-bg);border-color:var(--t)}
+.rules .nm{font-weight:600;font-size:15px}
+.rules .ds{grid-column:1;color:var(--muted);font-size:13.5px}
+.rules .ct{grid-column:2;grid-row:1 / span 2;align-self:center;min-width:30px;padding:2px 8px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+
+/* Destino */
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font:13px/1.4 "IBM Plex Mono",ui-monospace,Consolas,monospace}
+th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;color:var(--muted);font:600 12.5px "Public Sans",system-ui,sans-serif}
+td{padding:7px 8px;border-bottom:1px solid #E3E9ED;white-space:nowrap}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.new td{animation:rowin 1.2s ease-out}
+@keyframes rowin{from{background:#B9DEBD}to{background:transparent}}
+.pill{display:inline-block;padding:1px 8px;border-radius:10px;color:#fff;font:600 12px "Public Sans",system-ui,sans-serif}
+.empty{margin:10px 0;color:var(--muted);font-size:14px}
+.rejected{margin-top:20px}
+.rejlist{margin:0;padding:0;list-style:none}
+.rejlist li{margin-bottom:6px;padding:8px 10px;background:var(--bad-bg);border-left:4px solid var(--bad);border-radius:0 6px 6px 0;font-size:14px}
+
+.logbox{margin-top:20px;padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.logbox h2{margin:0 0 8px;font-size:17px}
+.log{max-height:240px;margin:0;padding:0;overflow-y:auto;list-style:none;font:13px/1.6 "IBM Plex Mono",ui-monospace,Consolas,monospace}
+.log li{padding:2px 0 2px 10px;border-left:3px solid var(--line)}
+.log li.t{border-color:var(--t)} .log li.l{border-color:var(--l)} .log li.bad{border-color:var(--bad)}
+.foot{margin:20px 0 0;color:var(--muted);font-size:13.5px}
+
+.token{position:fixed;z-index:50;width:190px;height:34px;padding:0 14px;overflow:hidden;border-radius:17px;color:#fff;font:500 13px/34px "Public Sans",system-ui,sans-serif;white-space:nowrap;text-overflow:ellipsis;pointer-events:none;box-shadow:0 4px 14px rgba(20,33,43,.25)}
+
+@media (max-width:1060px){
+  .pipeline{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .opt.right{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Simulador de un pipeline con fuentes heterogéneas</h1>
+  <p class="lead">Cuatro fuentes con formatos distintos (CSV, API REST en JSON, base de datos SQL y XML) alimentan un mismo pipeline. Cada fuente tiene su adaptador, que traduce su estructura a un esquema común. Después se normalizan los valores, se valida entre fuentes y se carga una única tabla de destino.</p>
+
+  <div class="controls">
+    <button class="btn primary" id="btnStart" type="button">Iniciar</button>
+    <button class="btn" id="btnStep" type="button">Avanzar un paso</button>
+    <button class="btn" id="btnReset" type="button">Reiniciar</button>
+    <span class="tag" id="pauseTag" hidden>En pausa</span>
+    <label class="opt right">Orden de llegada
+      <select id="order">
+        <option value="rr" selected>Intercalado</option>
+        <option value="seq">Fuente por fuente</option>
+      </select>
+    </label>
+    <label class="opt">Velocidad
+      <select id="speed">
+        <option value="0.5">0,5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="4">4×</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="status" id="status" role="status" aria-live="polite">Listo para iniciar.</div>
+
+  <ul class="metrics" aria-label="Métricas del proceso">
+    <li class="m-e"><b id="mExt">0</b><span>Extraídos</span></li>
+    <li class="m-t"><b id="mTra">0</b><span>Normalizados</span></li>
+    <li class="m-l"><b id="mCar">0</b><span>Cargados</span></li>
+    <li class="m-r"><b id="mRec">0</b><span>Rechazados</span></li>
+  </ul>
+
+  <main class="pipeline">
+    <section class="stage e" id="stageE" aria-labelledby="hE">
+      <header>
+        <span class="glyph" aria-hidden="true">E</span>
+        <div><h2 id="hE">Extracción</h2><p>Cuatro fuentes, cuatro formatos</p></div>
+      </header>
+      <div id="sources"></div>
+    </section>
+
+    <section class="stage t" id="stageT" aria-labelledby="hT">
+      <header>
+        <span class="glyph" aria-hidden="true">T</span>
+        <div><h2 id="hT">Transformación</h2><p>Adaptación, normalización y validación</p></div>
+      </header>
+      <div class="card idle" id="card">Presione «Iniciar» para que el primer registro llegue aquí.</div>
+      <h3 class="sub">Reglas del pipeline</h3>
+      <p class="note">El contador indica en cuántos registros actuó cada regla. Observe que no todas actúan sobre todas las fuentes.</p>
+      <ol class="rules" id="rules"></ol>
+    </section>
+
+    <section class="stage l" id="stageL" aria-labelledby="hL">
+      <header>
+        <span class="glyph" aria-hidden="true">L</span>
+        <div><h2 id="hL">Carga</h2><p>Destino: tabla ventas_unificadas</p></div>
+      </header>
+      <div class="tablewrap" id="dstWrap">
+        <table>
+          <thead><tr><th>id</th><th>origen</th><th>cliente</th><th>pais</th><th>monto_usd</th><th>fecha</th></tr></thead>
+          <tbody id="dstBody"></tbody>
+        </table>
+        <p class="empty" id="dstEmpty">Aún no se ha cargado ningún registro.</p>
+      </div>
+      <div class="rejected">
+        <h3 class="sub">Registros rechazados</h3>
+        <div id="rejWrap">
+          <ul class="rejlist" id="rejList"></ul>
+          <p class="empty" id="rejEmpty">Ningún registro rechazado por ahora.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="logbox" aria-labelledby="hLog">
+    <h2 id="hLog">Bitácora del proceso</h2>
+    <ol class="log" id="log"></ol>
+  </section>
+
+  <p class="foot">Simulación didáctica con datos ficticios. Las tasas de cambio a USD (PEN 0,27; EUR 1,08; MXN 0,055) son ilustrativas y no corresponden a cotizaciones reales.</p>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- Fuentes heterogéneas (datos ficticios con defectos intencionales) ---------- */
+  const ep = (y, m, d) => Date.UTC(y, m - 1, d) / 1000;
+
+  const SOURCES = {
+    csv: {
+      short:'CSV', title:'Archivo CSV', color:'var(--csv)',
+      conn:'ventas_tienda.csv',
+      how:'Lectura por lotes. Texto plano separado por «;», sin tipos de datos.',
+      head:'cliente;pais;monto;moneda;fecha',
+      records:[
+        '  maría lópez ;peru;1.250,50;PEN;03/03/2026',
+        'JUAN PÉREZ;PE;890,00;PEN;15/03/2026',
+        'ana torres;MX;;MXN;20/03/2026'
+      ],
+      display: r => r,
+      adapt: (r, i) => {
+        const p = r.split(';');
+        return {id:`CSV-${String(i + 1).padStart(2,'0')}`, cliente:p[0], pais:p[1], monto:p[2], moneda:p[3], fecha:p[4]};
+      }
+    },
+    api: {
+      short:'API', title:'API REST (JSON)', color:'var(--api)',
+      conn:'GET /v1/pedidos?desde=2026-03-01',
+      how:'Petición HTTP. JSON anidado, importes en centavos y fechas en tiempo Unix.',
+      head:null,
+      records:[
+        JSON.stringify({order_id:'W-7001', customer:{first:'Luis', last:'Gómez'}, country:'mx', amount_cents:230000, currency:'MXN', created_at:ep(2026,3,9)}),
+        JSON.stringify({order_id:'W-7002', customer:{first:'Juan', last:'Pérez'}, country:'pe', amount_cents:89000, currency:'PEN', created_at:ep(2026,3,15)}),
+        JSON.stringify({order_id:'W-7003', customer:{first:'Sofía', last:'Vega'}, country:'es', amount_cents:348020, currency:'EUR', created_at:ep(2026,3,9)})
+      ],
+      display: r => r,
+      adapt: r => {
+        const o = JSON.parse(r);
+        return {id:`API-${o.order_id.slice(2)}`, cliente:`${o.customer.first} ${o.customer.last}`, pais:o.country, monto:o.amount_cents, moneda:o.currency, fecha:o.created_at};
+      }
+    },
+    sql: {
+      short:'SQL', title:'Base de datos SQL', color:'var(--sql)',
+      conn:'SELECT * FROM crm.ventas WHERE fecha >= \'2026-03-01\'',
+      how:'Consulta a una tabla relacional. Nombres con formato «APELLIDO, NOMBRE».',
+      head:'id_venta | cust_name | pais_iso | total | moneda | ts',
+      records:[
+        {id_venta:2201, cust_name:'RÍOS, CARLA',   pais_iso:'CO', total:450.75, moneda:'USD', ts:'2026-03-02 14:35:10'},
+        {id_venta:2202, cust_name:'MORA, DIEGO',   pais_iso:'PE', total:-50.00, moneda:'PEN', ts:'2026-03-11 09:02:44'},
+        {id_venta:2203, cust_name:'QUISPE, ELENA', pais_iso:'PE', total:760.00, moneda:'PEN', ts:'2026-03-14 18:20:01'}
+      ],
+      display: r => Object.entries(r).map(([k, v]) => k === 'total' ? v.toFixed(2) : v).join(' | '),
+      adapt: r => ({id:`SQL-${r.id_venta}`, cliente:r.cust_name, pais:r.pais_iso, monto:r.total, moneda:r.moneda, fecha:r.ts})
+    },
+    xml: {
+      short:'XML', title:'Archivo XML (ERP)', color:'var(--xml)',
+      conn:'erp/facturas_proveedor.xml',
+      how:'Documento jerárquico. Datos en atributos y elementos, mes en texto abreviado.',
+      head:null,
+      records:[
+        '<venta id="X-31" fecha="09-mar-2026"><cliente>pedro  salas</cliente><pais>Argentina</pais><monto moneda="USD">1100.00</monto></venta>',
+        '<venta id="X-32" fecha="31-feb-2026"><cliente>valeria cruz</cliente><pais>Perú</pais><monto moneda="USD">320.00</monto></venta>',
+        '<venta id="X-33" fecha="18-mar-2026"><cliente>tomás ibáñez</cliente><pais>México</pais><monto moneda="EUR">99.90</monto></venta>'
+      ],
+      display: r => r,
+      adapt: r => {
+        const v = new DOMParser().parseFromString(r, 'application/xml').documentElement;
+        const t = n => v.getElementsByTagName(n)[0];
+        return {id:`XML-${v.getAttribute('id').slice(2)}`, cliente:t('cliente').textContent, pais:t('pais').textContent,
+                monto:t('monto').textContent, moneda:t('monto').getAttribute('moneda'), fecha:v.getAttribute('fecha')};
+      }
+    }
+  };
+  const KEYS = ['csv','api','sql','xml'];
+  const PER = 3, TOTAL = KEYS.length * PER;
+
+  const COUNTRY = {
+    'peru':'PE','perú':'PE','pe':'PE','mx':'MX','méxico':'MX','mexico':'MX','colombia':'CO','co':'CO',
+    'argentina':'AR','ar':'AR','es':'ES','españa':'ES','chile':'CL','cl':'CL'
+  };
+  const RATES = {PEN:0.27, EUR:1.08, MXN:0.055};
+  const MES = {ene:1,feb:2,mar:3,abr:4,may:5,jun:6,jul:7,ago:8,sep:9,oct:10,nov:11,dic:12};
+  const FIELDS = [['cliente','Cliente'],['pais','País'],['monto','Monto'],['moneda','Moneda'],['fecha','Fecha']];
+  const FKEYS = FIELDS.map(f => f[0]);
+  const round2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+
+  /* ---------- Reglas de normalización ---------- */
+  function mapFields(w, keys, fn){
+    const changed = [];
+    keys.forEach(k => { const b = w[k], a = fn(b); if (a !== b){ w[k] = a; changed.push(k); } });
+    return changed;
+  }
+  function iso(y, m, d){
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    const ok = dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+    return ok ? `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}` : null;
+  }
+  function toISO(v, src){
+    let r = null, m;
+    if (src === 'csv' && typeof v === 'string' && (m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v))) r = iso(+m[3], +m[2], +m[1]);
+    else if (src === 'api' && typeof v === 'number') r = new Date(v * 1000).toISOString().slice(0, 10);
+    else if (src === 'sql' && typeof v === 'string' && (m = /^(\d{4})-(\d{2})-(\d{2}) \d{2}:\d{2}:\d{2}$/.exec(v))) r = iso(+m[1], +m[2], +m[3]);
+    else if (src === 'xml' && typeof v === 'string' && (m = /^(\d{2})-([a-z]{3})-(\d{4})$/i.exec(v)) && MES[m[2].toLowerCase()]) r = iso(+m[3], MES[m[2].toLowerCase()], +m[1]);
+    return r || v;
+  }
+
+  const RULES = [
+    {name:'Adaptar al esquema común', desc:'Cada fuente usa su propio adaptador: separa el CSV, interpreta el JSON, lee la fila SQL o analiza el XML.', apply:null},
+    {name:'Normalizar nombres', desc:'Quita espacios, reordena «APELLIDO, NOMBRE» y aplica el formato Nombre Apellido.',
+     apply:(w) => mapFields(w, ['cliente'], v => {
+       let s = v.replace(/\s+/g, ' ').trim();
+       if (s.includes(',')){ const [a, b] = s.split(',').map(x => x.trim()); s = `${b} ${a}`; }
+       return s.toLowerCase().replace(/(^|\s)(\S)/g, (m, a, b) => a + b.toUpperCase());
+     })},
+    {name:'Estandarizar país', desc:'Reemplaza el país por su código ISO de dos letras.',
+     apply:(w) => mapFields(w, ['pais'], v => COUNTRY[v.trim().toLowerCase()] || v)},
+    {name:'Normalizar monto', desc:'Convierte a número decimal: texto con coma (CSV), centavos (API) o texto con punto (XML).',
+     apply:(w, src) => mapFields(w, ['monto'], v => {
+       if (src === 'api' && typeof v === 'number') return v / 100;
+       if (src === 'csv' && typeof v === 'string' && v.trim() !== '') return parseFloat(v.replace(/\./g, '').replace(',', '.'));
+       if (src === 'xml' && typeof v === 'string' && v.trim() !== '') return parseFloat(v);
+       return v;
+     })},
+    {name:'Convertir a USD', desc:'Pasa PEN, EUR y MXN a dólares con tasas fijas ilustrativas.',
+     apply:(w) => {
+       if (typeof w.monto === 'number' && RATES[w.moneda]){
+         w.monto = round2(w.monto * RATES[w.moneda]); w.moneda = 'USD';
+         return ['monto','moneda'];
+       }
+       return [];
+     }},
+    {name:'Fecha en formato ISO', desc:'Unifica fechas dd/mm/aaaa, tiempo Unix, marca de tiempo SQL y mes abreviado a aaaa-mm-dd.',
+     apply:(w, src) => mapFields(w, ['fecha'], v => toISO(v, src))}
+  ];
+
+  function validate(w, o, loaded){
+    if (typeof w.monto !== 'number') return 'el monto está vacío o no es numérico';
+    if (w.monto <= 0) return 'el monto debe ser mayor que cero';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(w.fecha)) return `la fecha ${o.fecha} no existe en el calendario`;
+    const prev = loaded.get(`${w.cliente}|${w.fecha}|${w.monto}`);
+    if (prev) return `ya existe una venta idéntica (cliente, fecha y monto) cargada como ${prev}`;
+    return null;
+  }
+
+  /* ---------- Utilidades de interfaz ---------- */
+  const $ = s => document.querySelector(s);
+  const els = {
+    sources:$('#sources'), card:$('#card'), rules:$('#rules'), dst:$('#dstBody'), dstWrap:$('#dstWrap'),
+    dstEmpty:$('#dstEmpty'), rej:$('#rejList'), rejWrap:$('#rejWrap'), rejEmpty:$('#rejEmpty'),
+    log:$('#log'), status:$('#status'), pauseTag:$('#pauseTag'),
+    start:$('#btnStart'), step:$('#btnStep'), reset:$('#btnReset'), speed:$('#speed'), order:$('#order'),
+    m:{ext:$('#mExt'), tra:$('#mTra'), car:$('#mCar'), rec:$('#mRec')},
+    stages:{e:$('#stageE'), t:$('#stageT'), l:$('#stageL')}
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const emptyRec = () => ({cliente:null, pais:null, monto:null, moneda:null, fecha:null});
+
+  let ORDER = [], recEls = {}, srcArts = {}, ruleItems = [], counts = [];
+  let st = {ext:0, tra:0, car:0, rec:0}, per = {}, loadedBy = {};
+  let orig = emptyRec(), work = emptyRec(), state = {src:null, id:null, native:'', title:'', color:''};
+
+  function fmt(k, v){
+    if (v === null || v === undefined) return '—';
+    if (typeof v === 'string') return `"${v}"`;
+    if (k === 'fecha') return String(v);
+    if (k === 'monto' && state.src === 'api' && v === orig.monto) return String(v);
+    return v.toFixed(2);
+  }
+  function setStatus(t){ els.status.textContent = t; }
+  function setActive(k){ Object.entries(els.stages).forEach(([key, el]) => el.classList.toggle('is-active', key === k)); }
+  function setActiveRule(i){ ruleItems.forEach((li, idx) => li.classList.toggle('active', idx === i)); }
+  function updateMetrics(){ els.m.ext.textContent = st.ext; els.m.tra.textContent = st.tra; els.m.car.textContent = st.car; els.m.rec.textContent = st.rec; }
+  function log(msg, cls){
+    const li = document.createElement('li');
+    if (cls) li.className = cls;
+    li.textContent = msg;
+    els.log.appendChild(li);
+    els.log.scrollTop = els.log.scrollHeight;
+  }
+
+  function buildOrder(mode){
+    const o = [];
+    if (mode === 'rr'){ for (let i = 0; i < PER; i++) KEYS.forEach(k => o.push({k, i})); }
+    else KEYS.forEach(k => { for (let i = 0; i < PER; i++) o.push({k, i}); });
+    return o;
+  }
+  function buildSources(){
+    els.sources.innerHTML = '';
+    recEls = {}; srcArts = {};
+    KEYS.forEach(k => {
+      const S = SOURCES[k];
+      const art = document.createElement('article');
+      art.className = 'src';
+      art.style.setProperty('--sc', S.color);
+      art.innerHTML = `<h3><span>${esc(S.title)}</span><span class="cnt">0/${PER}</span></h3>
+        <p class="conn">${esc(S.conn)}</p><p class="how">${esc(S.how)}</p>${S.head ? `<p class="cols">${esc(S.head)}</p>` : ''}`;
+      recEls[k] = S.records.map(r => {
+        const d = document.createElement('div');
+        d.className = 'rec';
+        d.textContent = S.display(r);
+        art.appendChild(d);
+        return d;
+      });
+      els.sources.appendChild(art);
+      srcArts[k] = art;
+    });
+  }
+  function updateCounter(k){ srcArts[k].querySelector('.cnt').textContent = `${per[k]}/${PER}`; }
+  function buildRules(){
+    els.rules.innerHTML = '';
+    counts = RULES.map(() => 0);
+    ruleItems = RULES.map(r => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="nm">${esc(r.name)}</span><span class="ct">0</span><span class="ds">${esc(r.desc)}</span>`;
+      els.rules.appendChild(li);
+      return li;
+    });
+  }
+
+  function renderCard(flash = [], verdict = null){
+    const rows = FIELDS.map(([k, label]) => {
+      const was = orig[k], now = work[k], diff = was !== now && was !== null;
+      return `<div class="f${flash.includes(k) ? ' flash' : ''}"><dt>${label}</dt><dd>${diff ? `<s>${esc(fmt(k, was))}</s><span class="arrow" aria-hidden="true">→</span>` : ''}<b>${esc(fmt(k, now))}</b></dd></div>`;
+    }).join('');
+    const v = verdict ? `<p class="verdict ${verdict.ok ? 'ok' : 'bad'}">${esc(verdict.text)}</p>` : '';
+    els.card.className = 'card' + (verdict ? (verdict.ok ? ' ok' : ' bad') : '');
+    els.card.style.setProperty('--sc', state.color);
+    els.card.innerHTML = `<div class="cardhead">Registro ${esc(state.id || 'recibido')} · ${esc(state.title)}</div><pre class="native">${esc(state.native)}</pre><dl>${rows}</dl>${v}`;
+  }
+
+  /* ---------- Control de ejecución ---------- */
+  class Abort extends Error {}
+  let runId = 0, running = false, paused = false, finished = false, stepReq = 0, waiter = null, speed = 1;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  async function tick(id, ms){
+    while (paused && stepReq === 0){
+      await new Promise(r => { waiter = r; });
+      if (id !== runId) throw new Abort();
+    }
+    const stepping = paused;
+    if (paused && stepReq > 0) stepReq--;
+    await sleep((stepping ? Math.min(ms, 250) : ms) / speed);
+    if (id !== runId) throw new Abort();
+  }
+
+  async function fly(id, from, to, label, bg){
+    if (REDUCED) return;
+    const a = from.getBoundingClientRect(), b = to.getBoundingClientRect();
+    const W = 190, H = 34;
+    const sx = Math.max(4, Math.min(a.left + 10, innerWidth - W - 4));
+    const sy = a.top + a.height / 2 - H / 2;
+    const ex = b.left + b.width / 2 - W / 2;
+    const ey = b.top + Math.min(b.height / 2, 60) - H / 2;
+    const el = document.createElement('div');
+    el.className = 'token';
+    el.style.background = bg;
+    el.textContent = label;
+    el.style.left = sx + 'px'; el.style.top = sy + 'px';
+    document.body.appendChild(el);
+    const anim = el.animate(
+      [{transform:'translate(0,0)'}, {transform:`translate(${ex - sx}px, ${ey - sy}px)`}],
+      {duration: 800 / speed, easing:'cubic-bezier(.6,.05,.25,1)', fill:'forwards'}
+    );
+    try { await anim.finished; } finally { el.remove(); }
+    if (id !== runId) throw new Abort();
+  }
+
+  /* ---------- Proceso ETL ---------- */
+  async function processRecord(id, n, loaded){
+    const {k, i} = ORDER[n], S = SOURCES[k], rec = recEls[k][i], art = srcArts[k];
+
+    // E: Extracción
+    setActive('e'); art.classList.add('is-active');
+    setStatus(`Extracción: se obtiene el registro ${n + 1} de ${TOTAL} desde «${S.title}».`);
+    rec.classList.add('active');
+    await tick(id, 450);
+    await fly(id, rec, els.card, `${S.short} · registro ${i + 1}`, S.color);
+    rec.classList.remove('active'); rec.classList.add('done'); art.classList.remove('is-active');
+    st.ext++; per[k]++; updateCounter(k); updateMetrics();
+    state = {src:k, id:null, native:S.display(S.records[i]), title:S.title, color:S.color};
+    orig = emptyRec(); work = emptyRec();
+    renderCard();
+    log(`${S.short} · Registro ${i + 1} extraído (${S.title})`);
+    await tick(id, 450);
+
+    // T: Adaptación y normalización
+    setActive('t');
+    for (let r = 0; r < RULES.length; r++){
+      const rule = RULES[r];
+      setActiveRule(r);
+      setStatus(r === 0
+        ? `Transformación: el adaptador de «${S.title}» traduce el registro al esquema común.`
+        : `Transformación: ${rule.name} (regla ${r + 1} de ${RULES.length}).`);
+      const before = {...work};
+      let changed;
+      if (r === 0){
+        const mapped = S.adapt(S.records[i], i);
+        state.id = mapped.id;
+        Object.assign(work, {cliente:mapped.cliente, pais:mapped.pais, monto:mapped.monto, moneda:mapped.moneda, fecha:mapped.fecha});
+        orig = {...work};
+        changed = FKEYS.slice();
+        log(`${state.id} · Adaptador ${S.short}: registro mapeado al esquema común`, 't');
+      } else {
+        changed = rule.apply(work, k);
+        changed.forEach(f => {
+          const label = FIELDS.find(x => x[0] === f)[1];
+          log(`${state.id} · ${rule.name} · ${label}: ${fmt(f, before[f])} → ${fmt(f, work[f])}`, 't');
+        });
+      }
+      renderCard(changed);
+      if (changed.length){ counts[r]++; ruleItems[r].querySelector('.ct').textContent = counts[r]; }
+      await tick(id, changed.length ? 750 : 300);
+    }
+    setActiveRule(-1);
+    st.tra++; updateMetrics();
+
+    // Validación entre fuentes
+    setStatus(`Validación: se comprueban las condiciones de ${state.id}, incluida la búsqueda de duplicados entre fuentes.`);
+    const problem = validate(work, orig, loaded);
+    renderCard([], problem ? {ok:false, text:`Rechazado: ${problem}.`} : {ok:true, text:'Válido: pasa a la carga.'});
+    await tick(id, 850);
+
+    if (problem){
+      setStatus(`El registro ${state.id} se descarta y se envía a la lista de rechazados.`);
+      await fly(id, els.card, els.rejWrap, `${state.id} rechazado`, 'var(--bad)');
+      const li = document.createElement('li');
+      li.innerHTML = `<b>${esc(state.id)}</b>: ${esc(problem)}.`;
+      els.rej.appendChild(li);
+      els.rejEmpty.hidden = true;
+      st.rec++; updateMetrics();
+      log(`${state.id} · Rechazado: ${problem}`, 'bad');
+    } else {
+      setActive('l');
+      setStatus(`Carga: el registro ${state.id} se inserta en la tabla unificada.`);
+      await fly(id, els.card, els.dstWrap, `${state.id} ${work.cliente}`, 'var(--l)');
+      const tr = document.createElement('tr');
+      tr.className = 'new';
+      tr.innerHTML = `<td>${esc(state.id)}</td><td><span class="pill" style="background:${S.color}">${S.short}</span></td><td>${esc(work.cliente)}</td><td>${esc(work.pais)}</td><td class="num">${work.monto.toFixed(2)}</td><td>${esc(work.fecha)}</td>`;
+      els.dst.appendChild(tr);
+      els.dstEmpty.hidden = true;
+      loaded.set(`${work.cliente}|${work.fecha}|${work.monto}`, state.id);
+      loadedBy[k]++;
+      st.car++; updateMetrics();
+      log(`${state.id} · Cargado en ventas_unificadas`, 'l');
+    }
+    await tick(id, 400);
+  }
+
+  async function run(id){
+    running = true; finished = false;
+    const loaded = new Map();
+    try {
+      for (let n = 0; n < TOTAL; n++) await processRecord(id, n, loaded);
+      running = false; finished = true; paused = false;
+      setActive(null);
+      els.card.className = 'card idle';
+      els.card.textContent = 'No quedan registros por procesar.';
+      const detail = KEYS.map(k => `${SOURCES[k].short} ${loadedBy[k]}`).join(', ');
+      setStatus(`Proceso finalizado: ${st.car} registros cargados (${detail}) y ${st.rec} rechazados de ${st.ext} extraídos.`);
+      log(`Fin del proceso · cargados: ${st.car} · rechazados: ${st.rec}`, 'l');
+      updateButtons();
+    } catch (e) {
+      if (!(e instanceof Abort)) throw e;
+    }
+  }
+
+  function resetAll(){
+    runId++;
+    running = false; paused = false; finished = false; stepReq = 0;
+    if (waiter) waiter();
+    document.querySelectorAll('.token').forEach(t => t.remove());
+    st = {ext:0, tra:0, car:0, rec:0}; updateMetrics();
+    per = {csv:0, api:0, sql:0, xml:0}; loadedBy = {csv:0, api:0, sql:0, xml:0};
+    orig = emptyRec(); work = emptyRec();
+    ORDER = buildOrder(els.order.value);
+    buildSources(); buildRules();
+    els.card.className = 'card idle';
+    els.card.textContent = 'Presione «Iniciar» para que el primer registro llegue aquí.';
+    els.dst.innerHTML = ''; els.dstEmpty.hidden = false;
+    els.rej.innerHTML = ''; els.rejEmpty.hidden = false;
+    els.log.innerHTML = '';
+    setActive(null);
+    setStatus('Listo para iniciar.');
+    updateButtons();
+  }
+
+  function updateButtons(){
+    els.start.textContent = finished ? 'Ejecutar de nuevo' : (!running ? 'Iniciar' : (paused ? 'Continuar' : 'Pausar'));
+    els.pauseTag.hidden = !(running && paused);
+  }
+
+  els.start.addEventListener('click', () => {
+    if (finished) resetAll();
+    if (!running){ paused = false; stepReq = 0; runId++; run(runId); }
+    else if (paused){ paused = false; if (waiter) waiter(); }
+    else { paused = true; }
+    updateButtons();
+  });
+  els.step.addEventListener('click', () => {
+    if (finished) resetAll();
+    if (!running){ paused = true; stepReq = 1; runId++; run(runId); }
+    else { paused = true; stepReq++; if (waiter) waiter(); }
+    updateButtons();
+  });
+  els.reset.addEventListener('click', resetAll);
+  els.order.addEventListener('change', resetAll);
+  els.speed.addEventListener('change', () => { speed = parseFloat(els.speed.value); });
+
+  resetAll();
+})();
+</script>
+</body>
+</html>

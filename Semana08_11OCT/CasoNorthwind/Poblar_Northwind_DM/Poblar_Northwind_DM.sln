@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "Poblar_Northwind_DM", "Poblar_Northwind_DM\Poblar_Northwind_DM.dtproj", "{905BF196-F29B-4932-BF88-291F9788C36A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{905BF196-F29B-4932-BF88-291F9788C36A}.Development|Default.ActiveCfg = Development
+		{905BF196-F29B-4932-BF88-291F9788C36A}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {597CF52B-A09A-4E58-A723-C3A076018EF7}
+	EndGlobalSection
+EndGlobal
