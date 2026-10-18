@@ -1,12 +1,23 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\EGCC\\UPN_2026_2_BDA_26066\\Semana08_11OCT\\CasoNorthwind\\Poblar_Northwind_DM\\",
+  "WorkspaceRootPath": "D:\\EGCC\\UPN_2026_2_BDA_26066\\Semana09_18OCT\\CasoNorthwind\\Poblar_Northwind_DM\\",
   "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
