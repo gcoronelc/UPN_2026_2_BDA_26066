@@ -1,0 +1,501 @@
+﻿IdVenta,Fecha,IdCliente,Cliente,Ciudad,IdProducto,Producto,Categoria,Cantidad,PrecioUnitario
+V0001,2026-07-09,C007,Elena Flores,Chiclayo,P006,Disco SSD 1TB,Almacenamiento,4,336.00
+V0002,2026-07-29,C018,José Mendoza,Puno,P002,Mouse Logitech,Accesorios,1,78.75
+V0003,2026-09-12,C009,Lucía Campos,Ica,P005,Impresora Epson,Tecnología,2,714.00
+V0004,2026-07-31,C017,Carmen Ruiz,Lima,P001,Laptop Lenovo,Tecnología,2,2327.50
+V0005,2026-07-29,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,5,120.00
+V0006,2026-07-09,C018,José Mendoza,Puno,P009,Router TP-Link,Redes,1,190.00
+V0007,2026-09-10,C001,Ana Torres,Lima,P002,Mouse Logitech,Accesorios,1,75.00
+V0008,2026-09-13,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,1,299.25
+V0009,2026-09-09,C002,Luis Pérez,Arequipa,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0010,2026-07-08,C004,Pedro Salazar,Lima,P010,Webcam HD,Accesorios,1,120.00
+V0011,2026-08-30,C017,Carmen Ruiz,Lima,P004,Teclado mecánico,Accesorios,4,189.00
+V0012,2026-07-26,C014,Ricardo León,Cusco,P009,Router TP-Link,Redes,1,190.00
+V0013,2026-07-26,C019,  GABRIELA ORTIZ  ,Chimbote,P011,Disco HDD 2TB,Almacenamiento,2,270.75
+V0014,2026-07-16,C005,María Vega,Cusco,P009,Router TP-Link,Redes,3,190.00
+V0015,2026-07-02,C007,Elena Flores,Chiclayo,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0016,2026-07-15,C015,Valeria Núñez,Piura,P004,Teclado mecánico,Accesorios,5,171.00
+V0017,2026-07-20,C020,Fernando Peña,Huánuco,P004,Teclado mecánico,Accesorios,2,189.00
+V0018,2026-09-06,C020,Fernando Peña,Huánuco,P002,Mouse Logitech,Accesorios,3,78.75
+V0019,2026-09-04,C007,Elena Flores,Chiclayo,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0020,2026-08-27,C020,Fernando Peña,Huánuco,P008,Auriculares Sony,Accesorios,2,220.50
+V0021,2026-08-18,C009,Lucía Campos,Ica,P011,Disco HDD 2TB,Almacenamiento,4,285.00
+V0022,2026-07-30,C003,Rosa Díaz,Trujillo,P001,Laptop Lenovo,Tecnología,2,2327.50
+V0023,2026-09-09,C017,Carmen Ruiz,Lima,P010,Webcam HD,Accesorios,3,120.00
+V0024,2026-07-06,C009,Lucía Campos,Ica,P007,Memoria USB 64GB,Almacenamiento,4,50.40
+V0025,2026-08-22,C013,Paola Castillo,Arequipa,P009,Router TP-Link,Redes,4,199.50
+V0026,2026-07-14,C008,Jorge Medina,Huancayo,P006,Disco SSD 1TB,Almacenamiento,5,320.00
+V0027,2026-07-18,C008,Jorge Medina,Huancayo,P003,Monitor Samsung,Tecnología,1,850.00
+V0028,2026-07-22,C007,Elena Flores,Chiclayo,P003,Monitor Samsung,Tecnología,5,807.50
+V0029,2026-09-16,C019,Gabriela Ortiz,Chimbote,P001,Laptop Lenovo,Tecnología,4,2450.00
+V0030,2026-09-17,C009,Lucía Campos,Ica,P010,Webcam HD,Accesorios,3,126.00
+V0031,2026-08-18,C013,Paola Castillo,Arequipa,P005,Impresora Epson,tecnología ,3,714.00
+V0032,2026-07-26,C019,Gabriela Ortiz,Chimbote,P007,Memoria USB 64GB,Almacenamiento,1,50.40
+V0033,2026-09-26,C006,Carlos Rojas,Piura,P010,Webcam HD,Accesorios,5,120.00
+V0034,2026-07-06,C020,Fernando Peña,Huánuco,P005,Impresora Epson,Tecnología,5,680.00
+V0035,2026-09-27,C002,Luis Pérez,Arequipa,P008,Auriculares Sony,Accesorios,2,210.00
+V0036,2026-09-30,C005,María Vega,Cusco,P004,Teclado mecánico,Accesorios,5,180.00
+V0037,2026-07-20,C013,Paola Castillo,Arequipa,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0038,2026-08-27,C011,Sofía Herrera,Lima,P005,Impresora Epson,Tecnología,1,680.00
+V0039,2026-07-04,C018,José Mendoza,Puno,P009,Router TP-Link,Redes,2,190.00
+V0040,2026-09-25,C017,Carmen Ruiz,Lima,P010,Webcam HD,Accesorios,1,114.00
+V0041,2026-07-12,C019,Gabriela Ortiz,Chimbote,P012,Switch 8 puertos,Redes,1,162.75
+V0042,2026-08-04,C017,Carmen Ruiz,Lima,P012,Switch 8 puertos,Redes,3,155.00
+V0043,2026-09-15,C004,Pedro Salazar,Lima,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0044,2026-09-25,C020,Fernando Peña,Huánuco,P003,Monitor Samsung,Tecnología,2,850.00
+V0045,2026-07-24,C018,José Mendoza,Puno,P007,Memoria USB 64GB,Almacenamiento,5,48.00
+V0046,2026-09-12,C020,Fernando Peña,Huánuco,P003,Monitor Samsung,Tecnología,1,850.00
+V0047,2026-09-01,C004,Pedro Salazar,Lima,P011,Disco HDD 2TB,Almacenamiento,1,270.75
+V0048,2026-07-23,C012,Daniel Chávez,Trujillo,P009,Router TP-Link,Redes,1,190.00
+V0049,2026-07-30,C019,Gabriela Ortiz,Chimbote,P005,Impresora Epson,Tecnología,1,714.00
+V0050,2026-09-22,C012,Daniel Chávez,Trujillo,P002,Mouse Logitech,Accesorios,4,75.00
+V0051,2026-09-12,C001,Ana Torres,Lima,P008,Auriculares Sony,Accesorios,2,210.00
+V0052,2026-09-18,C009,Lucía Campos,Ica,P002,Mouse Logitech,Accesorios,2,75.00
+V0053,2026-09-18,C011,Sofía Herrera,Lima,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0054,2026-07-13,C006,Carlos Rojas,Piura,P001,Laptop Lenovo,Tecnología,4,2572.50
+V0055,04/08/2026,C002,Luis Pérez,Arequipa,P003,Monitor Samsung,Tecnología,2,892.50
+V0056,2026-09-29,C015,Valeria Núñez,Piura,P002,Mouse Logitech,Accesorios,2,75.00
+V0057,2026-07-03,C013,Paola Castillo,Arequipa,P002,Mouse Logitech,Accesorios,5,75.00
+V0058,2026-07-04,C007,Elena Flores,Chiclayo,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0059,2026-08-26,C001,Ana Torres,Lima,P010,Webcam HD,Accesorios,1,120.00
+V0060,2026-08-14,C018,José Mendoza,Puno,P008,Auriculares Sony,Accesorios,2,210.00
+V0061,2026-08-06,C001,Ana Torres,Lima,P003,Monitor Samsung,Tecnología,1,850.00
+V0062,2026-07-08,C009,Lucía Campos,Ica,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0063,2026-08-09,C003,Rosa Díaz,Trujillo,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0064,2026-08-07,C020,Fernando Peña,Huánuco,P001,Laptop Lenovo,Tecnología,2,2572.50
+V0065,2026-07-19,C009,Lucía Campos,Ica,P006,Disco SSD 1TB,Almacenamiento,2,320.00
+V0066,2026-08-18,C018,José Mendoza,Puno,P004,Teclado mecánico,Accesorios,5,180.00
+V0067,2026-07-27,C020,Fernando Peña,Huánuco,P008,Auriculares Sony,Accesorios,1,210.00
+V0068,2026-08-18,C020,Fernando Peña,Huánuco,P009,Router TP-Link,Redes,5,190.00
+V0069,2026-08-06,C016,Diego Sánchez,Iquitos,P007,Memoria USB 64GB,Almacenamiento,2,48.00
+V0070,2026-07-30,C017,Carmen Ruiz,Lima,P003,Monitor Samsung,Tecnología,4,850.00
+V0071,2026-07-31,C012,Daniel Chávez,Trujillo,P005,Impresora Epson,Tecnología,1,646.00
+V0072,2026-07-17,C014,Ricardo León,Cusco,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0073,2026-08-15,C006,Carlos Rojas,Piura,P005,Impresora Epson,Tecnología,5,714.00
+V0074,2026-07-27,C001,Ana Torres,Lima,P008,Auriculares Sony,Accesorios,2,210.00
+V0075,2026-07-02,C008,Jorge Medina,Huancayo,P005,Impresora Epson,Tecnología,1,646.00
+V0076,2026-09-19,C012,Daniel Chávez,Trujillo,P009,Router TP-Link,Redes,1,190.00
+V0077,2026-09-07,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,3,320.00
+V0078,2026-07-02,C013,Paola Castillo,Arequipa,P001,Laptop Lenovo,Tecnología,1,2327.50
+V0079,2026-07-10,C008,Jorge Medina,Huancayo,P001,Laptop Lenovo,Tecnología,2,2572.50
+V0080,2026-08-11,C009,Lucía Campos,Ica,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0081,2026-08-09,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,2,220.50
+V0082,2026-09-26,C007,Elena Flores,Chiclayo,P001,Laptop Lenovo,Tecnología,2,2572.50
+V0083,2026-09-13,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,4,210.00
+V0084,2026-08-09,C011,Sofía Herrera, ,P009,Router TP-Link,Redes,2,199.50
+V0085,2026-07-28,C005,María Vega,Cusco,P010,Webcam HD,Accesorios,4,126.00
+V0086,2026-07-05,C020,Fernando Peña,Huánuco,P003,Monitor Samsung,Tecnología,2,807.50
+V0087,2026-08-01,C001,Ana Torres,Lima,P002,Mouse Logitech,Accesorios,1,75.00
+V0088,2026-08-16,C011,Sofía Herrera,Lima,P001,Laptop Lenovo,Tecnología,1,2572.50
+V0089,2026-09-16,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0090,2026-07-20,C011,Sofía Herrera,Lima,P008,Auriculares Sony,Accesorios,4,199.50
+V0091,2026-07-02,C003,Rosa Díaz,Trujillo,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0092,2026-08-29,C001,Ana Torres,Lima,P004,Teclado mecánico,Accesorios,3,180.00
+V0093,2026-07-06,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,3,304.00
+V0094,2026-09-11,C004,Pedro Salazar,Lima,P004,Teclado mecánico,Accesorios,4,189.00
+V0095,2026-09-23,C016,Diego Sánchez,Iquitos,P005,Impresora Epson,Tecnología,5,680.00
+V0096,2026-08-31,C013,Paola Castillo,Arequipa,P003,Monitor Samsung,Tecnología,5,850.00
+V0097,2026-09-15,C001,Ana Torres,Lima,P002,Mouse Logitech,Accesorios,3,78.75
+V0098,2026-07-03,C019,Gabriela Ortiz,Chimbote,P002,Mouse Logitech,Accesorios,2,75.00
+V0099,2026-07-26,C004,  PEDRO SALAZAR  ,Lima,P003,Monitor Samsung,Tecnología,4,850.00
+V0100,2026-09-25,C010,Miguel Paredes,Tacna,P008,Auriculares Sony,Accesorios,3,220.50
+V0101,2026-09-20,C007,Elena Flores,Chiclayo,P008,Auriculares Sony,Accesorios,4,199.50
+V0102,2026-08-21,C018,José Mendoza,Puno,P012,Switch 8 puertos,Redes,2,147.25
+V0103,2026-08-27,C003,Rosa Díaz,Trujillo,P002,Mouse Logitech,Accesorios,3,78.75
+V0104,2026-07-01,C015,Valeria Núñez,Piura,P011,Disco HDD 2TB,Almacenamiento,1,270.75
+V0105,2026-09-24,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,2,120.00
+V0106,2026-08-24,C017,Carmen Ruiz,Lima,P004,Teclado mecánico,Accesorios,1,180.00
+V0107,2026-08-30,C013,Paola Castillo,Arequipa,P012,Switch 8 puertos,Redes,2,162.75
+V0108,2026-09-15,C020,Fernando Peña,Huánuco,P008,Auriculares Sony,Accesorios,5,220.50
+V0109,2026-07-24,C004,Pedro Salazar,Lima,P012,Switch 8 puertos,Redes,3,155.00
+V0110,2026-09-30,C013,Paola Castillo,Arequipa,P006,Disco SSD 1TB,Almacenamiento,2,320.00
+V0111,2026-07-27,C006,Carlos Rojas,Piura,P006,Disco SSD 1TB,Almacenamiento,1,304.00
+V0112,2026-07-07,C003,Rosa Díaz,Trujillo,P004,Teclado mecánico,Accesorios,0,180.00
+V0113,2026-08-17,C002,Luis Pérez,Arequipa,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0114,2026-08-15,C019,Gabriela Ortiz,Chimbote,P010,Webcam HD,Accesorios,4,120.00
+V0115,2026-09-25,C001,Ana Torres,Lima,P002,Mouse Logitech,Accesorios,5,75.00
+V0116,2026-07-15,C018,José Mendoza,Puno,P004,Teclado mecánico,Accesorios,3,180.00
+V0117,2026-09-16,C002,Luis Pérez,Arequipa,P008,Auriculares Sony,Accesorios,4,210.00
+V0118,2026-09-14,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,3,336.00
+V0119,2026-09-26,C006,Carlos Rojas,Piura,P002,Mouse Logitech,Accesorios,3,71.25
+V0120,2026-07-08,C001,Ana Torres,Lima,P005,Impresora Epson,Tecnología,2,680.00
+V0121,2026-09-12,C018,José Mendoza,Puno,P010,Webcam HD,Accesorios,4,120.00
+V0122,2026-09-28,C009,Lucía Campos,Ica,P007,Memoria USB 64GB,Almacenamiento,2,48.00
+V0123,2026-08-19,C005,María Vega,Cusco,P002,Mouse Logitech,Accesorios,4,78.75
+V0124,2026-08-13,C008,Jorge Medina,Huancayo,P002,Mouse Logitech,Accesorios,3,71.25
+V0125,2026-09-18,C006,Carlos Rojas,Piura,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0126,2026-09-09,C020,Fernando Peña,Huánuco,P005,Impresora Epson,Tecnología,1,680.00
+V0127,2026-07-01,C016,Diego Sánchez,Iquitos,P002,Mouse Logitech,Accesorios,5,75.00
+V0128,2026-08-29,C018,José Mendoza,Puno,P010,Webcam HD,Accesorios,5,114.00
+V0129,2026-07-31,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,4,120.00
+V0130,2026-07-18,C013,Paola Castillo,Arequipa,P010,Webcam HD,Accesorios,3,126.00
+V0131,2026-08-20,C020,Fernando Peña,Huánuco,P001,Laptop Lenovo,Tecnología,1,2327.50
+V0132,2026-09-02,C003,Rosa Díaz,Trujillo,P008,Auriculares Sony,Accesorios,4,210.00
+V0133,2026-09-18,C016,Diego Sánchez,Iquitos,P008,Auriculares Sony,Accesorios,5,210.00
+V0134,2026-08-06,C008,Jorge Medina,Huancayo,P005,Impresora Epson,Tecnología,1,714.00
+V0135,2026-07-23,C012,Daniel Chávez,Trujillo,P002,Mouse Logitech,Accesorios,1,75.00
+V0136,2026-08-26,C004,Pedro Salazar,Lima,P011,Disco HDD 2TB,Almacenamiento,4,285.00
+V0137,2026-09-07,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0138,2026-09-24,C015,Valeria Núñez,Piura,P004,Teclado mecánico,Accesorios,1,180.00
+V0139,2026-08-12,C010,Miguel Paredes,Tacna,P002,Mouse Logitech,Accesorios,4,75.00
+V0140,2026-08-02,C005,María Vega,Cusco,P003,Monitor Samsung,Tecnología,2,850.00
+V0141,2026-07-12,C005,María Vega,Cusco,P008,Auriculares Sony,Accesorios,4,210.00
+V0142,2026-07-24,C004,Pedro Salazar,Lima,P009,Router TP-Link,Redes,5,190.00
+V0143,2026-07-20,C003,Rosa Díaz,Trujillo,P001,Laptop Lenovo,Tecnología,3,2327.50
+V0144,2026-07-20,C003,Rosa Díaz,Trujillo,P005,Impresora Epson,Tecnología,4,646.00
+V0145,2026-07-26,C020,Fernando Peña,Huánuco,P010,Webcam HD,Accesorios,1,120.00
+V0146,2026-09-27,C006,Carlos Rojas,Piura,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0147,2026-09-18,C008,Jorge Medina,Huancayo,P008,Auriculares Sony,Accesorios,1,210.00
+V0148,2026-07-28,C003,Rosa Díaz,Trujillo,P004,Teclado mecánico,Accesorios,5,180.00
+V0149,2026-09-03,C002,Luis Pérez,Arequipa,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0150,2026-08-31,C006,Carlos Rojas,Piura,P010,Webcam HD,Accesorios,3,120.00
+V0151,2026-07-23,C017,Carmen Ruiz,Lima,P012,Switch 8 puertos,Redes,5,155.00
+V0152,2026-09-01,C012,Daniel Chávez,Trujillo,P001,Laptop Lenovo,Tecnología,4,2450.00
+V0153,2026-08-20,C008,Jorge Medina,Huancayo,P003,Monitor Samsung,Tecnología,3,850.00
+V0154,2026-07-17,C017,Carmen Ruiz,Lima,P007,Memoria USB 64GB,Almacenamiento,5,48.00
+V0155,2026-09-08,C017,Carmen Ruiz,Lima,P004,Teclado mecánico,Accesorios,4,180.00
+V0156,2026-08-18,C007,Elena Flores,Chiclayo,P009,Router TP-Link,Redes,4,190.00
+V0157,2026-07-08,C008,Jorge Medina,Huancayo,P007,Memoria USB 64GB,Almacenamiento,1,-15.00
+V0158,2026-08-22,C011,Sofía Herrera,Lima,P003,Monitor Samsung,Tecnología,4,850.00
+V0159,2026-09-16,C015,Valeria Núñez,Piura,P004,Teclado mecánico,Accesorios,2,171.00
+V0160,2026-07-04,C001,Ana Torres,Lima,P010,Webcam HD,Accesorios,1,114.00
+V0161,2026-09-14,C004,Pedro Salazar,Lima,P010,Webcam HD,Accesorios,4,120.00
+V0162,2026-07-10,C018,José Mendoza,Puno,P008,Auriculares Sony,Accesorios,2,210.00
+V0163,2026-07-09,C018,José Mendoza,Puno,P009,Router TP-Link,Redes,3,190.00
+V0164,2026-09-07,C002,Luis Pérez,Arequipa,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0165,2026-08-30,C009,Lucía Campos,Ica,P009,Router TP-Link,Redes,5,190.00
+V0166,2026-09-01,C019,Gabriela Ortiz,Chimbote,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0167,2026-08-28,C009,Lucía Campos,Ica,P006,Disco SSD 1TB,Almacenamiento,4,304.00
+V0168,2026-09-24,C010,Miguel Paredes,Tacna,P004,Teclado mecánico,Accesorios,3,171.00
+V0169,2026-07-16,C013,Paola Castillo,Arequipa,P003,Monitor Samsung,Tecnología,3,850.00
+V0170,2026-09-19,C010,Miguel Paredes,Tacna,P010,Webcam HD,Accesorios,1,114.00
+V0171,2026-09-03,C004,Pedro Salazar,Lima,P003,Monitor Samsung,Tecnología,3,850.00
+V0172,2026-09-05,C005,María Vega,Cusco,P012,Switch 8 puertos,Redes,4,155.00
+V0173,2026-08-21,C001,Ana Torres,Lima,P004,Teclado mecánico,Accesorios,3,180.00
+V0174,2026-08-25,C002,Luis Pérez,Arequipa,P012,Switch 8 puertos,Redes,5,155.00
+V0175,2026-08-22,C012,Daniel Chávez,Trujillo,P009,Router TP-Link,Redes,3,180.50
+V0176,2026-07-18,C012,Daniel Chávez,Trujillo,P001,Laptop Lenovo,Tecnología,5,2572.50
+V0177,2026-07-22,C014,Ricardo León,Cusco,P007,Memoria USB 64GB,Almacenamiento,1,48.00
+V0178,2026-08-10,C018,José Mendoza,Puno,P002,Mouse Logitech,Accesorios,3,78.75
+V0179,2026-08-19,C010,Miguel Paredes,Tacna,P001,Laptop Lenovo,Tecnología,2,2327.50
+V0180,2026-08-08,C011,Sofía Herrera,Lima,P007,Memoria USB 64GB,Almacenamiento,1,48.00
+V0181,2026-07-06,C016,Diego Sánchez,Iquitos,P009,Router TP-Link,Redes,1,199.50
+V0182,2026-07-26,C009,Lucía Campos,Ica,P002,Mouse Logitech,Accesorios,4,75.00
+V0183,2026-09-23,C014,Ricardo León,Cusco,P010,Webcam HD,Accesorios,3,120.00
+V0184,2026-09-26,C006,Carlos Rojas,Piura,P010,Webcam HD,Accesorios,5,120.00
+V0185,2026-09-19,C007,Elena Flores,Chiclayo,P007,Memoria USB 64GB,almacenamiento ,1,50.40
+V0186,2026-07-21,C009,Lucía Campos,Ica,P009,Router TP-Link,Redes,3,180.50
+V0187,2026-08-20,C012,Daniel Chávez,Trujillo,P007,Memoria USB 64GB,Almacenamiento,4,50.40
+V0188,2026-09-30,C009,Lucía Campos,Ica,P003,Monitor Samsung,Tecnología,2,807.50
+V0189,2026-07-14,C007,Elena Flores,Chiclayo,P004,Teclado mecánico,Accesorios,1,180.00
+V0190,2026-07-04,C011,Sofía Herrera,Lima,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0191,2026-09-02,C013,Paola Castillo,Arequipa,P005,Impresora Epson,Tecnología,5,714.00
+V0192,2026-08-25,C002,Luis Pérez,Arequipa,P009,Router TP-Link,Redes,1,190.00
+V0193,2026-09-24,C017,Carmen Ruiz,Lima,P009,Router TP-Link,Redes,4,190.00
+V0194,2026-07-21,C003,Rosa Díaz,Trujillo,P005,Impresora Epson,Tecnología,4,680.00
+V0195,2026-08-03,C019,Gabriela Ortiz,Chimbote,P009,Router TP-Link,Redes,2,180.50
+V0196,2026-08-04,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,1,270.75
+V0197,2026-07-28,C009,Lucía Campos,Ica,P008,Auriculares Sony,Accesorios,1,210.00
+V0198,2026-08-28,C004,Pedro Salazar,Lima,P001,Laptop Lenovo,Tecnología,1,2450.00
+V0199,2026-07-14,C002,Luis Pérez,Arequipa,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0200,2026-09-16,C018,José Mendoza,Puno,P005,Impresora Epson,Tecnología,2,646.00
+V0201,2026-07-03,,Paola Castillo,Arequipa,P004,Teclado mecánico,Accesorios,2,180.00
+V0202,2026-08-03,C014,Ricardo León,Cusco,P003,Monitor Samsung,Tecnología,2,892.50
+V0203,2026-07-22,C017,Carmen Ruiz,Lima,P004,Teclado mecánico,Accesorios,5,180.00
+V0204,2026-08-21,C012,Daniel Chávez,Trujillo,P001,Laptop Lenovo,Tecnología,2,2327.50
+V0205,2026-08-12,C017,Carmen Ruiz,Lima,P011,Disco HDD 2TB,Almacenamiento,4,299.25
+V0206,2026-08-11,C002,Luis Pérez,Arequipa,P009,Router TP-Link,Redes,1,190.00
+V0207,2026-07-21,C009,Lucía Campos,Ica,P003,Monitor Samsung,Tecnología,2,807.50
+V0208,2026-09-05,C011,Sofía Herrera,Lima,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0209,2026-07-08,C018,José Mendoza,Puno,P003,Monitor Samsung,Tecnología,3,807.50
+V0210,2026-08-02,C016,Diego Sánchez,Iquitos,P010,Webcam HD,Accesorios,5,126.00
+V0211,2026-07-03,C019,Gabriela Ortiz,Chimbote,P010,Webcam HD,Accesorios,5,120.00
+V0212,2026-07-30,C013,Paola Castillo,Arequipa,P012,Switch 8 puertos,Redes,1,155.00
+V0213,2026-07-13,C003,Rosa Díaz,Trujillo,P007,Memoria USB 64GB,Almacenamiento,2,48.00
+V0214,2026-09-10,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,4,114.00
+V0215,2026-09-30,C010,Miguel Paredes,Tacna,P007,Memoria USB 64GB,Almacenamiento,5,48.00
+V0216,2026-07-18,C018,José Mendoza,Puno,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0217,2026-07-24,C020,Fernando Peña,Huánuco,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0218,2026-07-21,C016,Diego Sánchez,Iquitos,P009,Router TP-Link,Redes,5,190.00
+V0219,2026-09-28,C011,Sofía Herrera,Lima,P002,Mouse Logitech,Accesorios,1,75.00
+V0220,2026-08-02,C010,Miguel Paredes,Tacna,P005,Impresora Epson,Tecnología,1,680.00
+V0221,2026-07-23,C014,Ricardo León,Cusco,P010,Webcam HD,Accesorios,5,120.00
+V0222,2026-08-29,C004,Pedro Salazar,Lima,P003,Monitor Samsung,Tecnología,4,850.00
+V0223,2026-09-17,C010,Miguel Paredes,Tacna,P010,Webcam HD,Accesorios,2,120.00
+V0224,2026-07-21,C009,  LUCÍA CAMPOS  ,Ica,P007,Memoria USB 64GB,Almacenamiento,2,45.60
+V0225,2026-08-17,C015,Valeria Núñez,Piura,P010,Webcam HD,Accesorios,2,126.00
+V0226,2026-09-14,C002,Luis Pérez,Arequipa,P010,Webcam HD,Accesorios,1,120.00
+V0227,2026-09-28,C008,Jorge Medina,Huancayo,P012,Switch 8 puertos,Redes,1,155.00
+V0228,2026-07-07,C002,Luis Pérez,Arequipa,P010,Webcam HD,Accesorios,2,120.00
+V0229,2026-08-07,C010,Miguel Paredes,Tacna,P012,Switch 8 puertos,Redes,4,155.00
+V0230,2026-07-23,C017,Carmen Ruiz,Lima,P009,Router TP-Link,Redes,3,190.00
+V0231,2026-09-08,C013,Paola Castillo,Arequipa,P006,Disco SSD 1TB,Almacenamiento,5,320.00
+V0232,2026-09-01,C020,Fernando Peña,Huánuco,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0233,2026-09-14,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,1,270.75
+V0234,2026-09-15,C014,Ricardo León,Cusco,P003,Monitor Samsung,Tecnología,5,850.00
+V0235,2026-09-23,C015,Valeria Núñez,Piura,P006,Disco SSD 1TB,Almacenamiento,4,320.00
+V0236,2026-09-18,C015,Valeria Núñez,Piura,P011,Disco HDD 2TB,Almacenamiento,2,270.75
+V0237,2026-07-24,C012,Daniel Chávez,Trujillo,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0238,2026-07-12,C011,Sofía Herrera,Lima,P002,Mouse Logitech,Accesorios,4,71.25
+V0239,2026-07-25,C012,Daniel Chávez,Trujillo,P004,Teclado mecánico,Accesorios,2,180.00
+V0240,2026-09-07,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,2,320.00
+V0241,2026-09-23,C006,Carlos Rojas,Piura,P002,Mouse Logitech,Accesorios,2,71.25
+V0242,2026-08-26,C019,Gabriela Ortiz,Chimbote,P004,Teclado mecánico,Accesorios,5,180.00
+V0243,2026-08-19,C003,Rosa Díaz,Trujillo,P999,Impresora Epson,Tecnología,1,714.00
+V0244,2026-07-22,C019,Gabriela Ortiz,Chimbote,P004,Teclado mecánico,Accesorios,1,189.00
+V0245,2026-07-03,C016,Diego Sánchez,Iquitos,P008,Auriculares Sony,Accesorios,3,220.50
+V0246,2026-09-12,C006,Carlos Rojas,Piura,P008,Auriculares Sony,Accesorios,3,210.00
+V0247,2026-08-19,C009,Lucía Campos,Ica,P005,Impresora Epson,Tecnología,5,680.00
+V0248,2026-07-30,C005,María Vega,Cusco,P004,Teclado mecánico,Accesorios,2,171.00
+V0249,2026-08-16,C007,Elena Flores,Chiclayo,P007,Memoria USB 64GB,Almacenamiento,2,48.00
+V0250,2026-09-30,C012,Daniel Chávez,Trujillo,P003,Monitor Samsung,Tecnología,2,850.00
+V0251,2026-09-30,C016,Diego Sánchez,Iquitos,P001,Laptop Lenovo,Tecnología,1,2572.50
+V0252,2026-08-31,C012,Daniel Chávez,Trujillo,P003,Monitor Samsung,Tecnología,2,850.00
+V0253,2026-09-02,C016,Diego Sánchez,Iquitos,P002,Mouse Logitech,Accesorios,1,71.25
+V0254,2026-08-04,C014,Ricardo León,Cusco,P004,Teclado mecánico,Accesorios,5,180.00
+V0255,2026-07-18,C003,Rosa Díaz,Trujillo,P006,Disco SSD 1TB,Almacenamiento,2,320.00
+V0256,2026-09-20,C007,Elena Flores,Chiclayo,P011,Disco HDD 2TB,Almacenamiento,2,270.75
+V0257,2026-07-03,C002,Luis Pérez,Arequipa,P012,Switch 8 puertos,Redes,5,155.00
+V0258,2026-09-24,C019,Gabriela Ortiz,Chimbote,P009,Router TP-Link,Redes,3,190.00
+V0259,2026-07-15,C009,Lucía Campos,Ica,P002,Mouse Logitech,Accesorios,5,75.00
+V0260,2026-09-11,C009,Lucía Campos,Ica,P001,Laptop Lenovo,Tecnología,1,2327.50
+V0261,2026-08-24,C018,José Mendoza,Puno,P005,Impresora Epson,Tecnología,2,714.00
+V0262,08/09/2026,C012,Daniel Chávez,Trujillo,P004,Teclado mecánico,Accesorios,2,180.00
+V0263,2026-08-10,C015,Valeria Núñez,Piura,P003,Monitor Samsung,Tecnología,3,850.00
+V0264,2026-09-24,C007,Elena Flores,Chiclayo,P002,Mouse Logitech,Accesorios,5,75.00
+V0265,2026-07-05,C006,Carlos Rojas,Piura,P009,Router TP-Link,Redes,4,190.00
+V0266,2026-08-28,C009,Lucía Campos,Ica,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0267,2026-09-18,C003,Rosa Díaz,Trujillo,P002,Mouse Logitech,Accesorios,1,75.00
+V0268,2026-07-19,C010,Miguel Paredes,Tacna,P011,Disco HDD 2TB,Almacenamiento,4,299.25
+V0269,2026-09-08,C001,Ana Torres,Lima,P001,Laptop Lenovo,Tecnología,3,2327.50
+V0270,2026-07-10,C013,Paola Castillo,Arequipa,P005,Impresora Epson,Tecnología,5,646.00
+V0271,2026-07-29,C018,José Mendoza,Puno,P008,Auriculares Sony,Accesorios,1,220.50
+V0272,2026-07-13,C002,Luis Pérez,Arequipa,P008,Auriculares Sony,Accesorios,3,220.50
+V0273,2026-09-08,C005,María Vega,Cusco,P003,Monitor Samsung,Tecnología,1,850.00
+V0274,2026-08-29,C017,Carmen Ruiz,Lima,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0275,2026-08-04,C016,Diego Sánchez,Iquitos,P011,Disco HDD 2TB,Almacenamiento,4,285.00
+V0276,2026-08-01,C005,María Vega,Cusco,P012,Switch 8 puertos,Redes,2,162.75
+V0276,2026-07-14,C016,Diego Sánchez,Iquitos,P008,Auriculares Sony,Accesorios,2,199.50
+V0278,2026-07-08,C002,Luis Pérez,Arequipa,P008,Auriculares Sony,Accesorios,3,210.00
+V0279,2026-08-06,C017,Carmen Ruiz,Lima,P006,Disco SSD 1TB,Almacenamiento,5,320.00
+V0280,2026-08-24,C016,Diego Sánchez,Iquitos,P004,Teclado mecánico,Accesorios,5,189.00
+V0281,2026-07-06,C004,Pedro Salazar,Lima,P009,Router TP-Link,Redes,3,190.00
+V0282,2026-08-31,C013,Paola Castillo,Arequipa,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0283,2026-08-16,C010,Miguel Paredes,Tacna,P011,Disco HDD 2TB,Almacenamiento,2,270.75
+V0284,2026-07-08,C020,Fernando Peña,Huánuco,P008,Auriculares Sony,Accesorios,2,210.00
+V0285,2026-07-31,C003,Rosa Díaz,Trujillo,P001,Laptop Lenovo,Tecnología,2,2572.50
+V0286,2026-07-08,C016,Diego Sánchez,Iquitos,P010,Webcam HD,Accesorios,1,114.00
+V0287,2026-08-18,C020,Fernando Peña,Huánuco,P001,Laptop Lenovo,Tecnología,5,2327.50
+V0288,2026-08-27,C017,Carmen Ruiz,Lima,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0289,2026-07-18,C012,Daniel Chávez,Trujillo,P006,Disco SSD 1TB,Almacenamiento,5,320.00
+V0290,2026-08-11,C014,Ricardo León,Cusco,P010,Webcam HD,Accesorios,4,120.00
+V0291,2026-07-26,C002,Luis Pérez,Arequipa,P001,Laptop Lenovo,Tecnología,5,2572.50
+V0292,2026-07-06,C013,Paola Castillo,Arequipa,P003,Monitor Samsung,Tecnología,1,850.00
+V0293,2026-08-07,C018,José Mendoza,Puno,P004,Teclado mecánico,Accesorios,1,180.00
+V0294,2026-07-12,C003,Rosa Díaz,Trujillo,P002,Mouse Logitech,Accesorios,5,78.75
+V0295,2026-09-08,C007,Elena Flores,Chiclayo,P012,Switch 8 puertos,Redes,5,147.25
+V0296,2026-08-24,C007,Elena Flores,Chiclayo,P005,Impresora Epson,Tecnología,5,646.00
+V0297,2026-08-23,C014,Ricardo León,Cusco,P010,Webcam HD,Accesorios,2,120.00
+V0298,2026-09-03,C012,Daniel Chávez, ,P008,Auriculares Sony,Accesorios,2,199.50
+V0299,2026-07-22,C016,Diego Sánchez,Iquitos,P004,Teclado mecánico,Accesorios,1,189.00
+V0300,2026-09-07,C016,Diego Sánchez,Iquitos,P008,Auriculares Sony,Accesorios,4,210.00
+V0301,2026-08-24,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0302,2026-07-20,C015,Valeria Núñez,Piura,P009,Router TP-Link,Redes,2,190.00
+V0303,2026-07-30,C008,Jorge Medina,Huancayo,P008,Auriculares Sony,Accesorios,2,210.00
+V0304,2026-08-17,C011,Sofía Herrera,Lima,P010,Webcam HD,Accesorios,2,120.00
+V0305,2026-09-01,C020,Fernando Peña,Huánuco,P007,Memoria USB 64GB,Almacenamiento,1,50.40
+V0306,2026-09-20,C017,Carmen Ruiz,Lima,P010,Webcam HD,Accesorios,4,126.00
+V0307,2026-07-06,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0308,2026-07-30,C015,Valeria Núñez,Piura,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0309,2026-07-09,C012,Daniel Chávez,Trujillo,P004,Teclado mecánico,Accesorios,1,189.00
+V0310,2026-08-30,C002,Luis Pérez,Arequipa,P002,Mouse Logitech,Accesorios,2,71.25
+V0311,2026-07-19,C019,Gabriela Ortiz,Chimbote,P011,Disco HDD 2TB,Almacenamiento,2,285.00
+V0312,2026-08-17,C005,María Vega,Cusco,P012,Switch 8 puertos,Redes,1,155.00
+V0313,2026-08-07,C009,Lucía Campos,Ica,P005,Impresora Epson,Tecnología,3,714.00
+V0314,2026-09-13,C004,Pedro Salazar,Lima,P002,Mouse Logitech,Accesorios,4,75.00
+V0315,2026-09-07,C011,Sofía Herrera,Lima,P006,Disco SSD 1TB,Almacenamiento,4,320.00
+V0316,2026-09-26,C019,Gabriela Ortiz,Chimbote,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0317,2026-08-05,C019,Gabriela Ortiz,Chimbote,P012,Switch 8 puertos,Redes,2,155.00
+V0318,2026-08-10,C017,Carmen Ruiz,Lima,P010,Webcam HD,Accesorios,4,120.00
+V0319,2026-07-08,C007,Elena Flores,Chiclayo,P004,Teclado mecánico,Accesorios,1,189.00
+V0320,2026-07-17,C014,Ricardo León,Cusco,P003,Monitor Samsung,Tecnología,1,850.00
+V0321,2026-08-14,C003,Rosa Díaz,Trujillo,P007,Memoria USB 64GB,Almacenamiento,1,45.60
+V0322,2026-09-21,C007,Elena Flores,Chiclayo,P002,Mouse Logitech,Accesorios,5,75.00
+V0323,2026-08-28,C009,Lucía Campos,Ica,P006,Disco SSD 1TB,almacenamiento ,5,304.00
+V0324,2026-09-01,C009,Lucía Campos,Ica,P008,Auriculares Sony,Accesorios,4,199.50
+V0325,2026-07-22,C005,María Vega,Cusco,P004,Teclado mecánico,Accesorios,1,180.00
+V0326,2026-07-22,C012,Daniel Chávez,Trujillo,P012,Switch 8 puertos,Redes,5,155.00
+V0327,2026-07-03,C011,Sofía Herrera,Lima,P009,Router TP-Link,Redes,2,190.00
+V0328,2026-09-15,C014,Ricardo León,Cusco,P005,Impresora Epson,Tecnología,4,714.00
+V0329,2026-09-11,C014,Ricardo León,Cusco,P009,Router TP-Link,Redes,4,199.50
+V0330,2026-08-28,C004,Pedro Salazar,Lima,P001,Laptop Lenovo,Tecnología,5,2450.00
+V0331,2026-08-29,C015,Valeria Núñez,Piura,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0332,2026-09-01,C019,Gabriela Ortiz,Chimbote,P012,Switch 8 puertos,Redes,2,162.75
+V0333,2026-07-18,C015,Valeria Núñez,Piura,P004,Teclado mecánico,Accesorios,3,180.00
+V0334,2026-08-08,C017,Carmen Ruiz,Lima,P003,Monitor Samsung,Tecnología,5,807.50
+V0335,2026-08-20,C014,Ricardo León,Cusco,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0336,2026-07-08,C012,Daniel Chávez,Trujillo,P010,Webcam HD,Accesorios,3,120.00
+V0337,2026-07-15,C005,María Vega,Cusco,P009,Router TP-Link,Redes,1,190.00
+V0338,2026-09-06,C006,Carlos Rojas,Piura,P010,Webcam HD,Accesorios,2,sin dato
+V0339,2026-08-25,C019,Gabriela Ortiz,Chimbote,P006,Disco SSD 1TB,Almacenamiento,3,320.00
+V0340,2026-07-05,C017,Carmen Ruiz,Lima,P008,Auriculares Sony,Accesorios,5,210.00
+V0341,2026-08-04,C017,Carmen Ruiz,Lima,P010,Webcam HD,Accesorios,1,120.00
+V0342,2026-07-03,C007,Elena Flores,Chiclayo,P010,Webcam HD,Accesorios,5,126.00
+V0343,2026-09-06,C007,Elena Flores,Chiclayo,P009,Router TP-Link,Redes,1,199.50
+V0344,2026-08-26,C015,Valeria Núñez,Piura,P012,Switch 8 puertos,Redes,5,155.00
+V0345,2026-09-20,C001,Ana Torres,Lima,P004,Teclado mecánico,Accesorios,1,180.00
+V0346,2026-09-24,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,1,114.00
+V0347,2026-07-01,C010,Miguel Paredes,Tacna,P011,Disco HDD 2TB,Almacenamiento,2,285.00
+V0348,2026-07-09,C017,Carmen Ruiz,Lima,P006,Disco SSD 1TB,Almacenamiento,3,320.00
+V0349,2026-08-13,C001,Ana Torres,Lima,P012,Switch 8 puertos,Redes,3,147.25
+V0350,2026-09-12,C012,Daniel Chávez,Trujillo,P010,Webcam HD,Accesorios,4,126.00
+V0351,2026-09-26,C006,Carlos Rojas,Piura,P012,Switch 8 puertos,Redes,4,147.25
+V0352,2026-07-19,C018,José Mendoza,Puno,P012,Switch 8 puertos,Redes,5,162.75
+V0353,2026-08-25,C016,Diego Sánchez,Iquitos,P006,Disco SSD 1TB,Almacenamiento,1,304.00
+V0354,2026-07-10,C007,Elena Flores,Chiclayo,P002,Mouse Logitech,Accesorios,3,75.00
+V0355,2026-07-05,C008,Jorge Medina,Huancayo,P004,Teclado mecánico,Accesorios,3,171.00
+V0356,2026-09-18,C012,Daniel Chávez,Trujillo,P010,Webcam HD,Accesorios,0,126.00
+V0357,2026-07-17,C002,Luis Pérez,Arequipa,P003,Monitor Samsung,Tecnología,5,850.00
+V0358,2026-08-05,C003,Rosa Díaz,Trujillo,P008,Auriculares Sony,Accesorios,1,210.00
+V0359,2026-09-06,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,5,120.00
+V0360,2026-07-28,C001,Ana Torres,Lima,P003,Monitor Samsung,Tecnología,4,850.00
+V0361,2026-09-23,C001,Ana Torres,Lima,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0362,2026-08-13,C001,Ana Torres,Lima,P010,Webcam HD,Accesorios,3,120.00
+V0363,2026-09-30,C005,María Vega,Cusco,P003,Monitor Samsung,Tecnología,4,850.00
+V0364,2026-07-09,C013,Paola Castillo,Arequipa,P006,Disco SSD 1TB,Almacenamiento,5,336.00
+V0365,2026-07-27,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,4,210.00
+V0366,2026-09-21,C006,Carlos Rojas,Piura,P009,Router TP-Link,Redes,4,199.50
+V0367,2026-09-26,C009,Lucía Campos,Ica,P008,Auriculares Sony,Accesorios,2,210.00
+V0368,2026-09-26,C003,Rosa Díaz,Trujillo,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0369,2026-07-06,C004,Pedro Salazar,Lima,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0370,2026-08-12,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,5,199.50
+V0371,2026-09-06,C015,Valeria Núñez,Piura,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0372,2026-07-04,C019,  GABRIELA ORTIZ  ,Chimbote,P001,Laptop Lenovo,Tecnología,2,2450.00
+V0373,2026-08-07,C014,Ricardo León,Cusco,P002,Mouse Logitech,Accesorios,1,71.25
+V0374,2026-08-01,C019,Gabriela Ortiz,Chimbote,P003,Monitor Samsung,Tecnología,1,892.50
+V0375,2026-08-30,C008,Jorge Medina,Huancayo,P005,Impresora Epson,Tecnología,4,680.00
+V0376,2026-09-10,C015,Valeria Núñez,Piura,P001,Laptop Lenovo,Tecnología,1,2450.00
+V0377,2026-08-03,C017,Carmen Ruiz,Lima,P002,Mouse Logitech,Accesorios,5,75.00
+V0378,2026-08-20,C010,Miguel Paredes,Tacna,P006,Disco SSD 1TB,Almacenamiento,2,304.00
+V0379,2026-09-05,C010,Miguel Paredes,Tacna,P008,Auriculares Sony,Accesorios,5,210.00
+V0380,2026-09-22,C009,Lucía Campos,Ica,P001,Laptop Lenovo,Tecnología,4,2450.00
+V0381,2026-07-13,C017,Carmen Ruiz,Lima,P002,Mouse Logitech,Accesorios,2,78.75
+V0382,2026-09-30,C007,Elena Flores,Chiclayo,P010,Webcam HD,Accesorios,5,120.00
+V0383,2026-09-01,C004,Pedro Salazar,Lima,P009,Router TP-Link,Redes,3,180.50
+V0384,2026-07-27,C020,Fernando Peña,Huánuco,P006,Disco SSD 1TB,Almacenamiento,3,304.00
+V0385,2026-08-15,C012,Daniel Chávez,Trujillo,P002,Mouse Logitech,Accesorios,2,75.00
+V0386,2026-08-28,C001,Ana Torres,Lima,P009,Router TP-Link,Redes,2,180.50
+V0387,2026-07-15,C014,Ricardo León,Cusco,P003,Monitor Samsung,Tecnología,5,850.00
+V0388,2026-07-04,C007,Elena Flores,Chiclayo,P003,Monitor Samsung,Tecnología,1,850.00
+V0389,2026-07-10,C017,Carmen Ruiz,Lima,P005,Impresora Epson,Tecnología,3,680.00
+V0390,2026-08-30,,Sofía Herrera,Lima,P007,Memoria USB 64GB,Almacenamiento,5,48.00
+V0391,2026-09-28,C006,Carlos Rojas,Piura,P012,Switch 8 puertos,Redes,2,147.25
+V0392,2026-07-03,C004,Pedro Salazar,Lima,P010,Webcam HD,Accesorios,5,120.00
+V0393,2026-08-16,C019,Gabriela Ortiz,Chimbote,P005,Impresora Epson,Tecnología,2,680.00
+V0394,2026-09-05,C004,Pedro Salazar,Lima,P004,Teclado mecánico,Accesorios,1,180.00
+V0395,2026-09-05,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,3,220.50
+V0396,2026-07-28,C012,Daniel Chávez,Trujillo,P002,Mouse Logitech,Accesorios,1,75.00
+V0397,2026-07-10,C015,Valeria Núñez,Piura,P003,Monitor Samsung,Tecnología,3,850.00
+V0398,2026-08-30,C014,Ricardo León,Cusco,P012,Switch 8 puertos,Redes,2,162.75
+V0399,2026-07-07,C001,Ana Torres,Lima,P004,Teclado mecánico,Accesorios,4,189.00
+V0400,2026-09-25,C002,Luis Pérez,Arequipa,P010,Webcam HD,Accesorios,2,126.00
+V0401,2026-07-17,C017,Carmen Ruiz,Lima,P003,Monitor Samsung,Tecnología,2,892.50
+V0402,2026-08-18,C011,Sofía Herrera,Lima,P003,Monitor Samsung,Tecnología,3,850.00
+V0403,2026-09-17,C011,Sofía Herrera,Lima,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0404,12/07/2026,C018,José Mendoza,Puno,P012,Switch 8 puertos,Redes,4,155.00
+V0405,2026-08-22,C008,Jorge Medina,Huancayo,P008,Auriculares Sony,Accesorios,4,210.00
+V0406,2026-09-20,C008,Jorge Medina,Huancayo,P002,Mouse Logitech,Accesorios,5,78.75
+V0407,2026-07-31,C002,Luis Pérez,Arequipa,P003,Monitor Samsung,Tecnología,2,850.00
+V0408,2026-09-16,C009,Lucía Campos,Ica,P004,Teclado mecánico,Accesorios,3,171.00
+V0409,2026-08-12,C017,Carmen Ruiz,Lima,P012,Switch 8 puertos,Redes,5,162.75
+V0410,2026-08-29,C007,Elena Flores,Chiclayo,P007,Memoria USB 64GB,Almacenamiento,1,50.40
+V0411,2026-07-09,C019,Gabriela Ortiz,Chimbote,P007,Memoria USB 64GB,Almacenamiento,5,48.00
+V0412,2026-08-11,C009,Lucía Campos,Ica,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0413,2026-08-05,C020,Fernando Peña,Huánuco,P011,Disco HDD 2TB,Almacenamiento,1,299.25
+V0414,2026-09-14,C007,Elena Flores,Chiclayo,P006,Disco SSD 1TB,Almacenamiento,5,304.00
+V0415,2026-07-08,C007,Elena Flores,Chiclayo,P012,Switch 8 puertos,Redes,3,162.75
+V0416,2026-07-10,C003,Rosa Díaz,Trujillo,P010,Webcam HD,Accesorios,3,120.00
+V0417,2026-08-01,C011,Sofía Herrera,Lima,P005,Impresora Epson,Tecnología,3,680.00
+V0418,2026-09-08,C019,Gabriela Ortiz,Chimbote,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0419,2026-09-07,C003,Rosa Díaz,Trujillo,P002,Mouse Logitech,Accesorios,5,75.00
+V0420,2026-07-06,C008,Jorge Medina,Huancayo,P003,Monitor Samsung,Tecnología,2,850.00
+V0421,2026-08-24,C004,Pedro Salazar,Lima,P006,Disco SSD 1TB,Almacenamiento,1,320.00
+V0422,2026-08-18,C019,Gabriela Ortiz,Chimbote,P007,Memoria USB 64GB,Almacenamiento,2,48.00
+V0423,2026-07-27,C006,Carlos Rojas,Piura,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0424,2026-09-02,C018,José Mendoza,Puno,P007,Memoria USB 64GB,Almacenamiento,5,45.60
+V0425,2026-07-05,C004,Pedro Salazar,Lima,P005,Impresora Epson,Tecnología,5,-15.00
+V0426,2026-09-14,C015,Valeria Núñez,Piura,P010,Webcam HD,Accesorios,3,120.00
+V0427,2026-09-04,C007,Elena Flores,Chiclayo,P008,Auriculares Sony,Accesorios,2,210.00
+V0428,2026-09-12,C018,José Mendoza,Puno,P009,Router TP-Link,Redes,3,190.00
+V0429,2026-07-04,C008,Jorge Medina,Huancayo,P012,Switch 8 puertos,Redes,1,162.75
+V0430,2026-09-09,C014,Ricardo León,Cusco,P012,Switch 8 puertos,Redes,5,155.00
+V0431,2026-07-01,C001,Ana Torres,Lima,P002,Mouse Logitech,Accesorios,4,78.75
+V0432,2026-09-10,C016,Diego Sánchez,Iquitos,P011,Disco HDD 2TB,Almacenamiento,2,299.25
+V0433,2026-08-08,C018,José Mendoza,Puno,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0434,2026-07-17,C009,Lucía Campos,Ica,P004,Teclado mecánico,Accesorios,2,180.00
+V0435,2026-08-31,C012,Daniel Chávez,Trujillo,P005,Impresora Epson,Tecnología,2,646.00
+V0436,2026-07-15,C004,Pedro Salazar,Lima,P011,Disco HDD 2TB,Almacenamiento,3,299.25
+V0437,2026-07-03,C016,Diego Sánchez,Iquitos,P005,Impresora Epson,Tecnología,1,714.00
+V0438,2026-07-10,C011,Sofía Herrera,Lima,P002,Mouse Logitech,Accesorios,3,75.00
+V0439,2026-07-01,C014,Ricardo León,Cusco,P005,Impresora Epson,Tecnología,5,680.00
+V0440,2026-09-16,C003,Rosa Díaz,Trujillo,P012,Switch 8 puertos,Redes,2,147.25
+V0441,2026-07-01,C018,José Mendoza,Puno,P008,Auriculares Sony,Accesorios,4,220.50
+V0442,2026-09-27,C015,Valeria Núñez,Piura,P012,Switch 8 puertos,Redes,5,155.00
+V0443,2026-09-30,C017,Carmen Ruiz,Lima,P002,Mouse Logitech,Accesorios,4,75.00
+V0444,2026-08-10,C017,Carmen Ruiz,Lima,P011,Disco HDD 2TB,Almacenamiento,2,285.00
+V0445,2026-07-05,C018,José Mendoza,Puno,P007,Memoria USB 64GB,Almacenamiento,3,48.00
+V0446,2026-08-26,C019,Gabriela Ortiz,Chimbote,P002,Mouse Logitech,Accesorios,2,78.75
+V0447,2026-07-17,C004,Pedro Salazar,Lima,P006,Disco SSD 1TB,Almacenamiento,3,304.00
+V0448,2026-07-08,C005,María Vega,Cusco,P003,Monitor Samsung,Tecnología,5,850.00
+V0449,2026-08-25,C002,  LUIS PÉREZ  ,Arequipa,P004,Teclado mecánico,Accesorios,4,180.00
+V0450,2026-09-16,C020,Fernando Peña,Huánuco,P011,Disco HDD 2TB,Almacenamiento,4,285.00
+V0451,2026-09-26,C014,Ricardo León,Cusco,P010,Webcam HD,Accesorios,5,126.00
+V0452,2026-07-30,C016,Diego Sánchez,Iquitos,P011,Disco HDD 2TB,Almacenamiento,4,299.25
+V0453,2026-09-01,C003,Rosa Díaz,Trujillo,P004,Teclado mecánico,Accesorios,5,180.00
+V0454,2026-07-19,C020,Fernando Peña,Huánuco,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0455,2026-09-30,C013,Paola Castillo,Arequipa,P002,Mouse Logitech,Accesorios,2,71.25
+V0456,2026-09-18,C009,Lucía Campos,Ica,P010,Webcam HD,Accesorios,5,114.00
+V0457,2026-09-09,C008,Jorge Medina,Huancayo,P010,Webcam HD,Accesorios,1,126.00
+V0458,2026-08-23,C006,Carlos Rojas,Piura,P001,Laptop Lenovo,Tecnología,3,2450.00
+V0459,2026-07-12,C004,Pedro Salazar,Lima,P011,Disco HDD 2TB,Almacenamiento,2,299.25
+V0460,2026-07-20,C009,Lucía Campos, ,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0461,2026-09-07,C004,Pedro Salazar,Lima,P009,Router TP-Link,Redes,5,199.50
+V0462,2026-07-01,C016,Diego Sánchez,Iquitos,P005,Impresora Epson,Tecnología,2,714.00
+V0463,2026-09-28,C017,Carmen Ruiz,Lima,P009,Router TP-Link,Redes,2,199.50
+V0464,2026-08-30,C020,Fernando Peña,Huánuco,P001,Laptop Lenovo,Tecnología,5,2572.50
+V0465,2026-07-09,C020,Fernando Peña,Huánuco,P007,Memoria USB 64GB,Almacenamiento,4,48.00
+V0466,2026-07-21,C015,Valeria Núñez,Piura,P006,Disco SSD 1TB,Almacenamiento,1,304.00
+V0467,2026-08-07,C006,Carlos Rojas,Piura,P008,Auriculares Sony,Accesorios,2,210.00
+V0468,2026-07-02,C006,Carlos Rojas,Piura,P005,Impresora Epson,tecnología ,4,680.00
+V0469,2026-09-21,C011,Sofía Herrera,Lima,P004,Teclado mecánico,Accesorios,1,189.00
+V0470,2026-07-19,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,2,299.25
+V0471,2026-08-26,C019,Gabriela Ortiz,Chimbote,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0472,2026-07-24,C014,Ricardo León,Cusco,P011,Disco HDD 2TB,Almacenamiento,1,285.00
+V0473,2026-08-02,C001,Ana Torres,Lima,P008,Auriculares Sony,Accesorios,4,210.00
+V0474,2026-07-16,C004,Pedro Salazar,Lima,P006,Disco SSD 1TB,Almacenamiento,4,320.00
+V0475,2026-09-28,C017,Carmen Ruiz,Lima,P008,Auriculares Sony,Accesorios,3,220.50
+V0476,2026-09-14,C018,José Mendoza,Puno,P007,Memoria USB 64GB,Almacenamiento,1,48.00
+V0477,2026-09-13,C002,Luis Pérez,Arequipa,P003,Monitor Samsung,Tecnología,1,892.50
+V0478,2026-09-21,C003,Rosa Díaz,Trujillo,P011,Disco HDD 2TB,Almacenamiento,4,285.00
+V0479,2026-07-25,C007,Elena Flores,Chiclayo,P002,Mouse Logitech,Accesorios,3,75.00
+V0480,2026-08-16,C018,José Mendoza,Puno,P999,Monitor Samsung,Tecnología,4,807.50
+V0481,2026-09-21,C009,Lucía Campos,Ica,P011,Disco HDD 2TB,Almacenamiento,3,270.75
+V0482,2026-07-10,C001,Ana Torres,Lima,P003,Monitor Samsung,Tecnología,2,850.00
+V0483,2026-08-03,C004,Pedro Salazar,Lima,P009,Router TP-Link,Redes,2,180.50
+V0484,2026-09-16,C009,Lucía Campos,Ica,P011,Disco HDD 2TB,Almacenamiento,3,285.00
+V0485,2026-09-28,C005,María Vega,Cusco,P007,Memoria USB 64GB,Almacenamiento,4,45.60
+V0486,2026-09-05,C007,Elena Flores,Chiclayo,P001,Laptop Lenovo,Tecnología,4,2450.00
+V0487,2026-09-04,C002,Luis Pérez,Arequipa,P010,Webcam HD,Accesorios,3,114.00
+V0488,2026-08-12,C013,Paola Castillo,Arequipa,P012,Switch 8 puertos,Redes,5,155.00
+V0489,2026-08-01,C003,Rosa Díaz,Trujillo,P004,Teclado mecánico,Accesorios,4,171.00
+V0490,2026-07-10,C005,María Vega,Cusco,P006,Disco SSD 1TB,Almacenamiento,5,304.00
+V0491,2026-08-30,C012,Daniel Chávez,Trujillo,P008,Auriculares Sony,Accesorios,4,210.00
+V0492,2026-09-14,C020,Fernando Peña,Huánuco,P004,Teclado mecánico,Accesorios,1,180.00
+V0493,2026-09-17,C005,María Vega,Cusco,P011,Disco HDD 2TB,Almacenamiento,5,285.00
+V0493,2026-08-20,C007,Elena Flores,Chiclayo,P004,Teclado mecánico,Accesorios,5,171.00
+V0495,2026-09-18,C012,Daniel Chávez,Trujillo,P007,Memoria USB 64GB,Almacenamiento,1,48.00
+V0496,2026-07-27,C007,Elena Flores,Chiclayo,P009,Router TP-Link,Redes,2,180.50
+V0497,2026-09-18,C019,Gabriela Ortiz,Chimbote,P008,Auriculares Sony,Accesorios,1,210.00
+V0498,2026-08-31,C011,Sofía Herrera,Lima,P009,Router TP-Link,Redes,1,190.00
+V0499,2026-08-22,C009,Lucía Campos,Ica,P005,Impresora Epson,Tecnología,4,646.00
+V0500,2026-08-13,C018,José Mendoza,Puno,P004,Teclado mecánico,Accesorios,3,180.00

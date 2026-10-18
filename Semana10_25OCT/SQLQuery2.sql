@@ -1,0 +1,14 @@
+SELECT DB_NAME();
+go
+
+
+SELECT TABLE_NAME 
+FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_SCHEMA = 'dbo' AND TABLE_TYPE = 'BASE TABLE';
+go
+
+
+select * from dbo.FactVentas;
+go
+
+
