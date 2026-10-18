@@ -1,0 +1,2985 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/2/2019 7:50:51 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="C103-25DGPROG"
+  DTS:CreatorName="C103-25DGPROG\Alumno"
+  DTS:DTSID="{4CE60B01-84FC-4177-9F3C-1D19106F4699}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.845.0"
+  DTS:LocaleID="10250"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{1F6D107F-C6C8-47B7-BC7B-F1D512A607A4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.Northwind]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6DC47A41-8AA9-46D9-BEB4-6139373120FB}"
+      DTS:ObjectName="localhost.Northwind">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=Northwind;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{6DC47A41-8AA9-46D9-BEB4-6139373120FB}localhost.Northwind;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[localhost.Northwind_DM]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{523CB79F-128C-4E52-A91C-6D7800BF06D1}"
+      DTS:ObjectName="localhost.Northwind_DM">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=Northwind_DM;Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Package-{523CB79F-128C-4E52-A91C-6D7800BF06D1}localhost.Northwind_DM;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Limpiar_Northwind_DM"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{A1DE5590-92C7-40B3-9550-917A3844E8BC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Limpiar_Northwind_DM"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{523CB79F-128C-4E52-A91C-6D7800BF06D1}"
+          SQLTask:SqlStatementSource="DELETE FROM VENTAS_FACT;&#xA;DELETE FROM TIEMPO;&#xA;DELETE FROM EMPLEADO;&#xA;DELETE FROM CLIENTE;&#xA;DELETE FROM PROVEEDOR;&#xA;DELETE FROM PRODUCTO;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_CLIENTE"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{79A811B1-2127-4A6E-9A2B-3FF9188978B9}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_CLIENTE"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_CLIENTE\Escribir_CLIENTE"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_CLIENTE"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[CLIENTE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[idCliente]"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].Columns[CompanyName]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="CompanyName"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[nomCliente]"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CompanyName]" />
+                    <inputColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[paisCliente]"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[Country]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[idCliente]"
+                      dataType="wstr"
+                      length="5"
+                      name="idCliente" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[nomCliente]"
+                      dataType="wstr"
+                      length="40"
+                      name="nomCliente" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input].ExternalColumns[paisCliente]"
+                      dataType="wstr"
+                      length="15"
+                      name="paisCliente" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_CLIENTE\Leer_Customers"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Customers"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CustomerID, CompanyName, Country
+FROM Customers;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_CLIENTE\Leer_Customers.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      length="5"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      name="CustomerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                      length="40"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                      name="CompanyName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      length="15"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                      dataType="wstr"
+                      length="40"
+                      name="CompanyName" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                      name="CompanyName" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_CLIENTE.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_CLIENTE\Escribir_CLIENTE.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_CLIENTE\Leer_Customers.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_EMPLEADO"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5F2F3FF8-1C14-4D24-9483-9F8135AF77F3}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_EMPLEADO"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_EMPLEADO"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[EMPLEADO]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[idEmpleado]"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].Columns[Empleado]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="Empleado"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[nomEmpleado]"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Empleado]" />
+                    <inputColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].Columns[Edad]"
+                      cachedDataType="i4"
+                      cachedName="Edad"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[edadVenta]"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Edad]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[idEmpleado]"
+                      dataType="i4"
+                      name="idEmpleado" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[nomEmpleado]"
+                      dataType="wstr"
+                      length="40"
+                      name="nomEmpleado" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input].ExternalColumns[edadVenta]"
+                      dataType="i2"
+                      name="edadVenta" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_EMPLEADO\Leer_Employees"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Employees"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT EmployeeID,
+	LastName + ', ' + FirstName AS Empleado,
+	DATEDIFF(year, BirthDate, getdate()) AS Edad
+FROM Employees;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_EMPLEADO\Leer_Employees.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      name="EmployeeID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Empleado]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[Empleado]"
+                      length="32"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Empleado]"
+                      name="Empleado"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Edad]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[Edad]"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].Columns[Edad]"
+                      name="Edad"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[Empleado]"
+                      dataType="wstr"
+                      length="32"
+                      name="Empleado" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output].ExternalColumns[Edad]"
+                      dataType="i4"
+                      name="Edad" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      name="EmployeeID" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[Empleado]"
+                      dataType="wstr"
+                      length="32"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[Empleado]"
+                      name="Empleado" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[Edad]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[Edad]"
+                      name="Edad" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_EMPLEADO.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_EMPLEADO\Escribir_EMPLEADO.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_EMPLEADO\Leer_Employees.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_PRODUCTO"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{612C54A0-EC1B-4FED-87C4-13902C4DAC64}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_PRODUCTO"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_PRODUCTO"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PRODUCTO]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[idProducto]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].Columns[ProductName]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="ProductName"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[nomProducto]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductName]" />
+                    <inputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].Columns[CategoryID]"
+                      cachedDataType="i4"
+                      cachedName="CategoryID"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[idCategoria]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryID]" />
+                    <inputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].Columns[CategoryName]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="CategoryName"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[nomCategoria]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryName]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[idProducto]"
+                      dataType="i4"
+                      name="idProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[nomProducto]"
+                      dataType="wstr"
+                      length="40"
+                      name="nomProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[idCategoria]"
+                      dataType="i4"
+                      name="idCategoria" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input].ExternalColumns[nomCategoria]"
+                      dataType="wstr"
+                      length="15"
+                      name="nomCategoria" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_PRODUCTO\Leer_Products_Categories"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Products_Categories"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Products.ProductID, Products.ProductName,
+	Products.CategoryID, Categories.CategoryName
+FROM Categories INNER JOIN Products
+	ON Categories.CategoryID = Products.CategoryID;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                      length="40"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[ProductName]"
+                      name="ProductName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                      name="CategoryID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[CategoryName]"
+                      length="15"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].Columns[CategoryName]"
+                      name="CategoryName"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[ProductName]"
+                      dataType="wstr"
+                      length="40"
+                      name="ProductName" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                      dataType="i4"
+                      name="CategoryID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output].ExternalColumns[CategoryName]"
+                      dataType="wstr"
+                      length="15"
+                      name="CategoryName" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ProductName]"
+                      name="ProductName" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                      name="CategoryID" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[CategoryName]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[CategoryName]"
+                      name="CategoryName" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_PRODUCTO.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_PRODUCTO\Escribir_PRODUCTO.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_PRODUCTO\Leer_Products_Categories.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_PROVEEDOR"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7E0D85FE-B9A7-4F5B-982D-8D6C259209DC}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_PROVEEDOR"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_PROVEEDOR"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[PROVEEDOR]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].Columns[SupplierID]"
+                      cachedDataType="i4"
+                      cachedName="SupplierID"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[idProveedor]"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[SupplierID]" />
+                    <inputColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].Columns[CompanyName]"
+                      cachedDataType="wstr"
+                      cachedLength="40"
+                      cachedName="CompanyName"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[nomProveedor]"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[CompanyName]" />
+                    <inputColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].Columns[Country]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[paisProveedor]"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[Country]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[idProveedor]"
+                      dataType="i4"
+                      name="idProveedor" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[nomProveedor]"
+                      dataType="wstr"
+                      length="40"
+                      name="nomProveedor" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input].ExternalColumns[paisProveedor]"
+                      dataType="wstr"
+                      length="15"
+                      name="paisProveedor" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_PROVEEDOR\Leer_Suppliers"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Suppliers"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT SupplierID, CompanyName, Country
+FROM Suppliers;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      name="SupplierID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                      length="40"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[CompanyName]"
+                      name="CompanyName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[Country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      length="15"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      dataType="i4"
+                      name="SupplierID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[CompanyName]"
+                      dataType="wstr"
+                      length="40"
+                      name="CompanyName" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      name="Country" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      name="SupplierID" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                      dataType="wstr"
+                      length="40"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[CompanyName]"
+                      name="CompanyName" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      dataType="wstr"
+                      length="15"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_PROVEEDOR.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_PROVEEDOR\Leer_Suppliers.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_TIEMPO"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8F93E475-AC55-4799-A316-E57AA65E0086}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_TIEMPO"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_TIEMPO\Escribir_TIEMPO"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_TIEMPO"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TIEMPO]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].Columns[Año]"
+                      cachedDataType="i4"
+                      cachedName="Año"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[año]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Año]" />
+                    <inputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].Columns[Semestre]"
+                      cachedDataType="i4"
+                      cachedName="Semestre"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[semestre]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Semestre]" />
+                    <inputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].Columns[Trimestre]"
+                      cachedDataType="i4"
+                      cachedName="Trimestre"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[trimestre]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Trimestre]" />
+                    <inputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].Columns[Mes]"
+                      cachedDataType="i4"
+                      cachedName="Mes"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[mes]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Mes]" />
+                    <inputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[fecha]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[fecha]"
+                      dataType="dbDate"
+                      name="fecha" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[año]"
+                      dataType="i2"
+                      name="año" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[semestre]"
+                      dataType="i2"
+                      name="semestre" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[trimestre]"
+                      dataType="i2"
+                      name="trimestre" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input].ExternalColumns[mes]"
+                      dataType="i2"
+                      name="mes" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_TIEMPO\Leer_Orders"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Orders"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT DISTINCT OrderDate, YEAR(OrderDate) AS Año,
+	CASE
+		WHEN MONTH(OrderDate) IN (1,2,3,4,5,6)
+			THEN 1
+		ELSE 2
+	END AS Semestre,
+	DATEPART(quarter, OrderDate) AS Trimestre,
+	MONTH(OrderDate) AS Mes
+FROM Orders;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_TIEMPO\Leer_Orders.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      name="OrderDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Año]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Año]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Año]"
+                      name="Año"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Semestre]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Semestre]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Semestre]"
+                      name="Semestre"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Trimestre]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Trimestre]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Trimestre]"
+                      name="Trimestre"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Mes]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Mes]"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].Columns[Mes]"
+                      name="Mes"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Año]"
+                      dataType="i4"
+                      name="Año" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Semestre]"
+                      dataType="i4"
+                      name="Semestre" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Trimestre]"
+                      dataType="i4"
+                      name="Trimestre" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output].ExternalColumns[Mes]"
+                      dataType="i4"
+                      name="Mes" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      name="OrderDate" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Año]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Año]"
+                      name="Año" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Semestre]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Semestre]"
+                      name="Semestre" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Trimestre]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Trimestre]"
+                      name="Trimestre" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Mes]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[Mes]"
+                      name="Mes" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_TIEMPO.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_TIEMPO\Escribir_TIEMPO.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_TIEMPO\Leer_Orders.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Poblar_VENTAS_FACT"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{502B8244-9694-41D0-9D39-068E8B4E3D2C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Poblar_VENTAS_FACT"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Escribir_VENTAS_FACT"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[VENTAS_FACT]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind_DM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[Monto]"
+                      cachedDataType="r4"
+                      cachedName="Monto"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[monto]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Monto]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[OrderID]"
+                      cachedDataType="i4"
+                      cachedName="OrderID"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idVenta]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderID]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idProducto]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idCliente]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[SupplierID]"
+                      cachedDataType="i4"
+                      cachedName="SupplierID"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idProveedor]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[SupplierID]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[EmployeeID]"
+                      cachedDataType="i4"
+                      cachedName="EmployeeID"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idEmpleado]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[EmployeeID]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[OrderDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="OrderDate"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[fecha]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderDate]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="i2"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[unidades]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].Columns[UnitPrice]"
+                      cachedDataType="cy"
+                      cachedName="UnitPrice"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[precioVenta]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[UnitPrice]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[VentaKey]"
+                      dataType="i4"
+                      name="VentaKey" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idVenta]"
+                      dataType="i4"
+                      name="idVenta" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idProducto]"
+                      dataType="i4"
+                      name="idProducto" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idCliente]"
+                      dataType="wstr"
+                      length="5"
+                      name="idCliente" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idProveedor]"
+                      dataType="i4"
+                      name="idProveedor" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[idEmpleado]"
+                      dataType="i4"
+                      name="idEmpleado" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[fecha]"
+                      dataType="dbDate"
+                      name="fecha" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[unidades]"
+                      dataType="i4"
+                      name="unidades" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[precioVenta]"
+                      dataType="cy"
+                      name="precioVenta" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input].ExternalColumns[monto]"
+                      dataType="cy"
+                      name="monto" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Poblar_VENTAS_FACT\Leer_Ventas"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Leer_Ventas"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=16.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Orders.OrderID, [Order Details].ProductID,
+	Orders.CustomerID, Products.SupplierID,
+	Orders.EmployeeID, Orders.OrderDate,
+	[Order Details].Quantity, [Order Details].UnitPrice,
+	[Order Details].Quantity * [Order Details].UnitPrice *
+	(1 - [Order Details].Discount) AS Monto
+FROM Orders INNER JOIN [Order Details]
+	ON Orders.OrderID = [Order Details].OrderID
+INNER JOIN Products
+	ON [Order Details].ProductID = Products.ProductID;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[localhost.Northwind]"
+                  connectionManagerRefId="Package.ConnectionManagers[localhost.Northwind]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderID]"
+                      name="OrderID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      length="5"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      name="CustomerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[SupplierID]"
+                      name="SupplierID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[EmployeeID]"
+                      name="EmployeeID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      name="OrderDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[UnitPrice]"
+                      name="UnitPrice"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Monto]"
+                      dataType="r4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[Monto]"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].Columns[Monto]"
+                      name="Monto"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                      dataType="i4"
+                      name="OrderID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      dataType="wstr"
+                      length="5"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[SupplierID]"
+                      dataType="i4"
+                      name="SupplierID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[EmployeeID]"
+                      dataType="i4"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="i2"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[UnitPrice]"
+                      dataType="cy"
+                      name="UnitPrice" />
+                    <externalMetadataColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output].ExternalColumns[Monto]"
+                      dataType="r4"
+                      name="Monto" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                      name="OrderID" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[SupplierID]"
+                      name="SupplierID" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[EmployeeID]"
+                      name="EmployeeID" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      name="OrderDate" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="i2"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                      dataType="cy"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[UnitPrice]"
+                      name="UnitPrice" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[Monto]"
+                      dataType="r4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[Monto]"
+                      name="Monto" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Poblar_VENTAS_FACT.Paths[OLE DB Source Output]"
+              endId="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Poblar_VENTAS_FACT\Leer_Ventas.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{84874EE0-0519-4390-8693-8FCAAFF856D5}"
+      DTS:From="Package\Limpiar_Northwind_DM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Poblar_CLIENTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{ADAEA756-7051-4037-A499-B56BAEBF2EBC}"
+      DTS:From="Package\Limpiar_Northwind_DM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Poblar_EMPLEADO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{C34738D1-5C90-479B-A748-C5FD68DDDCAD}"
+      DTS:From="Package\Limpiar_Northwind_DM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 2"
+      DTS:To="Package\Poblar_PROVEEDOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{72BBBD59-B311-4063-8806-D24E787F0D74}"
+      DTS:From="Package\Limpiar_Northwind_DM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 3"
+      DTS:To="Package\Poblar_PRODUCTO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{0C74771B-82A8-4294-9F8B-B8F9B29DBBCC}"
+      DTS:From="Package\Limpiar_Northwind_DM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 4"
+      DTS:To="Package\Poblar_TIEMPO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{E746620F-E77A-45D8-9DBE-B7919D0D3A75}"
+      DTS:From="Package\Poblar_CLIENTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 5"
+      DTS:To="Package\Poblar_VENTAS_FACT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{7B2D3B16-CD0E-4986-ACF4-56FFFE11758E}"
+      DTS:From="Package\Poblar_EMPLEADO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 6"
+      DTS:To="Package\Poblar_VENTAS_FACT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{7A72272B-A056-49C4-B61E-D21CB7FADBC6}"
+      DTS:From="Package\Poblar_PROVEEDOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 7"
+      DTS:To="Package\Poblar_VENTAS_FACT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{C02C37BE-B397-4A62-8B4C-46F5F1E826D8}"
+      DTS:From="Package\Poblar_PRODUCTO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 8"
+      DTS:To="Package\Poblar_VENTAS_FACT" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{18238C05-1398-4728-9874-7188A6D2D7D8}"
+      DTS:From="Package\Poblar_TIEMPO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 9"
+      DTS:To="Package\Poblar_VENTAS_FACT" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="188.8,41.6"
+          Id="Package\Limpiar_Northwind_DM"
+          TopLeft="269,37" />
+        <NodeLayout
+          Size="155.2,41.6"
+          Id="Package\Poblar_CLIENTE"
+          TopLeft="32,149" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Poblar_EMPLEADO"
+          TopLeft="281,150" />
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\Poblar_PRODUCTO"
+          TopLeft="154,210" />
+        <NodeLayout
+          Size="174.4,41.6"
+          Id="Package\Poblar_PROVEEDOR"
+          TopLeft="540.444444444444,146.111111111111" />
+        <NodeLayout
+          Size="152,41.6"
+          Id="Package\Poblar_TIEMPO"
+          TopLeft="428,211" />
+        <NodeLayout
+          Size="183.2,41.6"
+          Id="Package\Poblar_VENTAS_FACT"
+          TopLeft="273,436" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="303.166666666667,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-193.666666666667,70"
+              Start="0,0"
+              End="-193.666666666667,62.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.5880829015544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.5880829015544"
+                    Point2="0,18.5880829015544"
+                    Point3="-4,18.5880829015544" />
+                  <mssgle:LineSegment
+                    End="-189.666666666667,18.5880829015544" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-189.666666666667,18.5880829015544"
+                    Point2="-193.666666666667,18.5880829015544"
+                    Point3="-193.666666666667,22.5880829015544" />
+                  <mssgle:LineSegment
+                    End="-193.666666666667,62.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="364,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71"
+              Start="0,0"
+              End="0,63.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 2]"
+          TopLeft="423.833333333333,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="203.611111111111,67.111111111111"
+              Start="0,0"
+              End="203.611111111111,59.611111111111">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.8209556706966" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.8209556706966"
+                    Point2="0,17.8209556706966"
+                    Point3="4,17.8209556706966" />
+                  <mssgle:LineSegment
+                    End="199.611111111111,17.8209556706966" />
+                  <mssgle:CubicBezierSegment
+                    Point1="199.611111111111,17.8209556706966"
+                    Point2="203.611111111111,17.8209556706966"
+                    Point3="203.611111111111,21.8209556706966" />
+                  <mssgle:LineSegment
+                    End="203.611111111111,59.611111111111" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 3]"
+          TopLeft="333.333333333333,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-94.8333333333333,131"
+              Start="0,0"
+              End="-94.8333333333333,123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.0598111227702" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,49.0598111227702"
+                    Point2="0,53.0598111227702"
+                    Point3="-4,53.0598111227702" />
+                  <mssgle:LineSegment
+                    End="-90.8333333333333,53.0598111227702" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-90.8333333333333,53.0598111227702"
+                    Point2="-94.8333333333333,53.0598111227702"
+                    Point3="-94.8333333333333,57.0598111227702" />
+                  <mssgle:LineSegment
+                    End="-94.8333333333333,123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 4]"
+          TopLeft="393.666666666667,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="110.333333333333,132"
+              Start="0,0"
+              End="110.333333333333,124.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.4648478488982" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,49.4648478488982"
+                    Point2="0,53.4648478488982"
+                    Point3="4,53.4648478488982" />
+                  <mssgle:LineSegment
+                    End="106.333333333333,53.4648478488982" />
+                  <mssgle:CubicBezierSegment
+                    Point1="106.333333333333,53.4648478488982"
+                    Point2="110.333333333333,53.4648478488982"
+                    Point3="110.333333333333,57.4648478488982" />
+                  <mssgle:LineSegment
+                    End="110.333333333333,124.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 5]"
+          TopLeft="109.5,191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="196.666666666667,245"
+              Start="0,0"
+              End="196.666666666667,237.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,175.819518716578" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,175.819518716578"
+                    Point2="0,179.819518716578"
+                    Point3="4,179.819518716578" />
+                  <mssgle:LineSegment
+                    End="192.666666666667,179.819518716578" />
+                  <mssgle:CubicBezierSegment
+                    Point1="192.666666666667,179.819518716578"
+                    Point2="196.666666666667,179.819518716578"
+                    Point3="196.666666666667,183.819518716578" />
+                  <mssgle:LineSegment
+                    End="196.666666666667,237.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 6]"
+          TopLeft="364.5,192">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,244"
+              Start="0,0"
+              End="0,236.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,236.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 7]"
+          TopLeft="627.444444444444,188.111111111111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-204.611111111111,247.888888888889"
+              Start="0,0"
+              End="-204.611111111111,240.388888888889">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,177.939839572193" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,177.939839572193"
+                    Point2="0,181.939839572193"
+                    Point3="-4,181.939839572193" />
+                  <mssgle:LineSegment
+                    End="-200.611111111111,181.939839572193" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-200.611111111111,181.939839572193"
+                    Point2="-204.611111111111,181.939839572193"
+                    Point3="-204.611111111111,185.939839572193" />
+                  <mssgle:LineSegment
+                    End="-204.611111111111,240.388888888889" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 8]"
+          TopLeft="238.5,252">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="96.8333333333333,184"
+              Start="0,0"
+              End="96.8333333333333,176.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.4431202600217" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,71.4431202600217"
+                    Point2="0,75.4431202600217"
+                    Point3="4,75.4431202600217" />
+                  <mssgle:LineSegment
+                    End="92.8333333333333,75.4431202600217" />
+                  <mssgle:CubicBezierSegment
+                    Point1="92.8333333333333,75.4431202600217"
+                    Point2="96.8333333333333,75.4431202600217"
+                    Point3="96.8333333333333,79.4431202600217" />
+                  <mssgle:LineSegment
+                    End="96.8333333333333,176.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 9]"
+          TopLeft="504,253">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-110.333333333333,183"
+              Start="0,0"
+              End="-110.333333333333,175.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.8483206933911" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,71.8483206933911"
+                    Point2="0,75.8483206933911"
+                    Point3="-4,75.8483206933911" />
+                  <mssgle:LineSegment
+                    End="-106.333333333333,75.8483206933911" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-106.333333333333,75.8483206933911"
+                    Point2="-110.333333333333,75.8483206933911"
+                    Point3="-110.333333333333,79.8483206933911" />
+                  <mssgle:LineSegment
+                    End="-110.333333333333,175.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Poblar_CLIENTE">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Poblar_CLIENTE\Leer_Customers"
+          TopLeft="273,33" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Poblar_CLIENTE\Escribir_CLIENTE"
+          TopLeft="272,174" />
+        <EdgeLayout
+          Id="Package\Poblar_CLIENTE.Paths[OLE DB Source Output]"
+          TopLeft="351.25,75">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,99"
+              Start="0,0"
+              End="0,91.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,91.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_CLIENTE\Escribir_CLIENTE">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_CLIENTE\Leer_Customers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Poblar_EMPLEADO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Poblar_EMPLEADO\Leer_Employees"
+          TopLeft="348,55" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Poblar_EMPLEADO\Escribir_EMPLEADO"
+          TopLeft="342,196" />
+        <EdgeLayout
+          Id="Package\Poblar_EMPLEADO.Paths[OLE DB Source Output]"
+          TopLeft="426.75,97">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,99"
+              Start="0,0"
+              End="0,91.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,91.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_EMPLEADO\Escribir_EMPLEADO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_EMPLEADO\Leer_Employees">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Poblar_PRODUCTO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="201,42"
+          Id="Package\Poblar_PRODUCTO\Leer_Products_Categories"
+          TopLeft="279,61" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Poblar_PRODUCTO\Escribir_PRODUCTO"
+          TopLeft="286,234" />
+        <EdgeLayout
+          Id="Package\Poblar_PRODUCTO.Paths[OLE DB Source Output]"
+          TopLeft="376,103">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,131"
+              Start="0,0"
+              End="0,123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_PRODUCTO\Escribir_PRODUCTO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_PRODUCTO\Leer_Products_Categories">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Poblar_PROVEEDOR">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Poblar_PROVEEDOR\Leer_Suppliers"
+          TopLeft="313,76" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR"
+          TopLeft="301,223" />
+        <EdgeLayout
+          Id="Package\Poblar_PROVEEDOR.Paths[OLE DB Source Output]"
+          TopLeft="388.75,118">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,105"
+              Start="0,0"
+              End="0,97.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,97.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_PROVEEDOR\Escribir_PROVEEDOR">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_PROVEEDOR\Leer_Suppliers">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Poblar_TIEMPO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Poblar_TIEMPO\Escribir_TIEMPO"
+          TopLeft="290,184" />
+        <NodeLayout
+          Size="137,42"
+          Id="Package\Poblar_TIEMPO\Leer_Orders"
+          TopLeft="307,41" />
+        <EdgeLayout
+          Id="Package\Poblar_TIEMPO.Paths[OLE DB Source Output]"
+          TopLeft="372,83">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,101"
+              Start="0,0"
+              End="0,93.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,93.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_TIEMPO\Escribir_TIEMPO">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_TIEMPO\Leer_Orders">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Poblar_VENTAS_FACT">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="137,42"
+          Id="Package\Poblar_VENTAS_FACT\Leer_Ventas"
+          TopLeft="316,39" />
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT"
+          TopLeft="296,188" />
+        <EdgeLayout
+          Id="Package\Poblar_VENTAS_FACT.Paths[OLE DB Source Output]"
+          TopLeft="387,81">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,107"
+              Start="0,0"
+              End="0,99.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,99.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_VENTAS_FACT\Escribir_VENTAS_FACT">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Poblar_VENTAS_FACT\Leer_Ventas">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
