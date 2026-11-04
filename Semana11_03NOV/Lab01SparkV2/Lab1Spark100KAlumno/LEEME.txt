@@ -1,0 +1,9 @@
+UPN · Hands-on 01 · Actualización 100 000 registros
+
+ESTUDIANTE: Guia_ESTUDIANTE_HandsOn01_Spark_100k.docx y HandsOn01_ESTUDIANTE_100k.ipynb
+DOCENTE (NO PUBLICAR): Guia_DOCENTE_HandsOn01_Spark_100k.docx y HandsOn01_DOCENTE_RESUELTO_100k.ipynb
+FUENTE COMUN: registros_operativos_simulados_100k.csv
+GENERADOR: generar_datos_spark.py (biblioteca estándar; semilla 20261103)
+
+Sugerencia: compartir al estudiante solo su guía, notebook y CSV.
+Datos 100% sintéticos: no se deben citar como estadística real.
