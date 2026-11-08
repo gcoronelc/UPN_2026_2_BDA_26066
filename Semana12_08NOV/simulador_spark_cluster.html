@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulador de Apache Spark en modo clúster</title>
+<style>
+:root{--ink:#1b2438;--mut:#5b6578;--line:#d7dce5;--soft:#f4f6fa;--acc:#1f5fd1;--bad:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;font:18px/1.5 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff}
+main{max-width:1240px;margin:0 auto;padding:24px 20px 48px}
+h1{font-size:30px;margin:0 0 6px}
+h2{font-size:21px;margin:0 0 4px}
+.lead{color:var(--mut);margin:0 0 18px;max-width:85ch}
+.hint{color:var(--mut);font-size:16px;margin:0 0 12px}
+.panel{border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:18px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 22px;align-items:end}
+label{display:block;font-weight:600;font-size:16px}
+label output{color:var(--acc);margin-left:6px}
+input[type=range],select{width:100%}
+select{font:inherit;padding:6px}
+.chk{display:flex;gap:8px;align-items:center}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{font:inherit;font-weight:600;padding:10px 22px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer}
+button.sec{background:#fff;color:var(--acc)}
+:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+.top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.box{border:2px solid var(--ink);border-radius:6px;padding:8px 12px}
+.box small,.node small{display:block;color:var(--mut);font-size:14px}
+.ph{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.ph span{border:1px solid var(--line);border-radius:20px;padding:2px 14px;font-size:16px;color:var(--mut)}
+.ph span.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.node{border:2px solid var(--acc);border-radius:8px;padding:10px}
+.node.dead{border-color:var(--bad);background:#fdf1f0}
+.node header{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:600}
+.node header em{font-style:normal;font-size:15px;color:#1e7d4a}
+.node.dead header em{color:var(--bad)}
+.slot{border:1px dashed var(--line);border-radius:6px;padding:4px 10px;min-height:42px;margin-bottom:6px;color:var(--mut);position:relative;overflow:hidden;font-size:16px;background:#fff}
+.slot.busy{border:2px solid var(--c);color:var(--ink)}
+.slot.dead{color:var(--bad);border-color:var(--bad)}
+.slot i{position:absolute;left:0;bottom:0;height:5px;background:var(--c)}
+.parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+.part{border:2px solid var(--c);border-radius:6px;padding:8px 10px}
+.part small{display:block;color:var(--mut);font-size:14px}
+.dots{display:flex;flex-wrap:wrap;gap:3px;margin:6px 0}
+.dot{width:10px;height:10px;border:1.5px solid var(--c);border-radius:2px;background:#fff}
+.dot.run{background:color-mix(in srgb,var(--c) 40%,#fff)}
+.dot.done{background:var(--c)}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--c)}
+.gantt{position:relative}
+.lane{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center}
+.track{position:relative;height:32px;border-bottom:1px solid var(--line)}
+.blk{position:absolute;top:3px;bottom:3px;border-radius:3px;background:var(--c);color:#fff;font-size:13px;padding:0 4px;overflow:hidden;white-space:nowrap;opacity:.25}
+.blk.on{opacity:1}
+.blk.x{background:repeating-linear-gradient(45deg,var(--bad),var(--bad) 5px,#e9a39b 5px,#e9a39b 10px)}
+.band{position:absolute;top:0;bottom:0;background:rgba(240,180,41,.22);left:calc(100px + (100% - 100px) * var(--a));width:calc((100% - 100px) * var(--w));font-size:13px;color:#7a5a00;text-align:center;pointer-events:none}
+.fl{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--bad);left:calc(100px + (100% - 100px) * var(--a))}
+.play{position:absolute;top:0;bottom:0;width:2px;background:var(--bad);left:calc(100px + (100% - 100px) * var(--p,0))}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.m{background:var(--soft);border-radius:6px;padding:10px 12px}
+.m b{display:block;font-size:26px}
+.m span{color:var(--mut);font-size:15px}
+pre{background:var(--soft);padding:12px;border-radius:6px;overflow-x:auto;font:16px/1.5 Consolas,monospace;margin:0}
+ul{margin:0;padding-left:20px;max-height:200px;overflow:auto;font-size:16px}
+.obs{margin:12px 0 0;padding:10px 12px;border-left:4px solid var(--acc);background:var(--soft)}
+@media(max-width:700px){.top{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>Apache Spark en modo clúster</h1>
+<p class="lead">Simulación didáctica del modo <i>standalone</i>. El <b>driver</b> divide el trabajo en tareas, el <b>maestro</b> administra los <b>workers</b> (nodos) y cada worker ejecuta tareas en sus núcleos. Tras la etapa <i>map</i> ocurre un <i>shuffle</i> (intercambio de datos entre nodos) y luego la etapa de reducción. Los tiempos son simulados y no son mediciones reales.</p>
+
+<section class="panel" aria-label="Parámetros">
+<div class="controls">
+<label>Elementos de datos <output id="on"></output><input id="n" type="range" min="8" max="96" step="8" value="48"></label>
+<label>Particiones <output id="op"></output><input id="p" type="range" min="1" max="16" value="8"></label>
+<label>Nodos worker <output id="ow"></output><input id="w" type="range" min="1" max="4" value="3"></label>
+<label>Núcleos por worker <output id="oc"></output><input id="c" type="range" min="1" max="4" value="2"></label>
+<label>Velocidad<select id="sp"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+<label class="chk"><input id="fail" type="checkbox"> Simular falla de un worker</label>
+<label class="chk"><input id="skew" type="checkbox"> Datos desbalanceados</label>
+</div>
+<div class="btns"><button id="go">Ejecutar</button><button id="rs" class="sec">Reiniciar</button></div>
+</section>
+
+<section class="panel"><h2>1. Arquitectura del clúster</h2>
+<div class="top">
+<div class="box"><b>Driver</b><small>Aplicación PySpark: divide el trabajo en tareas y recibe el resultado final.</small></div>
+<div class="box"><b>Maestro (Master)</b><small>spark://IP_MAESTRO:7077: registra workers y detecta los que dejan de responder.</small></div>
+</div>
+<div class="ph" id="ph"><span data-k="map">Etapa 1: map</span><span data-k="shuf">Shuffle</span><span data-k="red">Etapa 2: reducción</span><span data-k="fin">Resultado al driver</span></div>
+<div id="nodes" class="nodes"></div></section>
+
+<section class="panel"><h2>2. Particiones</h2>
+<p class="hint">Cuadrito vacío: en espera. Medio relleno: procesándose. Sólido: terminado.</p>
+<div id="parts" class="parts"></div></section>
+
+<section class="panel"><h2>3. Línea de tiempo por núcleo</h2>
+<p class="hint">N = nodo worker, h = hilo (núcleo). Rayado rojo: tarea interrumpida por la falla. Franja amarilla: shuffle.</p>
+<div id="gantt" class="gantt"></div></section>
+
+<section class="panel"><h2>Resultados de la simulación</h2>
+<div class="metrics" id="mt"></div>
+<p class="obs" id="obs"></p></section>
+
+<section class="panel"><h2>Cómo se arma este clúster en Windows (inicio manual) y código PySpark</h2><pre id="code"></pre></section>
+
+<section class="panel"><h2>Registro de eventos</h2><ul id="log"></ul></section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const COST=120,OVH=150,LAT=60;  // ms simulados: costo por elemento, planificación y latencia de red
+let S,t=0,playing=false,last=0,logi=0;
+const dist=(tot,k)=>Array.from({length:k},(_,i)=>Math.floor(tot/k)+(i<tot%k?1:0));
+const colr=i=>`hsl(${Math.round((i*360/S.P+210)%360)},62%,40%)`;
+
+function run(tasks,W,C,tf,fw){
+  const sl=[],at=[],q=tasks.map(k=>({k,r:0}));
+  for(let w=0;w<W;w++)for(let c=0;c<C;c++)sl.push({w,c,f:0});
+  while(q.length){
+    const j=q.shift();let b=null,bs=0;
+    for(const s of sl){const st=Math.max(s.f,j.r);if(s.w===fw&&st>=tf)continue;if(!b||st<bs){b=s;bs=st;}}
+    const en=bs+j.k.dur;
+    if(b.w===fw&&en>tf){at.push({i:j.k.i,w:b.w,c:b.c,st:bs,en:tf,fail:1});b.f=tf;j.r=tf;q.unshift(j);}
+    else{at.push({i:j.k.i,w:b.w,c:b.c,st:bs,en,fail:0});b.f=en;}
+  }
+  return at;
+}
+function plan(N,P,W,C,skew,fail,isBase){
+  let sizes=dist(N,P);
+  if(skew&&P>1){const a=Math.max(1,Math.min(Math.ceil(N*.5),N-(P-1)));sizes=[a,...dist(N-a,P-1)];}
+  let off=0;
+  const tasks=sizes.map((n,i)=>{const o=off;off+=n;return{i,n,o,dur:OVH+LAT+n*COST};});
+  let at=run(tasks,W,C,Infinity,-1),tf=Infinity,fw=-1;
+  if(fail&&W>1){const m0=Math.max(...at.map(a=>a.en));tf=m0*.5;fw=W-1;at=run(tasks,W,C,tf,fw);}
+  const mapEnd=Math.max(...at.filter(a=>!a.fail).map(a=>a.en));
+  const sd=W>1?200+Math.round(N*8*(W-1)/W):80;
+  const alive=[];for(let w=0;w<W;w++)if(w!==fw)alive.push(w);
+  const rd=OVH+LAT+Math.round(N/alive.length)*40;
+  const reds=alive.map(w=>({w,c:0,st:mapEnd+sd,en:mapEnd+sd+rd}));
+  const total=mapEnd+sd+rd;
+  const busy=at.reduce((a,x)=>a+x.en-x.st,0)+rd*alive.length;
+  return{N,P,W,C,skew,fail:fw>=0,tasks,at,tf,fw,mapEnd,sd,reds,total,busy,
+    base:isBase?0:plan(N,1,1,1,false,false,true).total};
+}
+
+function build(){
+  playing=false;t=0;logi=0;$('go').textContent='Ejecutar';$('log').innerHTML='';
+  const N=+$('n').value,P=Math.min(+$('p').value,N),W=+$('w').value,C=+$('c').value;
+  $('on').textContent=N;$('op').textContent=P;$('ow').textContent=W;$('oc').textContent=C;
+  S=plan(N,P,W,C,$('skew').checked,$('fail').checked,false);
+  S.ev=[];
+  S.at.forEach(a=>{
+    S.ev.push({t:a.st,m:`Tarea ${a.i} inicia en N${a.w+1}·h${a.c+1}.`});
+    S.ev.push({t:a.en,m:a.fail?`Tarea ${a.i} se pierde: el nodo N${a.w+1} dejó de responder.`:`Tarea ${a.i} termina en N${a.w+1}·h${a.c+1}.`});
+  });
+  if(S.fail){S.ev.push({t:S.tf,m:`El maestro deja de recibir latidos de N${S.fw+1} y lo marca como caído.`});
+    S.ev.push({t:S.tf+1,m:'Las tareas perdidas se reprograman en los nodos restantes.'});}
+  S.ev.push({t:S.mapEnd,m:`Etapa 1 completa: inicia el shuffle entre ${S.W-(S.fail?1:0)} nodo(s).`});
+  S.ev.push({t:S.mapEnd+S.sd,m:'Shuffle completo: inician las tareas de reducción.'});
+  S.ev.push({t:S.total,m:'Resultado final entregado al driver.'});
+  S.ev.sort((a,b)=>a.t-b.t);
+  render();draw(0);
+}
+const blk=(st,en,l,c,x)=>`<div class="blk${x?' x':''}" data-s="${st}" style="--c:${c};left:${st/S.total*100}%;width:${(en-st)/S.total*100}%">${l}</div>`;
+
+function render(){
+  $('nodes').innerHTML=Array.from({length:S.W},(_,w)=>`<div class="node" id="nd${w}"><header><span>Worker N${w+1}</span><em>Activo</em></header>${Array.from({length:S.C},(_,c)=>`<div class="slot" id="s${w}_${c}"></div>`).join('')}</div>`).join('');
+  $('parts').innerHTML=S.tasks.map(k=>`<div class="part" id="pt${k.i}" style="--c:${colr(k.i)}"><b>Partición ${k.i}</b><small>${k.n} elementos</small><div class="dots">${'<span class="dot"></span>'.repeat(k.n)}</div><div class="bar"><i></i></div><small class="st"></small></div>`).join('');
+  let g='';
+  for(let w=0;w<S.W;w++)for(let c=0;c<S.C;c++){
+    const b=S.at.filter(a=>a.w===w&&a.c===c).map(a=>blk(a.st,a.en,'T'+a.i,colr(a.i),a.fail)).join('')+S.reds.filter(r=>r.w===w&&c===0).map(r=>blk(r.st,r.en,'Reducir','#46505f')).join('');
+    g+=`<div class="lane"><b>N${w+1}·h${c+1}</b><div class="track">${b}</div></div>`;
+  }
+  g+=`<div class="band" style="--a:${S.mapEnd/S.total};--w:${S.sd/S.total}">Shuffle</div>`;
+  if(S.fail)g+=`<div class="fl" style="--a:${S.tf/S.total}"></div>`;
+  $('gantt').innerHTML=g+'<div class="play"></div>';
+  const sp=S.base/S.total,moved=Math.round(S.N*(S.W-1)/S.W);
+  $('mt').innerHTML=[['Tiempo transcurrido','<b id="el">0,00 s</b>'],['Tiempo total simulado',`<b>${(S.total/1000).toFixed(2)} s</b>`],
+    ['Referencia: 1 nodo, 1 núcleo, 1 partición',`<b>${(S.base/1000).toFixed(2)} s</b>`],['Aceleración',`<b>${sp.toFixed(2)}×</b>`],
+    ['Uso de los núcleos',`<b>${Math.round(S.busy/(S.W*S.C*S.total)*100)} %</b>`],['Elementos movidos entre nodos',`<b>${moved}</b>`]
+  ].map(([l,v])=>`<div class="m">${v}<span>${l}</span></div>`).join('');
+  let o='Configuración equilibrada: las tareas se reparten de forma pareja entre los núcleos del clúster.';
+  if(S.fail)o=`Tolerancia a fallos: al caer N${S.fw+1}, Spark vuelve a ejecutar sus tareas en otros nodos. El resultado es el mismo, pero el tiempo aumenta.`;
+  else if(S.skew&&S.P>1)o='Datos desbalanceados: una partición concentra la mitad del trabajo y su tarea domina el tiempo total aunque haya más nodos.';
+  else if(S.total>=S.base)o='Con tan poco trabajo, la coordinación y el shuffle superan la ganancia: este clúster no compensa frente a un solo nodo.';
+  else if(S.W*S.C>S.P)o='Hay más núcleos que particiones: algunos núcleos quedan libres porque no existen tareas suficientes.';
+  $('obs').textContent='Observación: '+o;
+  $('code').textContent=`# En cada equipo con Windows (cmd, desde la carpeta de Spark):\nbin\\spark-class org.apache.spark.deploy.master.Master                       # equipo maestro\nbin\\spark-class org.apache.spark.deploy.worker.Worker spark://IP_MAESTRO:7077  # cada worker (${S.W})\n\n# En Anaconda (Jupyter o Spyder):\nspark = (SparkSession.builder.master("spark://IP_MAESTRO:7077")\n         .config("spark.executor.cores", ${S.C}).getOrCreate())\nrdd = spark.sparkContext.parallelize(range(${S.N}), numSlices=${S.P})\nres = rdd.map(lambda x: (x % 4, x * x)).reduceByKey(lambda a, b: a + b).collect()`;
+}
+
+function draw(t){
+  S.tasks.forEach(k=>{
+    const as=S.at.filter(a=>a.i===k.i),ok=as.find(a=>!a.fail),ac=as.find(a=>t>=a.st&&t<a.en);
+    const s=ok&&t>=ok.en?'done':ac?'run':as.some(a=>a.fail&&t>=a.en)?'re':'wait';
+    const p=s==='done'?1:ac?Math.min(1,(t-ac.st)/k.dur):0,d=Math.floor(p*k.n),el=$('pt'+k.i);
+    el.querySelectorAll('.dot').forEach((x,j)=>x.className='dot'+(j<d?' done':(j===d&&s==='run'?' run':'')));
+    el.querySelector('.bar i').style.width=p*100+'%';
+    el.querySelector('.st').textContent=s==='done'?'Lista':s==='run'?`Ejecutando en N${ac.w+1}·h${ac.c+1}`:s==='re'?'Reprogramada tras la falla':'En cola';
+  });
+  for(let w=0;w<S.W;w++){
+    const dead=S.fail&&w===S.fw&&t>=S.tf,nd=$('nd'+w);
+    nd.classList.toggle('dead',dead);nd.querySelector('em').textContent=dead?'Caído':'Activo';
+    for(let c=0;c<S.C;c++){
+      const sl=$(`s${w}_${c}`),a=S.at.find(x=>x.w===w&&x.c===c&&t>=x.st&&t<x.en),r=S.reds.find(x=>x.w===w&&c===0&&t>=x.st&&t<x.en);
+      if(a){sl.className='slot busy';sl.style.setProperty('--c',colr(a.i));sl.innerHTML=`Tarea ${a.i} (partición ${a.i})<i style="width:${Math.min(100,(t-a.st)/S.tasks[a.i].dur*100)}%"></i>`;}
+      else if(r){sl.className='slot busy';sl.style.setProperty('--c','#46505f');sl.innerHTML=`Reduciendo<i style="width:${(t-r.st)/(r.en-r.st)*100}%"></i>`;}
+      else if(dead){sl.className='slot dead';sl.textContent='Sin respuesta';}
+      else{sl.className='slot';sl.textContent=t>=S.total?'Finalizado':t>=S.mapEnd&&t<S.mapEnd+S.sd?'Shuffle: intercambiando datos':'Libre';}
+    }
+  }
+  const ph=t<S.mapEnd?'map':t<S.mapEnd+S.sd?'shuf':t<S.total?'red':'fin';
+  document.querySelectorAll('#ph span').forEach(x=>x.classList.toggle('on',x.dataset.k===ph));
+  document.querySelectorAll('.blk').forEach(b=>b.classList.toggle('on',t>=+b.dataset.s));
+  $('gantt').style.setProperty('--p',t/S.total);
+  $('el').textContent=(t/1000).toFixed(2).replace('.',',')+' s';
+  while(logi<S.ev.length&&S.ev[logi].t<=t){const li=document.createElement('li');li.textContent=`${(S.ev[logi].t/1000).toFixed(2)} s: ${S.ev[logi].m}`;$('log').prepend(li);logi++;}
+}
+
+function tick(ts){
+  if(!playing)return;
+  t=Math.min(S.total,t+(ts-last)*(+$('sp').value));last=ts;draw(t);
+  if(t>=S.total){playing=false;$('go').textContent='Ejecutar';return;}
+  requestAnimationFrame(tick);
+}
+$('go').onclick=()=>{
+  if(playing){playing=false;$('go').textContent='Continuar';return;}
+  if(t>=S.total)build();
+  playing=true;$('go').textContent='Pausar';last=performance.now();requestAnimationFrame(tick);
+};
+$('rs').onclick=build;
+['n','p','w','c','fail','skew'].forEach(i=>$(i).addEventListener('input',build));
+build();
+</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arquitectura medallón: Bronze, Silver y Gold</title>
+<style>
+:root{--ink:#1b2438;--mut:#5b6578;--line:#d7dce5;--soft:#f4f6fa;--acc:#1f5fd1;--br:#9c6b3f;--si:#6f7c89;--go:#b08a14;--bad:#b83227}
+*{box-sizing:border-box}
+body{margin:0;font:18px/1.55 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff}
+header,main{max-width:1200px;margin:0 auto;padding:0 20px}
+header{padding-top:22px}
+h1{font-size:30px;margin:0 0 4px}
+h2{font-size:23px;margin:0 0 8px}
+h3{font-size:19px;margin:0 0 4px}
+p{margin:0 0 10px;max-width:85ch}
+.mut{color:var(--mut)}
+nav{display:flex;flex-wrap:wrap;gap:6px;border-bottom:2px solid var(--line);margin:14px 0 20px}
+nav button{font:inherit;font-weight:600;padding:10px 18px;border:0;background:none;color:var(--mut);cursor:pointer;border-bottom:4px solid transparent;margin-bottom:-2px}
+nav button[aria-selected=true]{color:var(--acc);border-bottom-color:var(--acc)}
+:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+section[hidden]{display:none}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:14px 0 18px}
+.fb{flex:1 1 150px;border:2px solid var(--line);border-top:8px solid var(--c,var(--line));border-radius:6px;padding:10px 12px}
+.fb small{display:block;color:var(--mut);font-size:15px;line-height:1.4}
+.ar{align-self:center;font-size:26px;color:var(--mut)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-top:8px solid var(--c);border-radius:6px;padding:14px 16px}
+.card ul{margin:6px 0 0;padding-left:20px}
+.note{border-left:4px solid var(--acc);background:var(--soft);padding:10px 14px;margin:14px 0;max-width:90ch}
+.panel{border:1px solid var(--line);border-top:8px solid var(--c);border-radius:6px;padding:14px 16px;margin-bottom:12px}
+.panel header{padding:0;max-width:none;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.tw{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{border:1px solid var(--line);padding:4px 8px;text-align:left;white-space:nowrap}
+th{background:var(--soft)}
+td.p{background:#fde8e5;color:var(--bad);font-weight:600}
+tr.d td{background:#fff3d6}
+.ap tr{animation:in .45s both}
+@keyframes in{from{opacity:0;transform:translateY(-6px)}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.ap tr{animation:none}}
+.empty{color:var(--mut);margin:8px 0 0}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+button.b{font:inherit;font-weight:600;padding:9px 18px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer}
+button.b.sec{background:#fff;color:var(--acc)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px 16px;margin:8px 0;font-size:16px}
+.rules label{display:flex;gap:8px;align-items:flex-start}
+.kpi{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+.kpi div{background:var(--soft);border-radius:6px;padding:6px 14px}
+.kpi b{font-size:22px;margin-right:6px}
+.bar{display:grid;grid-template-columns:130px 1fr 150px;gap:10px;align-items:center;margin:6px 0;font-size:16px}
+.bar i{display:block;height:20px;background:var(--go);border-radius:3px}
+#msg{min-height:3.2em}
+pre{background:var(--soft);padding:14px;border-radius:6px;overflow-x:auto;font:16px/1.5 Consolas,monospace;margin:0 0 12px}
+ol li{margin-bottom:8px}
+</style>
+</head>
+<body>
+<header>
+<h1>Arquitectura medallón</h1>
+<p class="mut">Bronze, Silver y Gold: cómo los datos mejoran su calidad capa por capa.</p>
+<nav role="tablist" aria-label="Menú">
+<button role="tab" data-t="t1" aria-selected="true">1. Concepto</button>
+<button role="tab" data-t="t2" aria-selected="false">2. Las tres capas</button>
+<button role="tab" data-t="t3" aria-selected="false">3. Simulación</button>
+<button role="tab" data-t="t4" aria-selected="false">4. Código PySpark</button>
+<button role="tab" data-t="t5" aria-selected="false">5. Reflexión crítica</button>
+</nav>
+</header>
+<main>
+
+<section id="t1">
+<h2>¿Qué es?</h2>
+<p>La arquitectura medallón es un <b>patrón de diseño de datos</b> que organiza un <i>lakehouse</i> en capas. Su objetivo es mejorar de forma incremental la estructura y la calidad de los datos a medida que avanzan de Bronze a Silver y a Gold. Es una práctica recomendada, no un requisito.</p>
+<div class="flow" aria-label="Flujo de datos">
+<div class="fb"><b>Fuentes</b><small>Archivos, bases de datos, Kafka, aplicaciones</small></div><span class="ar">→</span>
+<div class="fb" style="--c:var(--br)"><b>Bronze</b><small>Datos crudos, tal como llegaron</small></div><span class="ar">→</span>
+<div class="fb" style="--c:var(--si)"><b>Silver</b><small>Datos limpios y validados</small></div><span class="ar">→</span>
+<div class="fb" style="--c:var(--go)"><b>Gold</b><small>Datos listos para el negocio</small></div><span class="ar">→</span>
+<div class="fb"><b>Consumidores</b><small>Reportes, paneles, modelos de ML</small></div>
+</div>
+<p><b>Idea central:</b> Bronze guarda lo que llegó, Silver guarda lo que es válido y Gold guarda lo que el negocio necesita. Si se descubre un error en una transformación, se corrige la lógica y se reprocesa desde la capa anterior.</p>
+<p class="note">Fuente: documentación de Databricks, «What is the medallion lakehouse architecture?» (docs.databricks.com). Úsela como referencia al citar este material.</p>
+<p>Siguiente paso: revise <b>Las tres capas</b> y luego pruebe la <b>Simulación</b>.</p>
+</section>
+
+<section id="t2" hidden>
+<h2>Las tres capas</h2>
+<div class="cards">
+<div class="card" style="--c:var(--br)"><h3>Bronze: ingesta</h3>
+<p>Recibe los datos sin transformarlos.</p>
+<ul><li>Validación mínima.</li><li>Conserva los errores originales y agrega metadatos (archivo de origen, fecha de ingesta).</li><li>Se recomienda guardar muchos campos como texto para no perder datos si cambia el esquema.</li><li>Permite reprocesar el historial.</li></ul></div>
+<div class="card" style="--c:var(--si)"><h3>Silver: depuración</h3>
+<p>Lee de Bronze y aplica reglas de calidad.</p>
+<ul><li>Elimina duplicados.</li><li>Convierte tipos de datos y estandariza valores.</li><li>Rechaza o aísla filas inválidas.</li><li>No se recomienda escribir en Silver directamente desde la ingesta.</li></ul></div>
+<div class="card" style="--c:var(--go)"><h3>Gold: negocio</h3>
+<p>Prepara los datos para quien decide.</p>
+<ul><li>Agregaciones y modelado dimensional.</li><li>Pocas tablas, nombradas según su uso.</li><li>Pueden existir varias capas Gold por área (finanzas, RR. HH., TI).</li><li>La consumen analistas, ejecutivos y equipos de ML.</li></ul></div>
+</div>
+</section>
+
+<section id="t3" hidden>
+<h2>Simulación: ventas de una tienda</h2>
+<p>Ejecute las etapas en orden. Los datos de origen tienen errores intencionales (resaltados en rojo). Luego active o desactive las reglas de Silver y observe qué cambia en Gold.</p>
+<div class="btns">
+<button class="b" id="b1">1. Ingestar a Bronze</button>
+<button class="b" id="b2">2. Depurar a Silver</button>
+<button class="b" id="b3">3. Agregar a Gold</button>
+<button class="b sec" id="ball">Ejecutar todo</button>
+<button class="b sec" id="brs">Reiniciar</button>
+<label class="rules"><span style="display:flex;gap:8px"><input type="checkbox" id="hl" checked> Resaltar problemas en Bronze</span></label>
+</div>
+<p id="msg" class="note"></p>
+<div class="kpi" id="kpi"></div>
+
+<div class="panel" style="--c:var(--br)"><header><h3>Bronze: datos crudos</h3><span class="mut">Todo se guarda como texto</span></header><div class="tw" id="pb"></div></div>
+
+<div class="panel" style="--c:var(--si)"><header><h3>Silver: datos depurados</h3><span class="mut">Reglas de calidad (pruebe desactivarlas)</span></header>
+<div class="rules">
+<label><input type="checkbox" id="r1" checked> R1. Eliminar duplicados por id</label>
+<label><input type="checkbox" id="r2" checked> R2. Estandarizar región (espacios y mayúsculas)</label>
+<label><input type="checkbox" id="r3" checked> R3. Convertir monto a número</label>
+<label><input type="checkbox" id="r4" checked> R4. Rechazar filas sin cliente o sin monto</label>
+</div>
+<div class="tw" id="ps"></div><div class="tw" id="pq"></div></div>
+
+<div class="panel" style="--c:var(--go)"><header><h3>Gold: ventas por región</h3><span class="mut">Agregación para el reporte gerencial</span></header><div class="tw" id="pg"></div></div>
+</section>
+
+<section id="t4" hidden>
+<h2>El mismo flujo en PySpark</h2>
+<p>Código ilustrativo equivalente a la simulación. En modo local con Anaconda puede guardar cada capa en Parquet; Delta Lake requiere configuración adicional.</p>
+<pre>from pyspark.sql import functions as F
+
+# Bronze: leer todo como texto y agregar metadatos
+bronze = (spark.read.option("header", True).csv("datos/ventas_marzo.csv")
+          .withColumn("_archivo", F.lit("ventas_marzo.csv"))
+          .withColumn("_ingesta", F.current_timestamp()))
+bronze.write.mode("overwrite").parquet("lakehouse/bronze/ventas")
+
+# Silver: depuración y validación
+silver = (spark.read.parquet("lakehouse/bronze/ventas")
+          .dropDuplicates(["id"])                                   # R1
+          .withColumn("region", F.initcap(F.trim("region")))        # R2
+          .withColumn("monto", F.regexp_replace("monto", "S/|\\s", "").cast("double"))  # R3
+          .filter(F.col("cliente").isNotNull() & F.col("monto").isNotNull()))          # R4
+silver.write.mode("overwrite").parquet("lakehouse/silver/ventas")
+
+# Gold: agregación para el negocio
+gold = (silver.groupBy("region")
+        .agg(F.sum("monto").alias("ventas"), F.count("*").alias("n_ventas")))
+gold.write.mode("overwrite").parquet("lakehouse/gold/ventas_por_region")</pre>
+<p class="mut">Nota: en un archivo CSV real, los valores vacíos llegan como nulos y no como cadenas vacías, de modo que la regla R4 filtra con <code>isNotNull()</code>.</p>
+</section>
+
+<section id="t5" hidden>
+<h2>Reflexión crítica</h2>
+<ol>
+<li>¿Por qué Bronze conserva errores en lugar de corregirlos al ingresar? ¿Qué se perdería si los eliminara?</li>
+<li>En la simulación, desactive R2. ¿Qué ocurre con las regiones en Gold y por qué es peligroso para una decisión gerencial?</li>
+<li>Desactive R1. ¿Cuánto se infla el total de ventas? ¿Quién detectaría ese error si solo existiera Gold?</li>
+<li>Si la empresa cambia una regla de negocio, ¿qué capa se recalcula y cuál permanece intacta?</li>
+<li>¿En qué casos no valdría la pena usar tres capas (por ejemplo, un proyecto pequeño o de baja latencia)?</li>
+</ol>
+<div class="note"><b>Matices.</b> La arquitectura medallón agrega almacenamiento, tiempo de proceso y pipelines por mantener. Además, es habitual que proliferen las tablas Gold si no se gobiernan, según reportan guías técnicas de divulgación; contraste este punto con fuentes oficiales antes de citarlo.</div>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+// Menú de pestañas
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('main section').forEach(s=>s.hidden=s.id!==b.dataset.t);
+});
+// Datos de origen (todo como texto)
+const RAW=[
+['1','2026-03-01','Ana Ruiz','norte','Laptop','2500'],['2','2026-03-01','Luis Paz','SUR','Mouse','45.5'],
+['3','2026-03-02','Marta Gil','Norte ','Teclado','120'],['2','2026-03-01','Luis Paz','SUR','Mouse','45.5'],
+['4','2026-03-03','Carlos Soto','centro','Monitor','S/ 900'],['5','2026-03-03','','Sur','Laptop','2400'],
+['6','2026-03-04','Rosa León','CENTRO','Mouse',''],['7','2026-03-04','Juan Vega','norte','Monitor','abc'],
+['8','2026-03-05','Elena Díaz','Sur','Teclado','130'],['9','2026-03-05','Pablo Cruz','Centro','Laptop','2600'],
+['9','2026-03-05','Pablo Cruz','Centro','Laptop','2600'],['10','2026-03-06','Sofía Mora','NORTE','Mouse','50']
+].map(a=>({id:a[0],fecha:a[1],cliente:a[2],region:a[3],producto:a[4],monto:a[5]}));
+const norm=s=>{s=s.trim();return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase()};
+let stage=0,anim=0;
+
+function silver(R){
+  const seen=new Set(),ok=[],bad=[];
+  for(const r of RAW){
+    if(R.r1&&seen.has(r.id)){bad.push([r,'Duplicado (mismo id)']);continue}
+    seen.add(r.id);
+    if(R.r4&&(!r.cliente||r.monto==='')){bad.push([r,'Cliente o monto vacío']);continue}
+    let m=r.monto;
+    if(R.r3){const s=m.replace(/S\/|\s/g,''),n=s===''?NaN:Number(s);if(isNaN(n)){bad.push([r,'Monto no convertible a número']);continue}m=n}
+    ok.push({...r,region:R.r2?norm(r.region):r.region,monto:m});
+  }
+  return{ok,bad};
+}
+function gold(ok){
+  const m={};let inv=0;
+  ok.forEach(r=>{const g=m[r.region]??={region:r.region,sum:0,n:0};g.n++;if(typeof r.monto==='number')g.sum+=r.monto;else inv++});
+  return{rows:Object.values(m).sort((a,b)=>b.sum-a.sum),inv};
+}
+const cell=(v,p)=>`<td${p?' class="p"':''}>${v===''?'<i>(vacío)</i>':v}</td>`;
+const rows=(arr,ap)=>arr.map((h,i)=>`<tr${h.d?' class="d"':''}${ap?` style="animation-delay:${i*50}ms"`:''}>${h.c}</tr>`).join('');
+const tbl=(head,body,ap)=>`<table class="${ap?'ap':''}"><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table>`;
+const H=['id','fecha','cliente','región','producto','monto'];
+
+function sim(){
+  const R={r1:$('r1').checked,r2:$('r2').checked,r3:$('r3').checked,r4:$('r4').checked},hl=$('hl').checked;
+  let nb=0,ns=0,nq=0,ng=0,inv=0;
+  if(stage>=1){
+    const seen=new Set(),b=RAW.map(r=>{const dup=seen.has(r.id);seen.add(r.id);
+      const f=[r.id,r.fecha,r.cliente,r.region,r.producto,r.monto],bad=[false,false,r.cliente==='',r.region!==norm(r.region),false,!/^\d+(\.\d+)?$/.test(r.monto)];
+      return{d:hl&&dup,c:f.map((v,i)=>cell(v,hl&&bad[i])).join('')+'<td>ventas_marzo.csv</td>'}});
+    nb=RAW.length;$('pb').innerHTML=tbl([...H,'_archivo'],rows(b,anim===1),anim===1);
+  }else $('pb').innerHTML='<p class="empty">Sin datos. Pulse «1. Ingestar a Bronze».</p>';
+  let S;
+  if(stage>=2){
+    S=silver(R);ns=S.ok.length;nq=S.bad.length;
+    $('ps').innerHTML=tbl(H,rows(S.ok.map(r=>({c:[r.id,r.fecha,r.cliente,r.region,r.producto,r.monto].map(v=>cell(v)).join('')})),anim===2),anim===2);
+    $('pq').innerHTML=nq?`<h3 style="margin-top:12px">Filas rechazadas (cuarentena): ${nq}</h3>`+tbl([...H,'motivo'],rows(S.bad.map(([r,why])=>({d:1,c:[r.id,r.fecha,r.cliente,r.region,r.producto,r.monto].map(v=>cell(v)).join('')+`<td>${why}</td>`})),false),false):'';
+  }else{$('ps').innerHTML='<p class="empty">Pendiente: pulse «2. Depurar a Silver».</p>';$('pq').innerHTML='';}
+  if(stage>=3){
+    const G=gold(S.ok);ng=G.rows.length;inv=G.inv;const mx=Math.max(1,...G.rows.map(g=>g.sum)),tot=G.rows.reduce((a,g)=>a+g.sum,0);
+    $('pg').innerHTML=`<p><b>Total de ventas: S/ ${tot.toLocaleString('es-PE')}</b>${inv?` <span style="color:var(--bad)">(${inv} fila(s) con monto no numérico contadas como 0)</span>`:''}</p>`+
+      G.rows.map(g=>`<div class="bar"><span>${R.r2?g.region:'"'+g.region+'"'}</span><span><i style="width:${g.sum/mx*100}%"></i></span><span>S/ ${g.sum.toLocaleString('es-PE')} · ${g.n} ventas</span></div>`).join('');
+  }else $('pg').innerHTML='<p class="empty">Pendiente: pulse «3. Agregar a Gold».</p>';
+  $('kpi').innerHTML=[['Bronze',nb,'filas'],['Silver',ns,'filas'],['Rechazadas',nq,'filas'],['Gold',ng,'regiones']].map(([a,b,c])=>`<div><b>${b}</b>${a} (${c})</div>`).join('');
+  $('b1').disabled=stage!==0;$('b2').disabled=stage!==1;$('b3').disabled=stage!==2;$('ball').disabled=stage!==0;
+  $('msg').textContent=[
+    'Pulse «1. Ingestar a Bronze» para cargar los datos tal como llegan de la fuente.',
+    'Bronze guarda los datos sin corregir, incluidos duplicados, vacíos y formatos inconsistentes, y agrega metadatos de ingesta.',
+    `Silver aplicó las reglas: conservó ${ns} filas y aisló ${nq} en cuarentena. Cambie las reglas y vea cómo se recalcula desde Bronze, sin volver a ingestar.`,
+    'Gold resume las ventas por región para el reporte. Desactive R1 o R2 y compare el resultado con el correcto.'][stage];
+  anim=0;
+}
+const go=n=>{stage=n;anim=n;sim()};
+$('b1').onclick=()=>go(1);$('b2').onclick=()=>go(2);$('b3').onclick=()=>go(3);
+$('ball').onclick=()=>go(3);$('brs').onclick=()=>go(0);
+['r1','r2','r3','r4','hl'].forEach(i=>$(i).onchange=sim);
+sim();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+id_registro,fecha,region,sector,consumo_unidades
+C000001,2026-10-01,Lima,Agua,10
+C000002,2026-10-02,La Libertad,Energia,11
+C000003,2026-10-03,Arequipa,Residuos,12
+C000004,2026-10-04,Piura,Agua,13
+C000005,2026-10-05,Lima,Energia,14
+C000006,2026-10-06,La Libertad,Residuos,15
+C000007,2026-10-07,Arequipa,Agua,16
+C000008,2026-10-08,Piura,Energia,17
+C000009,2026-10-09,Lima,Residuos,18
+C000010,2026-10-10,La Libertad,Agua,19
+C000011,2026-10-11,Arequipa,Energia,20
+C000012,2026-10-12,Piura,Residuos,21
+C000013,2026-10-13,Lima,Agua,22
+C000014,2026-10-14,La Libertad,Energia,23
+C000015,2026-10-15,Arequipa,Residuos,24
+C000016,2026-10-16,Piura,Agua,25
+C000017,2026-10-17,Lima,Energia,26
+C000018,2026-10-18,La Libertad,Residuos,27
+C000019,2026-10-19,Arequipa,Agua,28
+C000020,2026-10-20,Piura,Energia,29
+C000021,2026-10-21,Lima,Residuos,30
+C000022,2026-10-22,La Libertad,Agua,31
+C000023,2026-10-23,Arequipa,Energia,32
+C000024,2026-10-24,Piura,Residuos,33

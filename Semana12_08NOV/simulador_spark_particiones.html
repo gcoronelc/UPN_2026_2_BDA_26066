@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulador de particiones y tareas paralelas en Apache Spark</title>
+<style>
+:root{--ink:#1b2438;--mut:#5b6578;--line:#d7dce5;--soft:#f4f6fa;--acc:#1f5fd1}
+*{box-sizing:border-box}
+body{margin:0;font:18px/1.5 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:#fff}
+main{max-width:1200px;margin:0 auto;padding:24px 20px 48px}
+h1{font-size:30px;margin:0 0 6px}
+h2{font-size:21px;margin:0 0 4px}
+.lead{color:var(--mut);margin:0 0 18px;max-width:80ch}
+.hint{color:var(--mut);font-size:16px;margin:0 0 12px}
+.panel{border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:18px}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px 22px;align-items:end}
+label{display:block;font-weight:600;font-size:16px}
+label output{color:var(--acc);margin-left:6px}
+input[type=range],select{width:100%}
+select{font:inherit;padding:6px}
+.chk{display:flex;gap:8px;align-items:center}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{font:inherit;font-weight:600;padding:10px 22px;border-radius:6px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer}
+button.sec{background:#fff;color:var(--acc)}
+:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+.parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.part{border:2px solid var(--c);border-radius:6px;padding:8px 10px}
+.part small{display:block;color:var(--mut);font-size:14px}
+.dots{display:flex;flex-wrap:wrap;gap:3px;margin:6px 0}
+.dot{width:10px;height:10px;border:1.5px solid var(--c);border-radius:2px;background:#fff}
+.dot.run{background:color-mix(in srgb,var(--c) 40%,#fff)}
+.dot.done{background:var(--c)}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--c)}
+.lane{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.slot{border:1px dashed var(--line);border-radius:6px;padding:6px 10px;min-height:46px;color:var(--mut);position:relative;overflow:hidden}
+.slot.busy{border:2px solid var(--c);color:var(--ink)}
+.slot i{position:absolute;left:0;bottom:0;height:5px;background:var(--c)}
+.gantt{position:relative}
+.track{position:relative;height:34px;border-bottom:1px solid var(--line)}
+.blk{position:absolute;top:3px;bottom:3px;border-radius:3px;background:var(--c);color:#fff;font-size:13px;padding:0 4px;overflow:hidden;white-space:nowrap;opacity:.25}
+.blk.on{opacity:1}
+.play{position:absolute;top:0;bottom:0;width:2px;background:#c0392b;left:calc(100px + (100% - 100px) * var(--p,0))}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.m{background:var(--soft);border-radius:6px;padding:10px 12px}
+.m b{display:block;font-size:26px}
+.m span{color:var(--mut);font-size:15px}
+pre{background:var(--soft);padding:12px;border-radius:6px;overflow-x:auto;font:16px/1.5 Consolas,monospace;margin:0}
+ul{margin:0;padding-left:20px;max-height:190px;overflow:auto;font-size:16px}
+.obs{margin:12px 0 0;padding:10px 12px;border-left:4px solid var(--acc);background:var(--soft)}
+</style>
+</head>
+<body>
+<main>
+<h1>Particiones y tareas paralelas en Apache Spark</h1>
+<p class="lead">Simulación didáctica del modo local (<code>local[N]</code>). Cada cuadrito es un elemento del conjunto de datos; su color indica la partición a la que pertenece. Spark crea una tarea por partición y las reparte entre los hilos disponibles. Los tiempos son simulados y no corresponden a mediciones reales.</p>
+
+<section class="panel" aria-label="Parámetros">
+<div class="controls">
+<label>Elementos de datos <output id="on"></output><input id="n" type="range" min="8" max="96" step="8" value="48"></label>
+<label>Particiones <output id="op"></output><input id="p" type="range" min="1" max="16" value="8"></label>
+<label>Hilos (núcleos) <output id="oc"></output><input id="c" type="range" min="1" max="8" value="4"></label>
+<label>Velocidad<select id="sp"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label>
+<label class="chk"><input id="skew" type="checkbox"> Datos desbalanceados</label>
+</div>
+<div class="btns"><button id="go">Ejecutar</button><button id="rs" class="sec">Reiniciar</button></div>
+</section>
+
+<section class="panel"><h2>1. Datos divididos en particiones</h2>
+<p class="hint">Un cuadrito vacío espera, uno medio relleno se procesa y uno sólido ya terminó.</p>
+<div id="parts" class="parts"></div></section>
+
+<section class="panel"><h2>2. Hilos ejecutando tareas</h2>
+<p class="hint">Cada hilo toma la siguiente tarea de la cola cuando queda libre.</p>
+<div id="lanes"></div></section>
+
+<section class="panel"><h2>3. Línea de tiempo</h2>
+<p class="hint">Etapa 1: tareas <i>map</i> (una por partición). Etapa 2: tarea final de reducción. La línea roja marca el instante actual.</p>
+<div id="gantt" class="gantt"></div></section>
+
+<section class="panel"><h2>Resultados de la simulación</h2>
+<div class="metrics" id="mt"></div>
+<p class="obs" id="obs"></p></section>
+
+<section class="panel"><h2>Código PySpark equivalente</h2><pre id="code"></pre></section>
+
+<section class="panel"><h2>Registro de eventos</h2><ul id="log"></ul></section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const COST=120,OVH=150;   // ms simulados: costo por elemento y costo fijo de planificar una tarea
+let S,t=0,playing=false,last=0,logi=0,ev=[];
+const dist=(tot,k)=>Array.from({length:k},(_,i)=>Math.floor(tot/k)+(i<tot%k?1:0));
+const colr=i=>`hsl(${Math.round((i*360/S.P+210)%360)},62%,40%)`;
+
+function build(){
+  playing=false;t=0;logi=0;$('go').textContent='Ejecutar';$('log').innerHTML='';
+  const N=+$('n').value,P=Math.min(+$('p').value,N),C=+$('c').value,skew=$('skew').checked;
+  $('on').textContent=N;$('op').textContent=P;$('oc').textContent=C;
+  let sizes=dist(N,P);
+  if(skew&&P>1){const a=Math.max(1,Math.min(Math.ceil(N*.5),N-(P-1)));sizes=[a,...dist(N-a,P-1)];}
+  let off=0;
+  const tasks=sizes.map((n,i)=>{const o=off;off+=n;return{i,n,o,dur:OVH+n*COST};});
+  const free=Array(C).fill(0);
+  tasks.forEach(k=>{const c=free.indexOf(Math.min(...free));k.core=c;k.st=free[c];k.en=k.st+k.dur;free[c]=k.en;});
+  const st=Math.max(...free),rd=100+P*15;
+  const red={core:0,st,dur:rd,en:st+rd};
+  S={N,P,C,skew,tasks,red,total:red.en,base:OVH+N*COST+115,busy:tasks.reduce((a,k)=>a+k.dur,0)};
+  ev=[];
+  tasks.forEach(k=>{ev.push({t:k.st,m:`Tarea ${k.i} (${k.n} elementos) inicia en el hilo ${k.core+1}.`});ev.push({t:k.en,m:`Tarea ${k.i} termina; el hilo ${k.core+1} queda libre.`});});
+  ev.push({t:red.st,m:'Todas las tareas map terminaron: inicia la reducción (acción sum).'});
+  ev.push({t:red.en,m:'Resultado final entregado al driver.'});
+  ev.sort((a,b)=>a.t-b.t);
+  render();draw(0);
+}
+
+function render(){
+  $('parts').innerHTML=S.tasks.map(k=>`<div class="part" id="pt${k.i}" style="--c:${colr(k.i)}"><b>Partición ${k.i}</b><small>${k.n} elementos</small><div class="dots">${'<span class="dot"></span>'.repeat(k.n)}</div><div class="bar"><i></i></div><small class="st"></small></div>`).join('');
+  $('lanes').innerHTML=Array.from({length:S.C},(_,c)=>`<div class="lane"><b>Hilo ${c+1}</b><div class="slot" id="ln${c}"></div></div>`).join('');
+  const rows=Array.from({length:S.C},(_,c)=>{
+    const b=S.tasks.filter(k=>k.core===c).map(k=>blk(k,`T${k.i}`,colr(k.i))).join('')+(c===0?blk(S.red,'Reducir','#46505f'):'');
+    return `<div class="lane"><b>Hilo ${c+1}</b><div class="track">${b}</div></div>`;}).join('');
+  $('gantt').innerHTML=rows+'<div class="play" id="play"></div>';
+  const sp=S.base/S.total;
+  $('mt').innerHTML=[
+    ['Tiempo transcurrido','<b id="el">0,00 s</b>'],
+    ['Tiempo total simulado',`<b>${(S.total/1000).toFixed(2)} s</b>`],
+    ['Tiempo con 1 hilo y 1 partición',`<b>${(S.base/1000).toFixed(2)} s</b>`],
+    ['Aceleración',`<b>${sp.toFixed(2)}×</b>`],
+    ['Uso de los hilos',`<b>${Math.round(S.busy/(S.C*S.total)*100)} %</b>`]
+  ].map(([l,v])=>`<div class="m">${v}<span>${l}</span></div>`).join('');
+  let o='Configuración equilibrada: el tiempo se reparte de forma pareja entre los hilos.';
+  if(S.skew&&S.P>1)o='Datos desbalanceados: la partición 0 concentra la mitad del trabajo y su tarea domina el tiempo total mientras otros hilos esperan.';
+  else if(S.C>S.P)o='Hay más hilos que particiones: algunos hilos quedan libres porque no existen tareas suficientes.';
+  else if(S.P>4*S.C)o='Hay muchas particiones pequeñas: cada tarea paga un costo fijo de planificación y la ganancia disminuye.';
+  else if(S.P%S.C!==0)o='El número de particiones no es múltiplo de los hilos: la última tanda deja hilos sin trabajo.';
+  $('obs').textContent='Observación: '+o;
+  $('code').textContent=`spark = SparkSession.builder.master("local[${S.C}]").getOrCreate()\nrdd = spark.sparkContext.parallelize(range(${S.N}), numSlices=${S.P})\nresultado = rdd.map(lambda x: x * x).sum()   # la acción dispara el trabajo`;
+}
+const blk=(k,l,c)=>`<div class="blk" data-s="${k.st}" style="--c:${c};left:${k.st/S.total*100}%;width:${k.dur/S.total*100}%">${l}</div>`;
+
+function draw(t){
+  S.tasks.forEach(k=>{
+    const s=t>=k.en?'done':t>=k.st?'run':'wait',p=s==='done'?1:s==='run'?(t-k.st)/k.dur:0;
+    const el=$('pt'+k.i),d=Math.floor(p*k.n);
+    el.querySelectorAll('.dot').forEach((x,j)=>x.className='dot'+(j<d?' done':(j===d&&s==='run'?' run':'')));
+    el.querySelector('.bar i').style.width=p*100+'%';
+    el.querySelector('.st').textContent=s==='done'?'Lista':s==='run'?`Ejecutando en hilo ${k.core+1}`:'En cola';
+  });
+  for(let c=0;c<S.C;c++){
+    const k=S.tasks.find(x=>x.core===c&&t>=x.st&&t<x.en),r=c===0&&t>=S.red.st&&t<S.red.en,sl=$('ln'+c);
+    if(k){sl.className='slot busy';sl.style.setProperty('--c',colr(k.i));sl.innerHTML=`Tarea ${k.i} · partición ${k.i} · ${k.n} elementos<i style="width:${(t-k.st)/k.dur*100}%"></i>`;}
+    else if(r){sl.className='slot busy';sl.style.setProperty('--c','#46505f');sl.innerHTML=`Reduciendo resultados<i style="width:${(t-S.red.st)/S.red.dur*100}%"></i>`;}
+    else{sl.className='slot';sl.textContent=t>=S.total?'Finalizado':'Libre';}
+  }
+  document.querySelectorAll('.blk').forEach(b=>b.classList.toggle('on',t>=+b.dataset.s));
+  $('gantt').style.setProperty('--p',t/S.total);
+  $('el').textContent=(t/1000).toFixed(2).replace('.',',')+' s';
+  while(logi<ev.length&&ev[logi].t<=t){const li=document.createElement('li');li.textContent=`${(ev[logi].t/1000).toFixed(2)} s: ${ev[logi].m}`;$('log').prepend(li);logi++;}
+}
+
+function tick(ts){
+  if(!playing)return;
+  t=Math.min(S.total,t+(ts-last)*(+$('sp').value));last=ts;draw(t);
+  if(t>=S.total){playing=false;$('go').textContent='Ejecutar';return;}
+  requestAnimationFrame(tick);
+}
+$('go').onclick=()=>{
+  if(playing){playing=false;$('go').textContent='Continuar';return;}
+  if(t>=S.total)build();
+  playing=true;$('go').textContent='Pausar';last=performance.now();requestAnimationFrame(tick);
+};
+$('rs').onclick=build;
+['n','p','c','skew'].forEach(i=>$(i).addEventListener('input',build));
+build();
+</script>
+</body>
+</html>
