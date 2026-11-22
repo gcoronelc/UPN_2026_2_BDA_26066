@@ -1,0 +1,23 @@
+{
+  "filas_pedidos": 12024,
+  "identificadores_unicos": 12000,
+  "duplicados_exactos": 24,
+  "clientes": 80,
+  "importe_vacio_distintos": 90,
+  "importe_no_positivo_distintos": 40,
+  "cliente_no_existente_distintos": 30,
+  "registros_validos": 11840,
+  "suma_importe_valido": "4395818.70",
+  "recuento_por_region": {
+    "Centro": 2961,
+    "Norte": 2961,
+    "Oriente": 2959,
+    "Sur": 2959
+  },
+  "suma_por_region": {
+    "Centro": "1100123.95",
+    "Norte": "1098961.06",
+    "Oriente": "1099322.05",
+    "Sur": "1097411.64"
+  }
+}
